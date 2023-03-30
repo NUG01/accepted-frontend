@@ -1,0 +1,38 @@
+header {
+  height: 8rem;
+  width: 100vw;
+  background-color: var(--main-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 4rem;
+  font-size: 2rem;
+  color: black;
+}
+
+.menu-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.4rem;
+}
+
+.backdropContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:link,
+a:visited {
+  color: black;
+}
+
+a:hover,
+a:active {
+  color: white;
+}

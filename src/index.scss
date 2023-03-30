@@ -1,0 +1,28 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #f2f0ea;
+  --dark: #181d31;
+  --dark-gray: #2e313d;
+  --main-gray: #9e9fa4;
+  --main-color: #678983;
+  --main-light: #e6ddc4;
+  --light: #f0e9d2;
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 62.5%;
+}
+body {
+  outline: none;
+}
