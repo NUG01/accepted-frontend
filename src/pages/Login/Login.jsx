@@ -3,10 +3,13 @@ import styles from "./Login.module.scss";
 import { useNavigate, Link } from "react-router-dom";
 import BasicButton from "../../components/BasicButton/BasicButton";
 import BasicInput from "../../components/BasicInput/BasicInput";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
 function emailValidation(value) {
-  if (value.length === 3) {
+  if (value.match(emailRegex)) {
     return true;
   }
 
@@ -14,7 +17,7 @@ function emailValidation(value) {
 }
 
 function passwordValidation(value) {
-  if (value.length === 3) {
+  if (value.match(passwordRegex)) {
     return true;
   }
 
@@ -28,9 +31,24 @@ function Login() {
   const [passwordValue, setPasswordValue] = useState("");
   const [formValidated, setFormValidated] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [showEmailAccept, setShowEmailAccept] = useState(false);
+  const [showEmailDecline, setShowEmailDecline] = useState(false);
+  const [showPasswordAccept, setShowPasswordlAccept] = useState(false);
+  const [showPasswordDecline, setShowPasswordDecline] = useState(false);
 
   function closeLoginHandler() {
     navigate("..");
+  }
+
+  function updateAcceptAndDeclineState(AcceptSetter, DeclineSetter, type) {
+    if (type === "Email") {
+      setShowEmailAccept(AcceptSetter);
+      setShowEmailDecline(DeclineSetter);
+    }
+    if (type === "Password") {
+      setShowPasswordlAccept(AcceptSetter);
+      setShowPasswordDecline(DeclineSetter);
+    }
   }
 
   function emailUpdate(data) {
@@ -39,13 +57,30 @@ function Login() {
       emailValidation(data.target.value) && passwordValidation(passwordValue);
     setFormValidated(validated);
     setButtonDisabled(!validated);
+    if (emailValidation(data.target.value)) {
+      updateAcceptAndDeclineState(true, false, "Email");
+    } else {
+      updateAcceptAndDeclineState(false, true, "Email");
+    }
+    if (data.target.value.length === 0) {
+      updateAcceptAndDeclineState(false, false, "Email");
+    }
   }
+
   function passwordUpdate(data) {
     setPasswordValue(data.target.value);
     const validated =
       emailValidation(emailValue) && passwordValidation(data.target.value);
     setFormValidated(validated);
     setButtonDisabled(!validated);
+    if (passwordValidation(data.target.value)) {
+      updateAcceptAndDeclineState(true, false, "Password");
+    } else {
+      updateAcceptAndDeclineState(false, true, "Password");
+    }
+    if (data.target.value.length === 0) {
+      updateAcceptAndDeclineState(false, false, "Password");
+    }
   }
 
   function submitHandler(event) {
@@ -74,6 +109,8 @@ function Login() {
         <form onSubmit={submitHandler} className={styles.form}>
           <div className={styles.headerText}>ავტორიზაცია</div>
           <BasicInput
+            showAccept={showEmailAccept}
+            showDecline={showEmailDecline}
             input={emailUpdate}
             name="email"
             type="text"
@@ -82,6 +119,8 @@ function Login() {
             ელ.ფოსტა
           </BasicInput>
           <BasicInput
+            showAccept={showPasswordAccept}
+            showDecline={showPasswordDecline}
             input={passwordUpdate}
             name="password"
             type="text"

@@ -1,7 +1,11 @@
-import React from "react";
+import { useState } from "react";
 import styles from "./BasicInput.module.scss";
+import AcceptedInput from "../../assets/icons/AcceptedInput";
+import DeclinedInput from "../../assets/icons/DeclinedInput";
 
 function BasicInput(props) {
+  const showAccept = props.showAccept;
+  const showDecline = props.showDecline;
   return (
     <div className={styles.container}>
       <label className={styles.label} htmlFor={props.name}>
@@ -14,6 +18,10 @@ function BasicInput(props) {
         id={props.name}
         type={props.type}
       />
+      <div className={styles.icon}>
+        {showAccept && <AcceptedInput></AcceptedInput>}
+        {showDecline && <DeclinedInput></DeclinedInput>}
+      </div>
     </div>
   );
 }
