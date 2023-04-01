@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 0.6rem;
-  position: relative;
+  // position: relative;
 }
 .input {
   all: unset;
@@ -23,8 +23,17 @@
     outline: 1.6px solid var(--main-color);
   }
 }
+
+.input.short {
+  height: 3.6rem;
+}
 .label {
   color: #5f706d;
+  font-weight: 500;
+  font-size: 1.4rem;
+}
+.lightLabel {
+  color: white;
   font-weight: 500;
   font-size: 1.4rem;
 }
@@ -32,5 +41,23 @@
   position: absolute;
   right: 1rem;
   top: 50%;
-  // transform: translateY(50%);
+}
+
+.ruleContainer {
+  position: absolute;
+  right: -100%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  background-color: antiquewhite;
+  padding: 1rem;
+  color: black;
+  border-radius: 6px;
+}
+
+.li {
+  text-align: start;
 }

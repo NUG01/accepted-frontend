@@ -1,0 +1,82 @@
+.main {
+  display: grid;
+  place-items: center;
+  background-color: white;
+  padding: 24px 6px;
+  min-height: 100vh;
+  padding: 32px 6px 0;
+  padding: 32px 8px 0 8px;
+}
+
+@media (min-width: 640px) {
+  .main {
+    padding-top: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .main {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+}
+
+.textCenter {
+  text-align: center;
+}
+
+.p1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #4f46e5;
+}
+
+.h1 {
+  margin-top: 1rem;
+  font-size: 3rem;
+  font-weight: bold;
+  letter-spacing: -0.025em;
+  color: #1f2937;
+
+  @media (min-width: 640px) {
+    font-size: 5rem;
+  }
+}
+
+.p2 {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.75rem;
+  color: #6b7280;
+}
+
+.div {
+  margin-top: 2.5rem;
+  align-items: center;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.a {
+  border-radius: 0.375rem;
+  background-color: #4f46e5;
+  padding-left: 0.875rem;
+  padding-right: 0.875rem;
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #4338ca;
+  }
+
+  &:focus-visible {
+    outline: none;
+    outline-offset: 0.125rem;
+    box-shadow: 0 0 0 0.125rem rgba(79, 70, 229, 0.5);
+  }
+}

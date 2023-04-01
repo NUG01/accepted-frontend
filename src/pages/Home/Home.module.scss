@@ -1,13 +1,18 @@
 header {
   height: 8rem;
   width: 100vw;
-  background-color: var(--main-light);
+  background-color: var(--main-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2rem 4rem;
+  padding: 2rem 6rem;
   font-size: 2rem;
-  color: black;
+  color: var(--light);
+}
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .menu-container {
@@ -23,16 +28,28 @@ header {
   left: 0;
 }
 
-a {
-  text-decoration: none;
+.a {
+  transition: all 0.18s;
 }
 
-a:link,
-a:visited {
-  color: black;
+.a:link,
+.a:visited {
+  color: var(--light);
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
 }
 
-a:hover,
-a:active {
-  color: white;
+.a:hover,
+.a:active {
+  background-color: var(--main-color-light);
+  color: var(--main-color-dark);
+  opacity: 0.8;
+}
+
+.linksContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
 }

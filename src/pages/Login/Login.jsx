@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import BasicButton from "../../components/BasicButton/BasicButton";
 import BasicInput from "../../components/BasicInput/BasicInput";
 import { useState, useEffect } from "react";
+import ButtonSpinner from "../../components/Spinner/ButtonSpinner";
 
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
@@ -35,6 +36,7 @@ function Login() {
   const [showEmailDecline, setShowEmailDecline] = useState(false);
   const [showPasswordAccept, setShowPasswordlAccept] = useState(false);
   const [showPasswordDecline, setShowPasswordDecline] = useState(false);
+  const [requestInProcess, setRequestInProcess] = useState(false);
 
   function closeLoginHandler() {
     navigate("..");
@@ -86,6 +88,8 @@ function Login() {
   function submitHandler(event) {
     event.preventDefault();
     if (formValidated) {
+      setButtonDisabled(true);
+      setRequestInProcess(true);
       console.log(passwordValue, emailValue);
       return;
     }
@@ -114,7 +118,7 @@ function Login() {
             input={emailUpdate}
             name="email"
             type="text"
-            placeholder="შეიყვანეთ ელ.ფოსტა"
+            placeholder="Example@gmail.com"
           >
             ელ.ფოსტა
           </BasicInput>
@@ -124,13 +128,24 @@ function Login() {
             input={passwordUpdate}
             name="password"
             type="text"
-            placeholder="შეიყვანეთ პაროლი"
+            placeholder="Example12"
           >
             პაროლი
           </BasicInput>
-          <BasicButton disabled={buttonDisabled} type="submit">
-            დადასტურება
-          </BasicButton>
+          <div style={{ position: "relative" }}>
+            <BasicButton disabled={buttonDisabled} type="submit">
+              <p className={requestInProcess ? styles.opacityDecrease : ""}>
+                დადასტურება
+              </p>
+              {requestInProcess && (
+                <div className={styles.relativeContainer}>
+                  <div className={styles.spinnerContainer}>
+                    <ButtonSpinner />
+                  </div>
+                </div>
+              )}
+            </BasicButton>
+          </div>
         </form>
         <div style={linkContainer}>
           <Link to="/forgot-password" style={linkStyle}>

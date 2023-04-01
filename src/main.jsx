@@ -1,12 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import "./index.scss";
+import "./index.css";
 
 //Pages
 import Error from "./pages/Error/Error";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import Register from "./pages/Register/Register";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -15,7 +17,14 @@ const router = createBrowserRouter([
     path: "/",
     element: <Home />,
     errorElement: <Error />,
-    children: [{ path: "login", element: <Login /> }],
+    children: [
+      { path: "login", element: <Login /> },
+      { path: "forgot-password", element: <ForgotPassword /> },
+    ],
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
 ]);
 

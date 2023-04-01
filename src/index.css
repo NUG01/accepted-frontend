@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -8,7 +11,9 @@
   --dark: #181d31;
   --dark-gray: #2e313d;
   --main-gray: #9e9fa4;
+  --main-color-dark: #3a4b49;
   --main-color: #678983;
+  --main-color-light: #b6ceca;
   --main-light: #e6ddc4;
   --light: #f0e9d2;
 }
@@ -23,6 +28,10 @@
 html {
   font-size: 62.5%;
 }
-body {
+
+#root {
   outline: none;
+  width: 100vw !important;
+  min-height: 100vh;
+  overflow-x: hidden;
 }

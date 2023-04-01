@@ -1,0 +1,30 @@
+.ul {
+  list-style-type: circle;
+  padding-left: 1rem;
+}
+
+.container {
+  color: black;
+  padding: 2rem;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  & div {
+    background-color: white;
+  }
+}
+
+.iconContainer {
+  padding: 1rem;
+  width: 100%;
+  background-color: beige;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 10%;
+}
+
+.ulContainer {
+  padding: 1rem;
+  padding-top: 0;
+}

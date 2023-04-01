@@ -4,13 +4,17 @@ import styles from "./Home.module.scss";
 import { Outlet } from "react-router-dom";
 
 function Home() {
+  const linkStyle = {
+    textDecoration: "none",
+    display: "inline-block",
+  };
+
   return (
     <>
       <section>
         <div className={styles.backdropContainer}></div>
-
         <Outlet></Outlet>
-        <header>
+        <header className={styles.container}>
           <div>mylogo</div>
           <div className={styles["menu-container"]}>
             <p>Home</p>
@@ -18,9 +22,13 @@ function Home() {
             <p>About</p>
             <p>Pricing</p>
           </div>
-          <div>
-            <NavLink to="login">Login</NavLink>
-            <NavLink>Register</NavLink>
+          <div className={styles.linksContainer}>
+            <NavLink className={styles.a} style={linkStyle} to="login">
+              Login
+            </NavLink>
+            <NavLink className={styles.a} style={linkStyle} to="register">
+              Register
+            </NavLink>
           </div>
         </header>
       </section>
