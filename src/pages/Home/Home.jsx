@@ -24,10 +24,10 @@ function Home() {
           </div>
           <div className={styles.linksContainer}>
             <NavLink className={styles.a} style={linkStyle} to="login">
-              Login
+              ავტორიზაცია
             </NavLink>
-            <NavLink className={styles.a} style={linkStyle} to="register">
-              Register
+            <NavLink className={`${styles.a} ${styles.active}`} style={linkStyle} to="register">
+              რეგისტრაცია
             </NavLink>
           </div>
         </header>

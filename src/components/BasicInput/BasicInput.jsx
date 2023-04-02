@@ -2,13 +2,30 @@ import { useState } from "react";
 import styles from "./BasicInput.module.scss";
 import AcceptedInput from "../../assets/icons/AcceptedInput";
 import DeclinedInput from "../../assets/icons/DeclinedInput";
+import HidePassword from "../../assets/icons/HidePassword";
+import ShowPassword from "../../assets/icons/ShowPassword";
 
 function BasicInput(props) {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
   const showAccept = props.showAccept;
   const showDecline = props.showDecline;
 
+  function passwordVisibilityHandler() {
+    setPasswordVisible(!passwordVisible);
+  }
+
   return (
     <div className={styles.container}>
+      {props.type == "password" && (
+        <div
+          onClick={passwordVisibilityHandler}
+          className={styles.passwordVisibility}
+        >
+          {!passwordVisible && <HidePassword />}
+          {passwordVisible && <ShowPassword />}
+        </div>
+      )}
       <label
         className={
           props.state == "registration" ? styles.lightLabel : styles.label
@@ -30,7 +47,7 @@ function BasicInput(props) {
         }
         placeholder={props.placeholder}
         id={props.name}
-        type={props.type}
+        type={!passwordVisible ? props.type : "text"}
       />
       <div className={styles.icon}>
         {showAccept && <AcceptedInput></AcceptedInput>}

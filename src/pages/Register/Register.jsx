@@ -1,9 +1,9 @@
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Register.module.scss";
 import BasicInput from "../../components/BasicInput/BasicInput";
 import BasicButton from "../../components/BasicButton/BasicButton";
 import HomeIcon from "../../assets/icons/HomeIcon";
-import { useNavigate } from "react-router-dom";
 import ButtonSpinner from "../../components/Spinner/ButtonSpinner";
 import ErrorContainer from "../../components/ErrorContainer/ErrorContainer";
 import RustaveliSvg from "../../assets/icons/RustaveliSvg";
@@ -135,15 +135,31 @@ function Register() {
     } else {
       setCheckboxError(false);
     }
+    return false;
   }
 
   async function submitHandler(event) {
     event.preventDefault();
     formAccepted();
-    const res = await BasicAxios.post("ok", nameValue);
-    console.log(res);
-    // setButtonDisabled(true);
-    // setRequestInProcess(true);
+    if (formAccepted() == false) {
+      return;
+    }
+    const data = {
+      name: nameValue,
+      surname: surnameValue,
+      email: emailValue,
+      password: passwordValue,
+      password_confirmation: passwordConfirmValue,
+      role: checkboxValue,
+    };
+    try {
+      setButtonDisabled(true);
+      setRequestInProcess(true);
+      const res = await BasicAxios.post("register", data);
+      console.log(res);
+    } catch (err) {
+      alert(err);
+    }
   }
 
   return (

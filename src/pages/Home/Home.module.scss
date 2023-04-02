@@ -37,13 +37,19 @@ header {
   color: inherit;
   padding: 0.6rem 1rem;
   border-radius: 12px;
+  &.active {
+    background-color: var(--ocean-blue);
+    color: var(--extra-light-normal-beige);
+    opacity: 1;
+    &:hover {
+      opacity: 0.9;
+    }
+  }
 }
 
 .a:hover,
 .a:active {
-  background-color: var(--ocean-blue);
-  color: var(--extra-light-normal-beige);
-  opacity: 0.8;
+  text-shadow: 0px 0px 0.5px var(--dark-ocean-blue);
 }
 
 .linksContainer {
