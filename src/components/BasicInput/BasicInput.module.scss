@@ -72,3 +72,22 @@
   transform: translate(-18%, 12%);
   cursor: pointer;
 }
+.passwordVisibilityLogin {
+  position: absolute;
+  right: 18%;
+  top: 12%;
+  transform: translate(-18%, 12%);
+  cursor: pointer;
+}
+.passwordVisibilityLoginSecondary {
+  position: absolute;
+  right: 60%;
+  top: 10%;
+  transform: translate(-70%, 10%);
+  cursor: pointer;
+}
+.iconsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

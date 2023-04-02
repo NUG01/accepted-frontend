@@ -127,8 +127,9 @@ function Login() {
             showDecline={showPasswordDecline}
             input={passwordUpdate}
             name="password"
-            type="text"
+            type="password"
             placeholder="Example12"
+            state="login"
           >
             პაროლი
           </BasicInput>

@@ -17,7 +17,7 @@ function BasicInput(props) {
 
   return (
     <div className={styles.container}>
-      {props.type == "password" && (
+      {props.type == "password" && props.state == "registration" && (
         <div
           onClick={passwordVisibilityHandler}
           className={styles.passwordVisibility}
@@ -50,8 +50,23 @@ function BasicInput(props) {
         type={!passwordVisible ? props.type : "text"}
       />
       <div className={styles.icon}>
-        {showAccept && <AcceptedInput></AcceptedInput>}
-        {showDecline && <DeclinedInput></DeclinedInput>}
+        <div className={styles.iconsContainer}>
+          {props.type == "password" && props.state == "login" && (
+            <div
+              onClick={passwordVisibilityHandler}
+              className={
+                showAccept || showDecline
+                  ? styles.passwordVisibilityLoginSecondary
+                  : styles.passwordVisibilityLogin
+              }
+            >
+              {!passwordVisible && <HidePassword />}
+              {passwordVisible && <ShowPassword />}
+            </div>
+          )}
+          {showAccept && <AcceptedInput></AcceptedInput>}
+          {showDecline && <DeclinedInput></DeclinedInput>}
+        </div>
       </div>
     </div>
   );
