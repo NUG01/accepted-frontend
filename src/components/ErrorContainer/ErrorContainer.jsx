@@ -1,6 +1,5 @@
 import styles from "./ErrorContainer.module.scss";
-import ExclamationIcon from "../../assets/icons/ExclamationIcon";
-import { useState } from "react";
+import ErrorHeader from "./ErrorHeader";
 
 import React from "react";
 
@@ -15,12 +14,7 @@ function ErrorContainer(props) {
     <div className={styles.container}>
       {nameError && (
         <div className={styles.ulContainer}>
-          <div className={styles.iconContainer}>
-            <div>
-              <ExclamationIcon></ExclamationIcon>
-            </div>
-            <div>სახელი</div>
-          </div>
+          <ErrorHeader>სახელი</ErrorHeader>
           <ul className={styles.ul}>
             <li>მხოლოდ ქართული სიმბოლოები</li>
             <li>მინიმუმ 2 და მაქსიმუმ 16 სიმბოლო</li>
@@ -29,12 +23,7 @@ function ErrorContainer(props) {
       )}
       {surnameError && (
         <div className={styles.ulContainer}>
-          <div className={styles.iconContainer}>
-            <div>
-              <ExclamationIcon></ExclamationIcon>
-            </div>
-            <div>გვარი</div>
-          </div>
+          <ErrorHeader>გვარი</ErrorHeader>
           <ul className={styles.ul}>
             <li>მხოლოდ ქართული სიმბოლოები</li>
             <li>მინიმუმ 2 და მაქსიმუმ 16 სიმბოლო</li>
@@ -43,12 +32,8 @@ function ErrorContainer(props) {
       )}
       {emailError && (
         <div className={styles.ulContainer}>
-          <div className={styles.iconContainer}>
-            <div>
-              <ExclamationIcon></ExclamationIcon>
-            </div>
-            <div>ელ.ფოსტა</div>
-          </div>
+          <ErrorHeader>ელ.ფოსტა</ErrorHeader>
+
           <ul className={styles.ul}>
             <li>მეილის ფორმატი</li>
           </ul>
@@ -56,12 +41,7 @@ function ErrorContainer(props) {
       )}
       {passwordError && (
         <div className={styles.ulContainer}>
-          <div className={styles.iconContainer}>
-            <div>
-              <ExclamationIcon></ExclamationIcon>
-            </div>
-            <div>პაროლი</div>
-          </div>
+          <ErrorHeader>პაროლი</ErrorHeader>
           <ul className={styles.ul}>
             <li>მხოლოდ ლათინური სიმბოლოები</li>
             <li>მინიმუმ ერთი ციფრი</li>
@@ -73,12 +53,8 @@ function ErrorContainer(props) {
       )}
       {passwordConfirmError && (
         <div className={styles.ulContainer}>
-          <div className={styles.iconContainer}>
-            <div>
-              <ExclamationIcon></ExclamationIcon>
-            </div>
-            <div>პაროლის გამეორება</div>
-          </div>
+          <ErrorHeader>პაროლის გამეორება</ErrorHeader>
+
           <ul className={styles.ul}>
             <li>პაროლის ველის ანალოგიური</li>
           </ul>
@@ -86,12 +62,8 @@ function ErrorContainer(props) {
       )}
       {checkboxError && (
         <div className={styles.ulContainer}>
-          <div className={styles.iconContainer}>
-            <div>
-              <ExclamationIcon></ExclamationIcon>
-            </div>
-            <div>როლის არჩევა</div>
-          </div>
+          <ErrorHeader>როლის არჩევა</ErrorHeader>
+
           <ul className={styles.ul}>
             <li>როლის არჩევა აუცილებელია</li>
           </ul>

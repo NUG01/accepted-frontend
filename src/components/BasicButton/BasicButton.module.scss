@@ -7,17 +7,17 @@
   font-family: inherit;
   cursor: pointer;
   transition: outline 0.25s;
-  background-color: #aabdbb;
+  background-color: var(--extra-light-ocean-blue);
   outline: 1.5px solid white;
-  color: var(--dark);
+  color: var(--etxra-dark-ocean-blue);
   margin-top: 1rem;
   width: 100%;
   &:hover {
-    outline: 1.5px solid #5f706d;
+    outline: 1.5px solid var(--etxra-dark-ocean-blue);
   }
   &:focus,
   &:focus-visible {
-    outline: 1.5px solid #5f706d;
+    outline: 1.5px solid var(--etxra-dark-ocean-blue);
   }
   &:disabled {
     pointer-events: none;

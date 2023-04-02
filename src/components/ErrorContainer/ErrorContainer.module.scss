@@ -1,6 +1,8 @@
 .ul {
-  list-style-type: circle;
-  padding-left: 1rem;
+  list-style-type: disc;
+  padding: 1rem;
+  padding-left: 2rem;
+  font-size: 1.1rem;
 }
 
 .container {
@@ -9,22 +11,47 @@
   display: flex;
   gap: 1rem;
   flex-direction: column;
+  min-width: 33rem;
   & div {
     background-color: white;
   }
 }
 
 .iconContainer {
-  padding: 1rem;
+  padding: 0.6rem 1.6rem 0.6rem 1.2rem;
   width: 100%;
   background-color: beige;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding-right: 10%;
+  border-bottom: 1px solid #bbbcc1;
 }
 
 .ulContainer {
-  padding: 1rem;
   padding-top: 0;
+  animation-duration: 0.2s;
+  animation-name: appear;
+  animation-iteration-count: 1;
+  box-shadow: 0 0 10px 3px rgb(146, 143, 143);
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.ruleName {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.flexbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

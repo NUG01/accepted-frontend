@@ -7,7 +7,33 @@
   font-weight: 400;
 
   color: rgba(255, 255, 255, 0.87);
-  background-color: #f2f0ea;
+  background-color: white;
+
+  --light-dusty-rose: #ecd4d8;
+  --dusty-rose: #d8a7b1;
+  --dark-dusty-rose: #b1888c;
+
+  --extra-light-normal-beige: #f2eee6;
+  --light-normal-beige: #f0e7d8;
+  --normal-beige: #d4c4b7;
+  --dark-normal-beige: #b8a08f;
+
+  --light-soft-gray: #f2f2f2;
+  --soft-gray: #e3e3e3;
+  --dark-soft-gray: #c2c2c2;
+
+  --extra-light-ocean-blue: #c8e0e0;
+  --light-ocean-blue: #8bc5c5;
+  --ocean-blue: #5ea3a3;
+  --dark-ocean-blue: #397e7e;
+  --etxra-dark-ocean-blue: #245d5d;
+
+  --light-creamy-yellow: #f9e8ab;
+  --creamy-yellow: #f1c453;
+  --dark-creamy-yellow: #b88f38;
+
+  --background-color: white;
+
   --dark: #181d31;
   --dark-gray: #2e313d;
   --main-gray: #9e9fa4;

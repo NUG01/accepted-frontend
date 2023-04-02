@@ -1,10 +1,14 @@
 import axios from "axios";
-// import { useAuthStore } from "@/stores/AuthStore.js";
-// import router from "@/router/index";
-
-const axiosInstance = axios.create({
+const BasicAxios = axios.create({
   baseURL: import.meta.env.API_BASE_URL,
-  timeout: 15000,
+  timeout: 1000,
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+
+    // 'Access-Control-Allow-Origin': '*',
+  },
+  // withCredentials: true,
 });
 
 // axiosInstance.defaults.withCredentials = true;
@@ -23,4 +27,4 @@ const axiosInstance = axios.create({
 //   }
 // );
 
-export default axiosInstance;
+export default BasicAxios;

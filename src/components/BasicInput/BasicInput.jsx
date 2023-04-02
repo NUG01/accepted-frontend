@@ -7,22 +7,8 @@ function BasicInput(props) {
   const showAccept = props.showAccept;
   const showDecline = props.showDecline;
 
-  // let map;
-  // if (props.rules) {
-  //   map = props.rules.map((rule, key) => (
-  //     <li className={styles.li} key={rule + key}>
-  //       {rule[key]}
-  //     </li>
-  //   ));
-  // }
-
   return (
     <div className={styles.container}>
-      {/* {props.state == "registration" && (
-        <div className={styles.ruleContainer}>
-          {props.rules && <ul className={styles.ul}>{map}</ul>}
-        </div>
-      )} */}
       <label
         className={
           props.state == "registration" ? styles.lightLabel : styles.label
@@ -35,8 +21,12 @@ function BasicInput(props) {
         onChange={props.input}
         className={
           props.state == "registration"
-            ? `${styles.input} ${styles.short}`
-            : styles.input
+            ? !props.errorState
+              ? `${styles.input} ${styles.short}`
+              : `${styles.input} ${styles.invalid} ${styles.short}`
+            : !props.errorState
+            ? `${styles.input}`
+            : `${styles.input} ${styles.invalid}`
         }
         placeholder={props.placeholder}
         id={props.name}

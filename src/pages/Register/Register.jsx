@@ -6,6 +6,9 @@ import HomeIcon from "../../assets/icons/HomeIcon";
 import { useNavigate } from "react-router-dom";
 import ButtonSpinner from "../../components/Spinner/ButtonSpinner";
 import ErrorContainer from "../../components/ErrorContainer/ErrorContainer";
+import RustaveliSvg from "../../assets/icons/RustaveliSvg";
+
+import BasicAxios from "../../helpers/axios";
 
 const regexGeorgian = /^[ა-ჰ]{2,16}$/;
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -134,16 +137,20 @@ function Register() {
     }
   }
 
-  function submitHandler(event) {
+  async function submitHandler(event) {
     event.preventDefault();
     formAccepted();
+    const res = await BasicAxios.post("ok", nameValue);
+    console.log(res);
     // setButtonDisabled(true);
     // setRequestInProcess(true);
-    console.log(nameValue, surnameValue, emailValue, checkboxValue);
   }
 
   return (
     <section className={styles.container}>
+      <div className={styles.writing}>
+        <RustaveliSvg></RustaveliSvg>
+      </div>
       <div className={styles.errorContainer}>
         <ErrorContainer
           nameError={nameError}
@@ -161,6 +168,7 @@ function Register() {
         <form onSubmit={submitHandler} className={styles.form}>
           <BasicInput
             input={nameUpdate}
+            errorState={nameError}
             name="name"
             type="text"
             state="registration"
@@ -169,6 +177,7 @@ function Register() {
             სახელი
           </BasicInput>
           <BasicInput
+            errorState={surnameError}
             input={surnameUpdate}
             name="surname"
             type="text"
@@ -178,6 +187,7 @@ function Register() {
             გვარი
           </BasicInput>
           <BasicInput
+            errorState={emailError}
             input={emailUpdate}
             name="email"
             type="text"
@@ -187,6 +197,7 @@ function Register() {
             ელ.ფოსტა
           </BasicInput>
           <BasicInput
+            errorState={passwordError}
             input={passwordUpdate}
             name="password"
             type="password"
@@ -196,6 +207,7 @@ function Register() {
             პაროლი
           </BasicInput>
           <BasicInput
+            errorState={passwordConfirmError}
             input={passwordConfirmUpdate}
             name="password_confirmation"
             type="password"
@@ -208,7 +220,15 @@ function Register() {
             <label htmlFor="select" className={styles.lightLabel}>
               ვინ ხარ?
             </label>
-            <div id="select" name="select" className={styles.select}>
+            <div
+              id="select"
+              name="select"
+              className={
+                !checkboxError
+                  ? styles.select
+                  : `${styles.select} ${styles.invalid}`
+              }
+            >
               <div
                 onClick={checkboxHandler}
                 value="1"

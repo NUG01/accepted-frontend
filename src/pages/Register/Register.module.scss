@@ -1,18 +1,18 @@
 .container {
-  background-color: var(--main-color-light);
+  background-color: var(--light-normal-beige);
   width: 100vw;
   height: 100vh;
 }
 .formContainer {
-  background-color: var(--main-color);
+  background-color: var(--background-color);
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 70%;
   transform: translate(-50%, -50%);
   width: 39rem;
   padding: 3rem 4rem;
   border-radius: 4px;
-  box-shadow: 0 0 4px 2px #52656394;
+  box-shadow: 0 0 4px 2px var(--normal-beige);
 }
 
 .icon {
@@ -33,8 +33,8 @@
   height: 3.6rem;
   border-radius: 3px;
   transition: all 0.1s;
-  outline: 1px solid var(--main-color);
-  color: var(--dark);
+  outline: 1px solid var(--dark-ocean-blue);
+  color: var(--dark-gray);
   padding: 0.6rem;
   margin: 0;
   font-size: 1.4rem;
@@ -43,12 +43,15 @@
   align-items: center;
   justify-content: space-between;
   &:focus {
-    outline: 1.6px solid var(--main-color);
+    outline: 1.6px solid var(--dark-ocean-blue);
+  }
+  &.invalid {
+    background-color: #ffcccc !important;
   }
 }
 
 .lightLabel {
-  color: white;
+  color: var(--dark-gray);
   font-weight: 500;
   font-size: 1.4rem;
   margin-bottom: 0.6rem;
@@ -58,19 +61,19 @@
 .checkBox {
   padding: 3px 5px;
   font-size: 1.2rem;
-  background-color: var(--main-color-light);
-  color: var(--main-color-dark);
+  background-color: var(--extra-light-ocean-blue);
+  color: var(--etxra-dark-ocean-blue);
   border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
   &:hover {
-    color: var(--main-color-light);
-    background-color: var(--main-color-dark);
+    color: var(--extra-light-ocean-blue);
+    background-color: var(--dark-ocean-blue);
   }
 }
 .checkBox.selected {
-  color: var(--main-color-light);
-  background-color: var(--main-color-dark);
+  color: var(--extra-light-ocean-blue);
+  background-color: var(--dark-ocean-blue);
 }
 
 .opacityDecrease {
@@ -91,6 +94,14 @@
 
 .errorContainer {
   position: absolute;
-  right: 0;
+  left: 25%;
   top: 0;
+  transform: translate(-50%, 3%);
+}
+
+.writing {
+  position: absolute;
+  top: 40%;
+  left: 25%;
+  transform: translate(-50%, -50%);
 }

@@ -1,13 +1,13 @@
 header {
   height: 8rem;
   width: 100vw;
-  background-color: var(--main-color);
+  background-color: var(--light-soft-gray);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 2rem 6rem;
   font-size: 2rem;
-  color: var(--light);
+  color: var(--dark-ocean-blue);
 }
 .container {
   display: flex;
@@ -34,15 +34,15 @@ header {
 
 .a:link,
 .a:visited {
-  color: var(--light);
+  color: inherit;
   padding: 0.6rem 1rem;
   border-radius: 12px;
 }
 
 .a:hover,
 .a:active {
-  background-color: var(--main-color-light);
-  color: var(--main-color-dark);
+  background-color: var(--ocean-blue);
+  color: var(--extra-light-normal-beige);
   opacity: 0.8;
 }
 
