@@ -1,17 +1,17 @@
 import axios from "axios";
 const BasicAxios = axios.create({
-  baseURL: import.meta.env.API_BASE_URL,
-  timeout: 1000,
+  baseURL: "http://localhost:8000/api/",
+  // baseURL: import.meta.env.API_BASE_URL,
+  // timeout: 1000,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
-
-    // 'Access-Control-Allow-Origin': '*',
+    // "Access-Control-Allow-Origin": "*",
   },
   // withCredentials: true,
 });
 
-// axiosInstance.defaults.withCredentials = true;
+// BasicAxios.defaults.withCredentials = true;
 
 // axiosInstance.interceptors.response.use(
 //   function (response) {

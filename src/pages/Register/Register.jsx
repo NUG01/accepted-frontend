@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import styles from "./Register.module.scss";
 import BasicInput from "../../components/BasicInput/BasicInput";
 import BasicButton from "../../components/BasicButton/BasicButton";
@@ -7,8 +7,9 @@ import HomeIcon from "../../assets/icons/HomeIcon";
 import ButtonSpinner from "../../components/Spinner/ButtonSpinner";
 import ErrorContainer from "../../components/ErrorContainer/ErrorContainer";
 import RustaveliSvg from "../../assets/icons/RustaveliSvg";
+import MailIcon from "../../assets/icons/MailIcon";
 
-import BasicAxios from "../../helpers/axios";
+import BasicAxios from "../../helpers/axios/index.js";
 
 const regexGeorgian = /^[ა-ჰ]{2,16}$/;
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -32,6 +33,10 @@ function Register() {
   const [passwordError, setPaswordError] = useState(false);
   const [passwordConfirmError, setPaswordConfirmError] = useState(false);
   const [checkboxError, setCheckboxError] = useState(false);
+
+  const [registered, setRegistered] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorValue, setErrorValue] = useState([]);
 
   function navigateToHomePage() {
     navigate("..");
@@ -70,7 +75,7 @@ function Register() {
       emailValue.match(emailRegex) &&
       passwordValue.match(passwordRegex) &&
       passwordConfirmValue == passwordValue &&
-      (checkboxValue == "1" || checkboxValue == "2" || checkboxValue == "3")
+      (checkboxValue == " 1" || checkboxValue == "2" || checkboxValue == "3")
     ) {
       return true;
     }
@@ -140,7 +145,11 @@ function Register() {
 
   async function submitHandler(event) {
     event.preventDefault();
+    setErrorValue([]);
+    setError(false);
     formAccepted();
+    setButtonDisabled(true);
+    setRequestInProcess(true);
     if (formAccepted() == false) {
       return;
     }
@@ -153,14 +162,31 @@ function Register() {
       role: checkboxValue,
     };
     try {
-      setButtonDisabled(true);
-      setRequestInProcess(true);
       const res = await BasicAxios.post("register", data);
-      console.log(res);
-    } catch (err) {
-      alert(err);
+      setRegistered(true);
+    } catch (error) {
+      setButtonDisabled(false);
+      setRequestInProcess(false);
+      setError(true);
+      setErrorValue((oldArray) => [
+        ...oldArray,
+        [
+          error.response.data.errors.name,
+          error.response.data.errors.surname,
+          error.response.data.errors.email,
+          error.response.data.errors.password,
+          error.response.data.errors.role,
+        ],
+      ]);
     }
   }
+  // const errors = errorValue.map((x, i) => {
+  //   return (
+  //     <p key={i} className={styles.error}>
+  //       `${x[i] != undefined ? "x[i]" : " x[i+1]"}`
+  //     </p>
+  //   );
+  // });
 
   return (
     <section className={styles.container}>
@@ -181,120 +207,134 @@ function Register() {
         <HomeIcon></HomeIcon>
       </div>
       <main className={styles.formContainer}>
-        <form onSubmit={submitHandler} className={styles.form}>
-          <BasicInput
-            input={nameUpdate}
-            errorState={nameError}
-            name="name"
-            type="text"
-            state="registration"
-            placeholder="შოთა"
-          >
-            სახელი
-          </BasicInput>
-          <BasicInput
-            errorState={surnameError}
-            input={surnameUpdate}
-            name="surname"
-            type="text"
-            state="registration"
-            placeholder="რუსთაველი"
-          >
-            გვარი
-          </BasicInput>
-          <BasicInput
-            errorState={emailError}
-            input={emailUpdate}
-            name="email"
-            type="text"
-            state="registration"
-            placeholder="Example@gmail.com"
-          >
-            ელ.ფოსტა
-          </BasicInput>
-          <BasicInput
-            errorState={passwordError}
-            input={passwordUpdate}
-            name="password"
-            type="password"
-            state="registration"
-            placeholder="Password123"
-          >
-            პაროლი
-          </BasicInput>
-          <BasicInput
-            errorState={passwordConfirmError}
-            input={passwordConfirmUpdate}
-            name="password_confirmation"
-            type="password"
-            state="registration"
-            placeholder="Password123"
-          >
-            გაიმეორე პაროლი
-          </BasicInput>
-          <div>
-            <label htmlFor="select" className={styles.lightLabel}>
-              ვინ ხარ?
-            </label>
-            <div
-              id="select"
-              name="select"
-              className={
-                !checkboxError
-                  ? styles.select
-                  : `${styles.select} ${styles.invalid}`
-              }
+        {registered && (
+          <div className={styles.emailSent}>
+            <MailIcon />
+            <p className={styles.mailText}>
+              ელ.ფოსტაზე გამოგზავნილია ანგარიშის გასააქტიურებელი ბმული
+            </p>
+            <a className={styles.a} href="https://gmail.com/" target="_blank">
+              ელ.ფოსტის შემოწმება
+            </a>
+          </div>
+        )}
+        {!registered && (
+          <form onSubmit={submitHandler} className={styles.form}>
+            <BasicInput
+              input={nameUpdate}
+              errorState={nameError}
+              name="name"
+              type="text"
+              state="registration"
+              placeholder="შოთა"
             >
+              სახელი
+            </BasicInput>
+            <BasicInput
+              errorState={surnameError}
+              input={surnameUpdate}
+              name="surname"
+              type="text"
+              state="registration"
+              placeholder="რუსთაველი"
+            >
+              გვარი
+            </BasicInput>
+            <BasicInput
+              errorState={emailError}
+              input={emailUpdate}
+              name="email"
+              type="text"
+              state="registration"
+              placeholder="Example@gmail.com"
+            >
+              ელ.ფოსტა
+            </BasicInput>
+            <BasicInput
+              errorState={passwordError}
+              input={passwordUpdate}
+              name="password"
+              type="password"
+              state="registration"
+              placeholder="Password123"
+            >
+              პაროლი
+            </BasicInput>
+            <BasicInput
+              errorState={passwordConfirmError}
+              input={passwordConfirmUpdate}
+              name="password_confirmation"
+              type="password"
+              state="registration"
+              placeholder="Password123"
+            >
+              გაიმეორე პაროლი
+            </BasicInput>
+            <div>
+              <label htmlFor="select" className={styles.lightLabel}>
+                ვინ ხარ?
+              </label>
               <div
-                onClick={checkboxHandler}
-                value="1"
+                id="select"
+                name="select"
                 className={
-                  checkboxValue == 1
-                    ? `${styles.checkBox} ${styles.selected}`
-                    : styles.checkBox
+                  !checkboxError
+                    ? styles.select
+                    : `${styles.select} ${styles.invalid}`
                 }
               >
-                აბიტურიენტი
-              </div>
-              <div
-                onClick={checkboxHandler}
-                value="2"
-                className={
-                  checkboxValue == 2
-                    ? `${styles.checkBox} ${styles.selected}`
-                    : styles.checkBox
-                }
-              >
-                სტუდენტი
-              </div>
-              <div
-                onClick={checkboxHandler}
-                value="3"
-                className={
-                  checkboxValue == 3
-                    ? `${styles.checkBox} ${styles.selected}`
-                    : styles.checkBox
-                }
-              >
-                მასწავლებელი
+                <div
+                  onClick={checkboxHandler}
+                  value="1"
+                  className={
+                    checkboxValue == "1"
+                      ? `${styles.checkBox} ${styles.selected}`
+                      : styles.checkBox
+                  }
+                >
+                  აბიტურიენტი
+                </div>
+                <div
+                  onClick={checkboxHandler}
+                  value="2"
+                  className={
+                    checkboxValue == "2"
+                      ? `${styles.checkBox} ${styles.selected}`
+                      : styles.checkBox
+                  }
+                >
+                  სტუდენტი
+                </div>
+                <div
+                  onClick={checkboxHandler}
+                  value="3"
+                  className={
+                    checkboxValue == "3"
+                      ? `${styles.checkBox} ${styles.selected}`
+                      : styles.checkBox
+                  }
+                >
+                  მასწავლებელი
+                </div>
               </div>
             </div>
-          </div>
-          <div style={{ position: "relative" }}>
-            <BasicButton disabled={buttonDisabled} type="submit">
-              <p className={requestInProcess ? styles.opacityDecrease : ""}>
-                რეგისტრაცია
-              </p>
-              {requestInProcess && (
-                <div className={styles.relativeContainer}>
-                  <div className={styles.spinnerContainer}>
-                    <ButtonSpinner />
+            {/* {error && <div className={styles.errorContainer}>{errors}</div>} */}
+            <div style={{ position: "relative" }}>
+              <BasicButton disabled={buttonDisabled} type="submit">
+                <p className={requestInProcess ? styles.opacityDecrease : ""}>
+                  რეგისტრაცია
+                </p>
+                {requestInProcess && (
+                  <div className={styles.relativeContainer}>
+                    <div className={styles.spinnerContainer}>
+                      <ButtonSpinner />
+                    </div>
                   </div>
-                </div>
-              )}
-            </BasicButton>
-          </div>
-        </form>
+                )}
+              </BasicButton>
+            </div>
+          </form>
+        )}
       </main>
     </section>
   );

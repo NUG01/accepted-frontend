@@ -9,6 +9,7 @@ import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Register from "./pages/Register/Register";
+import Loader from "./pages/Verification/Loader";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/account-verification/:code",
+    element: <Loader />,
   },
 ]);
 
