@@ -4,6 +4,8 @@ import styles from "./ForgotPassword.module.scss";
 import BasicInput from "../../components/BasicInput/BasicInput";
 import BasicButton from "../../components/BasicButton/BasicButton";
 import ButtonSpinner from "../../components/Spinner/ButtonSpinner";
+import BasicAxios from "../../helpers/axios/index";
+import MailIcon from "../../assets/icons/MailIcon";
 
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
@@ -23,6 +25,7 @@ function ForgotPassword() {
   const [showEmailDecline, setShowEmailDecline] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [requestInProcess, setRequestInProcess] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
 
   function closeLoginHandler() {
     navigate("..");
@@ -45,10 +48,21 @@ function ForgotPassword() {
     }
   }
 
-  function submitHandler(event) {
+  async function submitHandler(event) {
     event.preventDefault();
     setButtonDisabled(true);
     setRequestInProcess(true);
+
+    try {
+      const res = await BasicAxios.post("forgot-password", {
+        email: emailValue,
+      });
+      setEmailSent(true);
+    } catch (error) {
+      setButtonDisabled(true);
+      setRequestInProcess(true);
+      alert(error);
+    }
   }
 
   const linkStyle = {
@@ -66,39 +80,52 @@ function ForgotPassword() {
     <section>
       <div onClick={closeLoginHandler} className={styles.backdrop}></div>
       <div className={styles.formContainer}>
-        <form onSubmit={submitHandler}>
-          <div className={styles.headerText}>დაგავიწყდა პაროლი?</div>
-          <BasicInput
-            showAccept={showEmailAccept}
-            showDecline={showEmailDecline}
-            input={emailUpdateHandler}
-            name="password"
-            type="text"
-            placeholder="Example@gmail.com"
-          >
-            ელ.ფოსტა
-          </BasicInput>
-          <div className={styles.buttonContainer}>
-            <BasicButton disabled={buttonDisabled} type="submit">
-              <p className={requestInProcess ? styles.opacityDecrease : ""}>
-                დადასტურება
-              </p>
-              {requestInProcess && (
-                <div className={styles.relativeContainer}>
-                  <div className={styles.spinnerContainer}>
-                    <ButtonSpinner />
-                  </div>
-                </div>
-              )}
-            </BasicButton>
-
-            <div style={linkContainer}>
-              <Link to=".." style={linkStyle}>
-                უკან დაბრუნება
-              </Link>
-            </div>
+        {emailSent && (
+          <div className={styles.emailSent}>
+            <MailIcon />
+            <p className={styles.mailText}>
+              ელ.ფოსტაზე გამოგზავნილია პაროლის აღსადგენი ბმული
+            </p>
+            <a className={styles.a} href="https://gmail.com/" target="_blank">
+              ელ.ფოსტის შემოწმება
+            </a>
           </div>
-        </form>
+        )}
+        {!emailSent && (
+          <form onSubmit={submitHandler}>
+            <div className={styles.headerText}>დაგავიწყდა პაროლი?</div>
+            <BasicInput
+              showAccept={showEmailAccept}
+              showDecline={showEmailDecline}
+              input={emailUpdateHandler}
+              name="password"
+              type="text"
+              placeholder="Example@gmail.com"
+            >
+              ელ.ფოსტა
+            </BasicInput>
+            <div className={styles.buttonContainer}>
+              <BasicButton disabled={buttonDisabled} type="submit">
+                <p className={requestInProcess ? styles.opacityDecrease : ""}>
+                  დადასტურება
+                </p>
+                {requestInProcess && (
+                  <div className={styles.relativeContainer}>
+                    <div className={styles.spinnerContainer}>
+                      <ButtonSpinner />
+                    </div>
+                  </div>
+                )}
+              </BasicButton>
+
+              <div style={linkContainer}>
+                <Link to=".." style={linkStyle}>
+                  უკან დაბრუნება
+                </Link>
+              </div>
+            </div>
+          </form>
+        )}
       </div>
     </section>
   );

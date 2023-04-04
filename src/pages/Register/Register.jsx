@@ -38,6 +38,9 @@ function Register() {
   const [error, setError] = useState(false);
   const [errorValue, setErrorValue] = useState([]);
 
+
+
+
   function navigateToHomePage() {
     navigate("..");
   }

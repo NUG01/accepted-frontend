@@ -10,6 +10,8 @@ import Login from "./pages/Login/Login";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Register from "./pages/Register/Register";
 import Loader from "./pages/Verification/Loader";
+import Main from "./pages/Main/Main";
+import RecoverPassword from "./pages/RecoverPassword/RecoverPassword";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -30,6 +32,14 @@ const router = createBrowserRouter([
   {
     path: "/account-verification/:code",
     element: <Loader />,
+  },
+  {
+    path: "/recover-password/:token",
+    element: <RecoverPassword />,
+  },
+  {
+    path: "/main",
+    element: <Main />,
   },
 ]);
 

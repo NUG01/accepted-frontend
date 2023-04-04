@@ -34,6 +34,7 @@ function BasicInput(props) {
       >
         {props.children}
       </label>
+
       <input
         onChange={props.input}
         className={
@@ -49,21 +50,23 @@ function BasicInput(props) {
         id={props.name}
         type={!passwordVisible ? props.type : "text"}
       />
+
       <div className={styles.icon}>
         <div className={styles.iconsContainer}>
-          {props.type == "password" && props.state == "login" && (
-            <div
-              onClick={passwordVisibilityHandler}
-              className={
-                showAccept || showDecline
-                  ? styles.passwordVisibilityLoginSecondary
-                  : styles.passwordVisibilityLogin
-              }
-            >
-              {!passwordVisible && <HidePassword />}
-              {passwordVisible && <ShowPassword />}
-            </div>
-          )}
+          {props.type == "password" &&
+            (props.state == "login" || props.state == "password-recover") && (
+              <div
+                onClick={passwordVisibilityHandler}
+                className={
+                  showAccept || showDecline
+                    ? styles.passwordVisibilityLoginSecondary
+                    : styles.passwordVisibilityLogin
+                }
+              >
+                {!passwordVisible && <HidePassword />}
+                {passwordVisible && <ShowPassword />}
+              </div>
+            )}
           {showAccept && <AcceptedInput></AcceptedInput>}
           {showDecline && <DeclinedInput></DeclinedInput>}
         </div>
