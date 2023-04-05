@@ -154,14 +154,20 @@
   background-color: var(--creamy-yellow);
 }
 
-.errorContainer {
-  display: inline-block;
+.errors {
   padding: 0.6rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  list-style: none;
 }
 
 .error {
-  color: red;
+  text-align: center;
+  color: rgb(240, 94, 94);
   font-size: 1.2rem;
   text-align: center;
-  background-color: black;
+  // background-color: rgb(152, 97, 97);
+  padding: 0.4rem 0.6rem;
+  font-weight: 600;
 }

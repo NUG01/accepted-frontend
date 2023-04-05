@@ -2,7 +2,10 @@ import styles from "./RecoverPassword.module.scss";
 import BasicInput from "../../components/BasicInput/BasicInput";
 import BasicButton from "../../components/BasicButton/BasicButton";
 import ButtonSpinner from "../../components/Spinner/ButtonSpinner";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import BasicAxios from "../../helpers/axios/index";
+import PasswordReseted from "../../assets/icons/PasswordReseted";
 
 import React from "react";
 
@@ -24,12 +27,15 @@ function passwordConfirmValidation(value, passwordValue) {
 }
 
 function RecoverPassword() {
+  const params = useParams();
+  const navigate = useNavigate();
   const [passwordError, setPaswordError] = useState(false);
   const [passwordConfirmError, setPaswordConfirmError] = useState(false);
   const [passwordValue, setPasswordValue] = useState("");
   const [passwordConfirmValue, setPasswordConfirmValue] = useState("");
   const [requestInProcess, setRequestInProcess] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [passwordRecovered, setPasswordRecovered] = useState(false);
 
   const [showPasswordAccept, setShowPasswordlAccept] = useState(false);
   const [showPasswordDecline, setShowPasswordDecline] = useState(false);
@@ -37,6 +43,14 @@ function RecoverPassword() {
     useState(false);
   const [showPasswordConfirmDecline, setShowPasswordConfirmDecline] =
     useState(false);
+
+  useEffect(() => {
+    BasicAxios.post("password-recover-validity", {
+      token: params.token,
+    }).catch(() => {
+      navigate("/login");
+    });
+  }, []);
 
   function passwordUpdate(data) {
     setPasswordValue(data.target.value);
@@ -96,52 +110,76 @@ function RecoverPassword() {
   async function submitHandler(event) {
     event.preventDefault();
     console.log(passwordConfirmValue, passwordValue);
-    // formAccepted();
-    setButtonDisabled(true);
-    setRequestInProcess(true);
+    if (
+      passwordConfirmValidation(passwordConfirmValue, passwordValue) &&
+      passwordValidation(passwordValue)
+    ) {
+      try {
+        setButtonDisabled(true);
+        setRequestInProcess(true);
+        const res = await BasicAxios.post("recover-password", {
+          token: params.token,
+          password: passwordValue,
+        });
+        setPasswordRecovered(true);
+      } catch (error) {
+        alert(error);
+      }
+    }
   }
   return (
     <section className={styles.container}>
       <main className={styles.formContainer}>
-        <form onSubmit={submitHandler} className={styles.form}>
-          <BasicInput
-            showAccept={showPasswordAccept}
-            showDecline={showPasswordDecline}
-            input={passwordUpdate}
-            name="password"
-            type="password"
-            state="password-recover"
-            placeholder="Password123"
-          >
-            პაროლი
-          </BasicInput>
-          <BasicInput
-            showAccept={showPasswordConfirmAccept}
-            showDecline={showPasswordConfirmDecline}
-            input={passwordConfirmUpdate}
-            name="password_confirmation"
-            type="password"
-            state="password-recover"
-            placeholder="Password123"
-          >
-            გაიმეორე პაროლი
-          </BasicInput>
-          {/* {error && <div className={styles.errorContainer}>{errors}</div>} */}
-          <div style={{ position: "relative" }}>
-            <BasicButton disabled={buttonDisabled} type="submit">
-              <p className={requestInProcess ? styles.opacityDecrease : ""}>
-                პაროლის აღდგენა
-              </p>
-              {requestInProcess && (
-                <div className={styles.relativeContainer}>
-                  <div className={styles.spinnerContainer}>
-                    <ButtonSpinner />
-                  </div>
-                </div>
-              )}
-            </BasicButton>
+        {passwordRecovered && (
+          <div className={styles.passwordReset}>
+            <PasswordReseted />
+            <p className={styles.resetText}>პაროლი წარმატებით განახლდა</p>
+            <Link className={styles.a} to="/login">
+              ავტორიზაცია
+            </Link>
           </div>
-        </form>
+        )}
+        {!passwordRecovered && (
+          <form onSubmit={submitHandler} className={styles.form}>
+            <BasicInput
+              showAccept={showPasswordAccept}
+              showDecline={showPasswordDecline}
+              input={passwordUpdate}
+              name="password"
+              type="password"
+              state="password-recover"
+              placeholder="Password123"
+            >
+              პაროლი
+            </BasicInput>
+            <BasicInput
+              showAccept={showPasswordConfirmAccept}
+              showDecline={showPasswordConfirmDecline}
+              input={passwordConfirmUpdate}
+              name="password_confirmation"
+              type="password"
+              state="password-recover"
+              placeholder="Password123"
+            >
+              გაიმეორე პაროლი
+            </BasicInput>
+            {/* {error && <div className={styles.errorContainer}>{errors}</div>} */}
+            <div style={{ position: "relative" }}>
+              <BasicButton disabled={buttonDisabled} type="submit">
+                <p className={requestInProcess ? styles.opacityDecrease : ""}>
+                  პაროლის აღდგენა
+                </p>
+                {requestInProcess && (
+                  <div className={styles.relativeContainer}>
+                    <div className={styles.spinnerContainer}>
+                      <ButtonSpinner />
+                    </div>
+                  </div>
+                )}
+              </BasicButton>
+            </div>
+          </form>
+        )}
       </main>
     </section>
   );

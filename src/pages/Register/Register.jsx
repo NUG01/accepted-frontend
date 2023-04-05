@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./Register.module.scss";
 import BasicInput from "../../components/BasicInput/BasicInput";
 import BasicButton from "../../components/BasicButton/BasicButton";
@@ -37,9 +37,6 @@ function Register() {
   const [registered, setRegistered] = useState(false);
   const [error, setError] = useState(false);
   const [errorValue, setErrorValue] = useState([]);
-
-
-
 
   function navigateToHomePage() {
     navigate("..");
@@ -151,11 +148,11 @@ function Register() {
     setErrorValue([]);
     setError(false);
     formAccepted();
-    setButtonDisabled(true);
-    setRequestInProcess(true);
     if (formAccepted() == false) {
       return;
     }
+    setButtonDisabled(true);
+    setRequestInProcess(true);
     const data = {
       name: nameValue,
       surname: surnameValue,
@@ -171,16 +168,18 @@ function Register() {
       setButtonDisabled(false);
       setRequestInProcess(false);
       setError(true);
-      setErrorValue((oldArray) => [
-        ...oldArray,
-        [
-          error.response.data.errors.name,
-          error.response.data.errors.surname,
-          error.response.data.errors.email,
-          error.response.data.errors.password,
-          error.response.data.errors.role,
-        ],
-      ]);
+      // setErrorValue((oldArray) => [
+      //   ...oldArray,
+      //   [
+      //     error?.response?.data?.errors?.name,
+      //     error?.response?.data?.errors?.surname,
+      //     error?.response?.data?.errors?.email,
+      //     error?.response?.data?.errors?.password,
+      //     error?.response?.data?.errors?.role,
+      //   ],
+      // ]);
+      setErrorValue(error.response.data.errors);
+      console.log(errorValue);
     }
   }
   // const errors = errorValue.map((x, i) => {
@@ -190,7 +189,6 @@ function Register() {
   //     </p>
   //   );
   // });
-
   return (
     <section className={styles.container}>
       <div className={styles.writing}>
@@ -321,8 +319,18 @@ function Register() {
                 </div>
               </div>
             </div>
-            {/* {error && <div className={styles.errorContainer}>{errors}</div>} */}
             <div style={{ position: "relative" }}>
+              {errorValue && (
+                <ul className={styles.errors}>
+                  {Object.keys(errorValue).map((key) => {
+                    return (
+                      <li className={styles.error} key={key}>
+                        {errorValue[key][0]}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
               <BasicButton disabled={buttonDisabled} type="submit">
                 <p className={requestInProcess ? styles.opacityDecrease : ""}>
                   რეგისტრაცია
