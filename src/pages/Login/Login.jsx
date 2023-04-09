@@ -5,6 +5,11 @@ import BasicButton from "../../components/BasicButton/BasicButton";
 import BasicInput from "../../components/BasicInput/BasicInput";
 import { useState, useEffect } from "react";
 import ButtonSpinner from "../../components/Spinner/ButtonSpinner";
+import BasicAxios from "../../helpers/axios/index";
+import SanctumAxios from "../../helpers/axios/SanctumAxios";
+import { csrf } from "../../services";
+import { useSelector, useDispatch } from "react-redux";
+import { authActions } from "../../store/auth";
 
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
@@ -27,6 +32,8 @@ function passwordValidation(value) {
 
 function Login() {
   const navigate = useNavigate();
+  const authState = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
@@ -85,15 +92,30 @@ function Login() {
     }
   }
 
-  function submitHandler(event) {
+  async function submitHandler(event) {
     event.preventDefault();
     if (formValidated) {
       setButtonDisabled(true);
       setRequestInProcess(true);
-      console.log(passwordValue, emailValue);
-      return;
+      const login = async () => {
+        try {
+          await csrf();
+          const res = await BasicAxios.post("login", {
+            email: emailValue,
+            password: passwordValue,
+          });
+
+          dispatch(authActions.setUser(res.data.user));
+          dispatch(authActions.setIsLoggedIn(true));
+          // console.log(res.data.user);
+          // navigate("/main");
+        } catch (error) {
+          alert(error);
+        }
+      };
+
+      login();
     }
-    console.log("oh");
   }
 
   const linkStyle = {

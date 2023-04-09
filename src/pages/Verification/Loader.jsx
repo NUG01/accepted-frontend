@@ -17,7 +17,7 @@ function Loader() {
         const res = await BasicAxios.post("email/verify", { code });
         console.log(res);
         setTimeout(() => {
-          navigate("..");
+          navigate("/login");
         }, 3000);
       } catch (error) {
         setTimeout(() => {
