@@ -2,8 +2,10 @@ import axios from "axios";
 const BasicAxios = axios.create({
   baseURL: "http://localhost:8000/",
   headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
+    // Accept: "application/json",
+    // "Content-Type": "application/json",
+    "X-Requested-With": "XMLHttpRequest",
+
     // "Access-Control-Allow-Origin": "*",
   },
 });

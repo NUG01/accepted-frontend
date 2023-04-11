@@ -7,7 +7,7 @@
   font-family: inherit;
   cursor: pointer;
   transition: outline 0.25s;
-  background-color: var(--extra-light-ocean-blue);
+  background-color: var(--extra-light-ocean-blue) !important;
   outline: 1.5px solid white;
   color: var(--etxra-dark-ocean-blue);
   margin-top: 1rem;

@@ -3,6 +3,7 @@ import PageLoader from "../../components/Spinner/PageLoader";
 import { useParams, useNavigate } from "react-router-dom";
 import BasicAxios from "../../helpers/axios/index";
 import { useEffect } from "react";
+import checkGuest from "../../guards/checkGuest";
 
 import React from "react";
 
@@ -33,4 +34,4 @@ function Loader() {
   );
 }
 
-export default Loader;
+export default checkGuest(Loader);

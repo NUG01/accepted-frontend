@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Link, NavLink } from "react-router-dom";
+import checkGuest from "../../guards/checkGuest";
 import styles from "./About.module.scss";
-import { NavLink, Link } from "react-router-dom";
 
 const navigation = [
   { name: "Product", href: "#" },
@@ -148,7 +147,7 @@ const footerNavigation = {
   ],
 };
 
-export default function Example() {
+function About() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const linkStyle = {
@@ -164,7 +163,7 @@ export default function Example() {
           <p>Home</p>
           <p>How it works</p>
           <p>About</p>
-          <p>Pricing</p>
+          <Link to="/main">Pricing</Link>
         </div>
         <div className={styles.linksContainer}>
           <NavLink className={styles.a} style={linkStyle} to="login">
@@ -579,3 +578,4 @@ export default function Example() {
     </div>
   );
 }
+export default checkGuest(About);

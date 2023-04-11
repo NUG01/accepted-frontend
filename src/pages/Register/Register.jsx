@@ -1,13 +1,14 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./Register.module.scss";
-import BasicInput from "../../components/BasicInput/BasicInput";
-import BasicButton from "../../components/BasicButton/BasicButton";
 import HomeIcon from "../../assets/icons/HomeIcon";
-import ButtonSpinner from "../../components/Spinner/ButtonSpinner";
-import ErrorContainer from "../../components/ErrorContainer/ErrorContainer";
-import RustaveliSvg from "../../assets/icons/RustaveliSvg";
 import MailIcon from "../../assets/icons/MailIcon";
+import RustaveliSvg from "../../assets/icons/RustaveliSvg";
+import BasicButton from "../../components/BasicButton/BasicButton";
+import BasicInput from "../../components/BasicInput/BasicInput";
+import ErrorContainer from "../../components/ErrorContainer/ErrorContainer";
+import ButtonSpinner from "../../components/Spinner/ButtonSpinner";
+import checkGuest from "../../guards/checkGuest";
+import styles from "./Register.module.scss";
 
 import BasicAxios from "../../helpers/axios/index.js";
 
@@ -168,16 +169,6 @@ function Register() {
       setButtonDisabled(false);
       setRequestInProcess(false);
       setError(true);
-      // setErrorValue((oldArray) => [
-      //   ...oldArray,
-      //   [
-      //     error?.response?.data?.errors?.name,
-      //     error?.response?.data?.errors?.surname,
-      //     error?.response?.data?.errors?.email,
-      //     error?.response?.data?.errors?.password,
-      //     error?.response?.data?.errors?.role,
-      //   ],
-      // ]);
       setErrorValue(error.response.data.errors);
       console.log(errorValue);
     }
@@ -351,4 +342,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default checkGuest(Register);

@@ -1,31 +1,34 @@
-import styles from "./Main.module.scss";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import checkAuth from "../../guards/checkAuth";
 import BasicAxios from "../../helpers/axios/index";
-import { useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
-import { useSelector } from "react-redux";
-import React from "react";
+import { authActions } from "../../store/auth.js";
 
 function Main() {
-  // useAuth();
-
-  // const authState = useSelector((state) => state.auth);
-
-  // console.log(authState);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  // if (!authState.isLoggedIn) navigate("/");
-
   function logoutHandler() {
     BasicAxios.post("logout").then((res) => {
-      navigate("/");
+      dispatch(authActions.setUser(null));
+      dispatch(authActions.setIsLoggedIn(false));
+      window.location.reload();
     });
   }
   return (
     <>
-      <p style={{ color: "red" }} onClick={logoutHandler}>
-        Main Page
-      </p>
+      <div>
+        <p style={{ color: "red" }} onClick={logoutHandler}>
+          Main Page
+        </p>
+        <Link to="/home" className="text-[#000] text-[2rem]">
+          home
+        </Link>
+        <Link to="/" className="text-[#000] text-[2rem]">
+          esa
+        </Link>
+      </div>
     </>
   );
 }
 
-export default Main;
+export default checkAuth(Main);

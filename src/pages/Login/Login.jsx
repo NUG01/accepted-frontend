@@ -1,15 +1,15 @@
-import React from "react";
-import styles from "./Login.module.scss";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import BasicButton from "../../components/BasicButton/BasicButton";
 import BasicInput from "../../components/BasicInput/BasicInput";
-import { useState, useEffect } from "react";
 import ButtonSpinner from "../../components/Spinner/ButtonSpinner";
+import checkGuest from "../../guards/checkGuest";
 import BasicAxios from "../../helpers/axios/index";
-import SanctumAxios from "../../helpers/axios/SanctumAxios";
 import { csrf } from "../../services";
-import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../../store/auth";
+import Loading from "../Loading/Loading";
+import styles from "./Login.module.scss";
 
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
@@ -38,7 +38,7 @@ function Login() {
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
   const [formValidated, setFormValidated] = useState(false);
-  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [showEmailAccept, setShowEmailAccept] = useState(false);
   const [showEmailDecline, setShowEmailDecline] = useState(false);
   const [showPasswordAccept, setShowPasswordlAccept] = useState(false);
@@ -100,15 +100,14 @@ function Login() {
       const login = async () => {
         try {
           await csrf();
-          const res = await BasicAxios.post("login", {
+          BasicAxios.post("login", {
             email: emailValue,
             password: passwordValue,
+          }).then((res) => {
+            dispatch(authActions.setUser(res.data.user));
+            dispatch(authActions.setIsLoggedIn(true));
+            navigate("/main");
           });
-
-          dispatch(authActions.setUser(res.data.user));
-          dispatch(authActions.setIsLoggedIn(true));
-          // console.log(res.data.user);
-          // navigate("/main");
         } catch (error) {
           alert(error);
         }
@@ -180,4 +179,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default checkGuest(Login);

@@ -1,11 +1,12 @@
-import styles from "./RecoverPassword.module.scss";
-import BasicInput from "../../components/BasicInput/BasicInput";
-import BasicButton from "../../components/BasicButton/BasicButton";
-import ButtonSpinner from "../../components/Spinner/ButtonSpinner";
-import { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import BasicAxios from "../../helpers/axios/index";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import PasswordReseted from "../../assets/icons/PasswordReseted";
+import BasicButton from "../../components/BasicButton/BasicButton";
+import BasicInput from "../../components/BasicInput/BasicInput";
+import ButtonSpinner from "../../components/Spinner/ButtonSpinner";
+import checkGuest from "../../guards/checkGuest";
+import BasicAxios from "../../helpers/axios/index";
+import styles from "./RecoverPassword.module.scss";
 
 import React from "react";
 
@@ -185,4 +186,4 @@ function RecoverPassword() {
   );
 }
 
-export default RecoverPassword;
+export default checkGuest(RecoverPassword);

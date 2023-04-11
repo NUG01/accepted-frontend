@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import styles from "./ForgotPassword.module.scss";
-import BasicInput from "../../components/BasicInput/BasicInput";
-import BasicButton from "../../components/BasicButton/BasicButton";
-import ButtonSpinner from "../../components/Spinner/ButtonSpinner";
-import BasicAxios from "../../helpers/axios/index";
+import { Link, useNavigate } from "react-router-dom";
 import MailIcon from "../../assets/icons/MailIcon";
+import BasicButton from "../../components/BasicButton/BasicButton";
+import BasicInput from "../../components/BasicInput/BasicInput";
+import ButtonSpinner from "../../components/Spinner/ButtonSpinner";
+import checkGuest from "../../guards/checkGuest";
+import BasicAxios from "../../helpers/axios/index";
+import styles from "./ForgotPassword.module.scss";
 
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
@@ -131,4 +132,4 @@ function ForgotPassword() {
   );
 }
 
-export default ForgotPassword;
+export default checkGuest(ForgotPassword);

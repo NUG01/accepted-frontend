@@ -4,6 +4,7 @@ import App from "./App";
 import "./index.css";
 import { Provider } from "react-redux";
 import store from "./store/index.js";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 //Pages
 import Error from "./pages/Error/Error";
@@ -19,42 +20,14 @@ import BasicAxios from "./helpers/axios/index";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-    errorElement: <Error />,
-    children: [
-      { path: "login", element: <Login /> },
-      { path: "forgot-password", element: <ForgotPassword /> },
-    ],
-  },
-  {
-    path: "/register",
-    element: <Register />,
-  },
-  {
-    path: "/account-verification/:code",
-    element: <Loader />,
-  },
-  {
-    path: "/recover-password/:token",
-    element: <RecoverPassword />,
-  },
-  {
-    path: "/main",
-    element: <Main />,
-  },
-  {
-    path: "/about",
-    element: <About />,
-  },
-]);
-
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  // <React.StrictMode>
+  <BrowserRouter>
     <Provider store={store}>
-      <RouterProvider router={router}></RouterProvider>
+      <Routes>
+        <Route path="/*" element={<App />} />
+      </Routes>
     </Provider>
-  </React.StrictMode>
+  </BrowserRouter>
+  // </React.StrictMode>
 );
