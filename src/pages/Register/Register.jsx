@@ -170,16 +170,8 @@ function Register() {
       setRequestInProcess(false);
       setError(true);
       setErrorValue(error.response.data.errors);
-      console.log(errorValue);
     }
   }
-  // const errors = errorValue.map((x, i) => {
-  //   return (
-  //     <p key={i} className={styles.error}>
-  //       `${x[i] != undefined ? "x[i]" : " x[i+1]"}`
-  //     </p>
-  //   );
-  // });
   return (
     <section className={styles.container}>
       <div className={styles.writing}>
@@ -322,17 +314,14 @@ function Register() {
                   })}
                 </ul>
               )}
-              <BasicButton disabled={buttonDisabled} type="submit">
+              <BasicButton
+                disabled={buttonDisabled}
+                spinner={requestInProcess}
+                type="submit"
+              >
                 <p className={requestInProcess ? styles.opacityDecrease : ""}>
                   რეგისტრაცია
                 </p>
-                {requestInProcess && (
-                  <div className={styles.relativeContainer}>
-                    <div className={styles.spinnerContainer}>
-                      <ButtonSpinner />
-                    </div>
-                  </div>
-                )}
               </BasicButton>
             </div>
           </form>

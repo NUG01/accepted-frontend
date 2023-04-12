@@ -27,6 +27,9 @@ function ForgotPassword() {
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [requestInProcess, setRequestInProcess] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorValue, setErrorValue] = useState([]);
+  const [oneError, setOneError] = useState("");
 
   function closeLoginHandler() {
     navigate("..");
@@ -62,7 +65,9 @@ function ForgotPassword() {
     } catch (error) {
       setButtonDisabled(true);
       setRequestInProcess(true);
-      alert(error);
+      setError(true);
+      setOneError(error.response.data.error);
+      setErrorValue(error.response.data.errors);
     }
   }
 
@@ -106,17 +111,30 @@ function ForgotPassword() {
               ელ.ფოსტა
             </BasicInput>
             <div className={styles.buttonContainer}>
-              <BasicButton disabled={buttonDisabled} type="submit">
+              {oneError && (
+                <ul className={styles.errors}>
+                  <li className={styles.error}>{oneError}</li>
+                </ul>
+              )}
+              {errorValue && (
+                <ul className={styles.errors}>
+                  {Object.keys(errorValue).map((key) => {
+                    return (
+                      <li className={styles.error} key={key}>
+                        {errorValue[key][0]}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+              <BasicButton
+                disabled={buttonDisabled}
+                spinner={requestInProcess}
+                type="submit"
+              >
                 <p className={requestInProcess ? styles.opacityDecrease : ""}>
                   დადასტურება
                 </p>
-                {requestInProcess && (
-                  <div className={styles.relativeContainer}>
-                    <div className={styles.spinnerContainer}>
-                      <ButtonSpinner />
-                    </div>
-                  </div>
-                )}
               </BasicButton>
 
               <div style={linkContainer}>

@@ -38,12 +38,16 @@ function Login() {
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
   const [formValidated, setFormValidated] = useState(false);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [showEmailAccept, setShowEmailAccept] = useState(false);
   const [showEmailDecline, setShowEmailDecline] = useState(false);
   const [showPasswordAccept, setShowPasswordlAccept] = useState(false);
   const [showPasswordDecline, setShowPasswordDecline] = useState(false);
+
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [requestInProcess, setRequestInProcess] = useState(false);
+  const [error, setError] = useState(false);
+  const [oneError, setOneError] = useState("");
+  const [errorValue, setErrorValue] = useState([]);
 
   function closeLoginHandler() {
     navigate("..");
@@ -100,16 +104,22 @@ function Login() {
       const login = async () => {
         try {
           await csrf();
-          BasicAxios.post("login", {
+          const res = await BasicAxios.post("login", {
             email: emailValue,
             password: passwordValue,
-          }).then((res) => {
-            dispatch(authActions.setUser(res.data.user));
-            dispatch(authActions.setIsLoggedIn(true));
-            navigate("/main");
           });
+
+          dispatch(authActions.setUser(res.data.user));
+          dispatch(authActions.setIsLoggedIn(true));
+          navigate("/main");
         } catch (error) {
-          alert(error);
+          const errorData = error.response.data;
+          setButtonDisabled(false);
+          setRequestInProcess(false);
+          setError(true);
+          console.log(errorData.error, error);
+          setOneError(errorData.error);
+          setErrorValue(errorData.errors);
         }
       };
 
@@ -155,17 +165,31 @@ function Login() {
             პაროლი
           </BasicInput>
           <div style={{ position: "relative" }}>
-            <BasicButton disabled={buttonDisabled} type="submit">
+            {oneError && (
+              <ul className={styles.errors}>
+                <li className={styles.error}>{oneError}</li>
+              </ul>
+            )}
+
+            {errorValue && (
+              <ul className={styles.errors}>
+                {Object.keys(errorValue).map((key) => {
+                  return (
+                    <li className={styles.error} key={key}>
+                      {errorValue[key][0]}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+            <BasicButton
+              disabled={buttonDisabled}
+              spinner={requestInProcess}
+              type="submit"
+            >
               <p className={requestInProcess ? styles.opacityDecrease : ""}>
                 დადასტურება
               </p>
-              {requestInProcess && (
-                <div className={styles.relativeContainer}>
-                  <div className={styles.spinnerContainer}>
-                    <ButtonSpinner />
-                  </div>
-                </div>
-              )}
             </BasicButton>
           </div>
         </form>

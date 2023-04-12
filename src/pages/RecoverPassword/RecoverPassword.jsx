@@ -34,9 +34,13 @@ function RecoverPassword() {
   const [passwordConfirmError, setPaswordConfirmError] = useState(false);
   const [passwordValue, setPasswordValue] = useState("");
   const [passwordConfirmValue, setPasswordConfirmValue] = useState("");
-  const [requestInProcess, setRequestInProcess] = useState(false);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [passwordRecovered, setPasswordRecovered] = useState(false);
+
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [requestInProcess, setRequestInProcess] = useState(false);
+  const [error, setError] = useState(false);
+  const [oneError, setOneError] = useState("");
+  const [errorValue, setErrorValue] = useState([]);
 
   const [showPasswordAccept, setShowPasswordlAccept] = useState(false);
   const [showPasswordDecline, setShowPasswordDecline] = useState(false);
@@ -124,7 +128,11 @@ function RecoverPassword() {
         });
         setPasswordRecovered(true);
       } catch (error) {
-        alert(error);
+        setButtonDisabled(false);
+        setRequestInProcess(false);
+        setError(true);
+        setOneError(error.response.data.error);
+        setErrorValue(error.response.data.errors);
       }
     }
   }
@@ -164,19 +172,31 @@ function RecoverPassword() {
             >
               გაიმეორე პაროლი
             </BasicInput>
-            {/* {error && <div className={styles.errorContainer}>{errors}</div>} */}
             <div style={{ position: "relative" }}>
-              <BasicButton disabled={buttonDisabled} type="submit">
+              {oneError && (
+                <ul className={styles.errors}>
+                  <li className={styles.error}>{oneError}</li>
+                </ul>
+              )}
+              {errorValue && (
+                <ul className={styles.errors}>
+                  {Object.keys(errorValue).map((key) => {
+                    return (
+                      <li className={styles.error} key={key}>
+                        {errorValue[key][0]}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+              <BasicButton
+                disabled={buttonDisabled}
+                spinner={requestInProcess}
+                type="submit"
+              >
                 <p className={requestInProcess ? styles.opacityDecrease : ""}>
                   პაროლის აღდგენა
                 </p>
-                {requestInProcess && (
-                  <div className={styles.relativeContainer}>
-                    <div className={styles.spinnerContainer}>
-                      <ButtonSpinner />
-                    </div>
-                  </div>
-                )}
               </BasicButton>
             </div>
           </form>
