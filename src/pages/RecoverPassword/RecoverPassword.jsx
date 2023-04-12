@@ -3,7 +3,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import PasswordReseted from "../../assets/icons/PasswordReseted";
 import BasicButton from "../../components/BasicButton/BasicButton";
 import BasicInput from "../../components/BasicInput/BasicInput";
-import ButtonSpinner from "../../components/Spinner/ButtonSpinner";
 import checkGuest from "../../guards/checkGuest";
 import BasicAxios from "../../helpers/axios/index";
 import styles from "./RecoverPassword.module.scss";

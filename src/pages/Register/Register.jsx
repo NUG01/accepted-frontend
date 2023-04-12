@@ -6,7 +6,6 @@ import RustaveliSvg from "../../assets/icons/RustaveliSvg";
 import BasicButton from "../../components/BasicButton/BasicButton";
 import BasicInput from "../../components/BasicInput/BasicInput";
 import ErrorContainer from "../../components/ErrorContainer/ErrorContainer";
-import ButtonSpinner from "../../components/Spinner/ButtonSpinner";
 import checkGuest from "../../guards/checkGuest";
 import styles from "./Register.module.scss";
 

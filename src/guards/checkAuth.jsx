@@ -11,14 +11,14 @@ const checkAuth = (Component) => {
   const AuthenticatedComponent = (props) => {
     console.log(props.data);
 
-    if (props.loading) {
+    if (!props.data && props.loading) {
       // Handle loading state, e.g. show a spinner
       return <Loading />;
     }
 
-    if (!props.data) {
-      // Redirect to login page if user is not authenticated
+    if (!props.data && !props.loading) {
       return <Navigate to="/login" />;
+      // Redirect to login page if user is not authenticated
     }
 
     // Render the protected component if user is authenticated

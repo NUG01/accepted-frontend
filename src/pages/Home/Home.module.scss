@@ -1,12 +1,12 @@
 header {
-  height: 8rem;
+  height: 80px;
   width: 100vw;
   background-color: var(--light-soft-gray);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2rem 6rem;
-  font-size: 2rem;
+  padding: 20px 60px;
+  font-size: 20px;
   color: var(--dark-ocean-blue);
 }
 .container {
@@ -19,7 +19,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2.4rem;
+  gap: 24px;
 }
 
 .backdropContainer {
@@ -35,7 +35,7 @@ header {
 .a:link,
 .a:visited {
   color: inherit;
-  padding: 0.6rem 1rem;
+  padding: 6px 10px;
   border-radius: 12px;
   &.active {
     background-color: var(--ocean-blue);
@@ -57,5 +57,5 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 10px;
 }

@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import checkGuest from "../../guards/checkGuest";
+import { Dialog } from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import styles from "./About.module.scss";
+import checkGuest from "../../guards/checkGuest";
+import { NavLink } from "react-router-dom";
 
 const navigation = [
   { name: "Product", href: "#" },
@@ -157,13 +159,14 @@ function About() {
 
   return (
     <div className="bg-white">
+      {/* Header */}
       <header className={styles.container}>
         <div>mylogo</div>
         <div className={styles["menu-container"]}>
           <p>Home</p>
           <p>How it works</p>
           <p>About</p>
-          <Link to="/main">Pricing</Link>
+          <p>Pricing</p>
         </div>
         <div className={styles.linksContainer}>
           <NavLink className={styles.a} style={linkStyle} to="login">
@@ -223,9 +226,9 @@ function About() {
               }}
             />
           </div>
-          <div className="overflow-hidden">
-            <div className="mx-auto w-[90vw] ml-[21rem] scale-[1.12] px-6 pb-32 pt-36 sm:pt-60 lg:px-8 lg:pt-32">
-              <div className="mx-auto w-full gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
+          <div className="overflow-hidden scale-[0.9]">
+            <div className="mx-auto max-w-7xl px-6 pb-32 pt-36 sm:pt-60 lg:px-8 lg:pt-32">
+              <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
                 <div className="w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
                   <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
                     We’re changing the way people connect.
@@ -293,7 +296,7 @@ function About() {
         </div>
 
         {/* Content section */}
-        <div className="mx-auto scale-[1.25] -mt-12 max-w-7xl pt-[10rem] px-6 sm:mt-0 lg:px-8 xl:-mt-8">
+        <div className="mx-auto -mt-12 max-w-7xl px-6 sm:mt-0 lg:px-8 xl:-mt-8 scale-[0.9]">
           <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               Our mission
@@ -324,7 +327,7 @@ function About() {
                   </p>
                 </div>
               </div>
-              <div className="lg:flex lg:flex-auto lg:justify-end">
+              <div className="lg:flex lg:flex-auto lg:justify-center">
                 <dl className="w-64 space-y-8 xl:w-80">
                   {stats.map((stat) => (
                     <div
@@ -346,7 +349,7 @@ function About() {
         </div>
 
         {/* Image section */}
-        <div className="mt-32 sm:mt-40 xl:mx-auto xl:max-w-7xl xl:px-8 pt-[7rem] scale-[1.1]">
+        <div className="mt-[60px] sm:mt-[60px] xl:mx-auto xl:max-w-7xl xl:px-8 scale-[0.9]">
           <img
             src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
             alt=""
@@ -355,7 +358,7 @@ function About() {
         </div>
 
         {/* Values section */}
-        <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-40 lg:px-8 scale-[1.25] pt-[4rem]">
+        <div className="mx-auto mt-[60px] sm:mt-[60px] max-w-7xl px-6 lg:px-8 scale-[0.9]">
           <div className="mx-auto max-w-2xl lg:mx-0">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               Our values
@@ -376,7 +379,7 @@ function About() {
         </div>
 
         {/* Logo cloud */}
-        <div className="relative isolate -z-10 mt-32 sm:mt-48">
+        <div className="relative isolate -z-10 mt-[80px] sm:mt-[80px] scale-[0.9]">
           <div className="absolute inset-x-0 top-1/2 -z-10 flex -translate-y-1/2 justify-center overflow-hidden [mask-image:radial-gradient(50%_45%_at_50%_55%,white,transparent)]">
             <svg
               className="h-[40rem] w-[80rem] flex-none stroke-gray-200"
@@ -454,7 +457,7 @@ function About() {
         </div>
 
         {/* Team section */}
-        <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-48 lg:px-8 pt-[4rem]">
+        <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-48 lg:px-8 scale-[0.9]">
           <div className="mx-auto max-w-2xl lg:mx-0">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               Our team
@@ -543,7 +546,7 @@ function About() {
       </main>
 
       {/* Footer */}
-      <footer className="mx-auto mt-40 max-w-7xl overflow-hidden px-6 pb-20 sm:mt-64 sm:pb-24 lg:px-8">
+      <footer className="mx-auto mt-[70px] max-w-7xl overflow-hidden px-6 pb-20 sm:mt-[70px] sm:pb-24 lg:px-8">
         <nav
           className="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12"
           aria-label="Footer"

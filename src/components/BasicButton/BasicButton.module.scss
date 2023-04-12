@@ -1,8 +1,8 @@
 .button {
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.8em 1.2em;
-  font-size: 1.3em;
+  padding: 8px 2px;
+  font-size: 13px;
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
@@ -10,7 +10,7 @@
   background-color: var(--extra-light-ocean-blue) !important;
   outline: 1.5px solid white;
   color: var(--etxra-dark-ocean-blue);
-  margin-top: 1rem;
+  margin-top: 10px;
   width: 100%;
   &:hover {
     outline: 1.5px solid var(--etxra-dark-ocean-blue);
@@ -33,7 +33,7 @@
 .relativeContainer {
   position: absolute;
   width: 100%;
-  height: 3rem;
+  height: 30px;
   top: 50%;
   left: 0;
   transform: translate(0, -25%);

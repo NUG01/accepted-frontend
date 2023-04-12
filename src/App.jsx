@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
+import DashboardLayout from "./components/DashboardLayout/DashboardLayout";
 import BasicAxios from "./helpers/axios/index";
-import About from "./pages/About/About";
 import Error from "./pages/Error/Error";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Home from "./pages/Home/Home";
@@ -11,7 +11,6 @@ import Login from "./pages/Login/Login";
 import Main from "./pages/Main/Main";
 import RecoverPassword from "./pages/RecoverPassword/RecoverPassword";
 import Register from "./pages/Register/Register";
-import Test from "./pages/Test/Test";
 import Loader from "./pages/Verification/Loader";
 import { authActions } from "./store/auth";
 
@@ -74,20 +73,16 @@ function App() {
         path="/recover-password/:token"
         element={<RecoverPassword data={authStatus} loading={!rendered} />}
       ></Route>
-      <Route
-        path="/about"
-        element={<About data={authStatus} loading={!rendered} />}
-      ></Route>
 
       <Route
-        path="/main"
-        element={<Main data={authStatus} loading={!rendered} />}
-      />
-
-      <Route
-        path="/home"
-        element={<Test data={authStatus} loading={!rendered} />}
-      />
+        path="/room"
+        element={<DashboardLayout data={authStatus} loading={!rendered} />}
+      >
+        <Route
+          path="board"
+          element={<Main data={authStatus} loading={!rendered} />}
+        ></Route>
+      </Route>
 
       <Route path="*" element={<Error />}></Route>
     </Routes>
