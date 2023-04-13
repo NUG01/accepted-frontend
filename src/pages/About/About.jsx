@@ -226,8 +226,8 @@ function About() {
               }}
             />
           </div>
-          <div className="overflow-hidden scale-[0.9]">
-            <div className="mx-auto max-w-7xl px-6 pb-32 pt-36 sm:pt-60 lg:px-8 lg:pt-32">
+          <div className="overflow-hidden scale-[0.84]">
+            <div className="mx-auto max-w-7xl px-6 pb-[80px] pt-[45px] sm:pt-[45px] lg:px-8 lg:pt-[45px]">
               <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
                 <div className="w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
                   <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
@@ -296,7 +296,7 @@ function About() {
         </div>
 
         {/* Content section */}
-        <div className="mx-auto -mt-12 max-w-7xl px-6 sm:mt-0 lg:px-8 xl:-mt-8 scale-[0.9]">
+        <div className="mx-auto -mt-12 max-w-7xl px-6 sm:mt-0 lg:px-8 xl:-mt-8 scale-[0.84]">
           <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               Our mission
@@ -349,7 +349,7 @@ function About() {
         </div>
 
         {/* Image section */}
-        <div className="mt-[60px] sm:mt-[60px] xl:mx-auto xl:max-w-7xl xl:px-8 scale-[0.9]">
+        <div className="mt-[45px] sm:mt-[45px] xl:mx-auto xl:max-w-7xl xl:px-8 scale-[0.8]">
           <img
             src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
             alt=""
@@ -379,7 +379,7 @@ function About() {
         </div>
 
         {/* Logo cloud */}
-        <div className="relative isolate -z-10 mt-[80px] sm:mt-[80px] scale-[0.9]">
+        <div className="relative isolate -z-10 mt-[80px] sm:mt-[80px] scale-[0.84]">
           <div className="absolute inset-x-0 top-1/2 -z-10 flex -translate-y-1/2 justify-center overflow-hidden [mask-image:radial-gradient(50%_45%_at_50%_55%,white,transparent)]">
             <svg
               className="h-[40rem] w-[80rem] flex-none stroke-gray-200"
@@ -457,7 +457,7 @@ function About() {
         </div>
 
         {/* Team section */}
-        <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-48 lg:px-8 scale-[0.9]">
+        <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-48 lg:px-8 scale-[0.84]">
           <div className="mx-auto max-w-2xl lg:mx-0">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               Our team

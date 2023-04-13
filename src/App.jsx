@@ -8,11 +8,14 @@ import Error from "./pages/Error/Error";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
-import Main from "./pages/Main/Main";
+import Tests from "./pages/Tests/Tests";
 import RecoverPassword from "./pages/RecoverPassword/RecoverPassword";
 import Register from "./pages/Register/Register";
 import Loader from "./pages/Verification/Loader";
 import { authActions } from "./store/auth";
+import Loading from "./pages/Loading/Loading";
+import Test from "./pages/Test/Test";
+import Questions from "./pages/Questions/Questions";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -29,6 +32,7 @@ function App() {
   useEffect(() => {
     if (user) {
       setAuthStatus(true);
+      setRendered(true);
     }
     if (!user) {
       BasicAxios.get("user")
@@ -38,49 +42,66 @@ function App() {
 
           setUser(res.data.user);
           setAuthStatus(true);
+          setRendered(true);
         })
         .catch((err) => {
           dispatch(authActions.setUser(null));
           dispatch(authActions.setIsLoggedIn(false));
           setUser(null);
           setAuthStatus(false);
+          setRendered(true);
         });
     }
-    setRendered(true);
   }, [location]);
+
+  if (!rendered) return <Loading />;
 
   return (
     <Routes>
-      <Route path="/" element={<Home data={authStatus} loading={!rendered} />}>
+      <Route
+        path="/"
+        element={<Home data={authStatus} dataIsFetched={rendered} />}
+      >
         <Route
           path="login"
-          element={<Login data={authStatus} loading={!rendered} />}
+          element={<Login data={authStatus} dataIsFetched={rendered} />}
         ></Route>
         <Route
           path="forgot-password"
-          element={<ForgotPassword data={authStatus} loading={!rendered} />}
+          element={
+            <ForgotPassword data={authStatus} dataIsFetched={rendered} />
+          }
         ></Route>
       </Route>
       <Route
         path="/register"
-        element={<Register data={authStatus} loading={!rendered} />}
+        element={<Register data={authStatus} dataIsFetched={rendered} />}
       ></Route>
       <Route
         path="/account-verification/:code"
-        element={<Loader data={authStatus} loading={!rendered} />}
+        element={<Loader data={authStatus} dataIsFetched={rendered} />}
       ></Route>
       <Route
         path="/recover-password/:token"
-        element={<RecoverPassword data={authStatus} loading={!rendered} />}
+        element={<RecoverPassword data={authStatus} dataIsFetched={rendered} />}
       ></Route>
 
       <Route
-        path="/room"
-        element={<DashboardLayout data={authStatus} loading={!rendered} />}
+        path="/board"
+        element={<DashboardLayout data={authStatus} dataIsFetched={rendered} />}
       >
         <Route
-          path="board"
-          element={<Main data={authStatus} loading={!rendered} />}
+          path="tests"
+          element={<Tests data={authStatus} dataIsFetched={rendered} />}
+        ></Route>
+      </Route>
+      <Route
+        path="/board/tests/:id"
+        element={<Test data={authStatus} dataIsFetched={rendered} />}
+      >
+        <Route
+          path="page/:questionId"
+          element={<Questions data={authStatus} dataIsFetched={rendered} />}
         ></Route>
       </Route>
 

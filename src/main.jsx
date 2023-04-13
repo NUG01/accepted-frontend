@@ -13,7 +13,7 @@ import Login from "./pages/Login/Login";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Register from "./pages/Register/Register";
 import Loader from "./pages/Verification/Loader";
-import Main from "./pages/Main/Main";
+import Main from "./pages/Tests/Tests";
 import RecoverPassword from "./pages/RecoverPassword/RecoverPassword";
 import About from "./pages/About/About";
 import BasicAxios from "./helpers/axios/index";

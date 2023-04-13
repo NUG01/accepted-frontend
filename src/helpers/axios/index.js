@@ -18,9 +18,9 @@ BasicAxios.defaults.withCredentials = true;
 //   },
 //   function (error) {
 //     if (error.response.status === 401) {
-//       const authStore = useAuthStore();
-//       authStore.authenticated = false;
-//       router.push({name: 'forbidden'});
+//       // const authStore = useAuthStore();
+//       // authStore.authenticated = false;
+//       // router.push({name: 'll'});
 //     }
 //     return Promise.reject(error);
 //   }
