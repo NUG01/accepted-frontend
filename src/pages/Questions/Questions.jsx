@@ -30,10 +30,13 @@ function Questions() {
 
   function setFetchedValues(res) {
     setQuestions(res.data);
-    setCurrent(res.data.find((question) => question.id == params.questionId));
-    const answersParse = JSON.parse(
-      res.data.find((item) => item.id == params.questionId).answers
+    setCurrent(
+      res.data.data.find((question) => question.id == params.questionId)
     );
+    const answersParse = res.data.data.find(
+      (item) => item.id == params.questionId
+    ).answers;
+
     setAnswers(answersParse);
     setRendered(true);
   }
