@@ -14,6 +14,7 @@ function Test() {
       <div
         className="absolute top-0 left-0 translate-x-1/2 translate-y-1/2 cursor-pointer z-50"
         onClick={() => {
+          localStorage.clear();
           navigate("/board/tests");
         }}
       >

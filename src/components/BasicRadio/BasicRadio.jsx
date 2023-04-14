@@ -15,7 +15,11 @@ function BasicRadio(props) {
   useEffect(() => {}, []);
 
   return (
-    <div onClick={answerHandler} className="flex gap-[7px] items-center">
+    <div
+      key={props.keyValue}
+      onClick={answerHandler}
+      className="flex gap-[7px] items-center"
+    >
       <label htmlFor={props.id}>{props.label}</label>
       <input
         defaultChecked={checked ? true : false}
