@@ -52,6 +52,7 @@ function Questions() {
   }, [location]);
 
   if (!questions || !current || !rendered || !answers || !res) return;
+
   return (
     <section className="w-[100vw] min-h-[100vh] relative">
       <Link
@@ -82,7 +83,20 @@ function Questions() {
           })}
         </ul>
         <p className="text-[16px] italic mt-[30px]">{current.question}</p>
+
         <div className="mt-[30px] flex flex-col items-start justify-center gap-[7px]">
+          {current?.extra && (
+            <div className="flex items-center justify-center gap-[40px] font-[600] ml-[20px]">
+              {current.extra.map((item) => {
+                return (
+                  <p key={item} className="text-[16px]">
+                    {item}
+                  </p>
+                );
+              })}
+              <p></p>
+            </div>
+          )}
           {Object.keys(answers).map((key) => (
             <div
               key={`test${params.id}-${params.questionId}-${key}`}
@@ -95,6 +109,7 @@ function Questions() {
                 question_id={params.questionId}
                 value={key}
                 label={String(answers[key])}
+                extra={current.extra ? current.extra : undefined}
                 id={`test${params.id}-${params.questionId}-${key}`}
                 name={`test${params.id}-${params.questionId}`}
               ></BasicRadio>

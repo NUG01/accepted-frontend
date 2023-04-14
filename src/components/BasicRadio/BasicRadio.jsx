@@ -20,7 +20,12 @@ function BasicRadio(props) {
       onClick={answerHandler}
       className="flex gap-[7px] items-center"
     >
-      <label htmlFor={props.id}>{props.label}</label>
+      <label
+        style={props?.extra ? { wordSpacing: "15px" } : undefined}
+        htmlFor={props.id}
+      >
+        {props.label}
+      </label>
       <input
         defaultChecked={checked ? true : false}
         value={props.value}
