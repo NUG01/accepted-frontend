@@ -12,7 +12,7 @@ function Test() {
   return (
     <section className="text-[20px] text-[#000] w-[100vw] min-h-[100vh]">
       <div
-        className="absolute top-0 left-0 translate-x-1/2 translate-y-1/2 cursor-pointer"
+        className="absolute top-0 left-0 translate-x-1/2 translate-y-1/2 cursor-pointer z-50"
         onClick={() => {
           navigate("/board/tests");
         }}
@@ -27,6 +27,7 @@ function Test() {
           ტესტის დაწყება
         </Link>
       )}
+
       <Outlet></Outlet>
     </section>
   );
