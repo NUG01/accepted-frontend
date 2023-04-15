@@ -1,0 +1,18 @@
+.text {
+  animation-duration: 1s;
+  animation-name: appear;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes appear {
+  0% {
+    top: -100%;
+  }
+  90% {
+    top: 0;
+  }
+  100% {
+    top: -5%;
+  }
+}

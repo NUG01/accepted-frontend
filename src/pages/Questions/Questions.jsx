@@ -4,6 +4,8 @@ import BackArrow from "../../assets/icons/BackArrow";
 import NextArrow from "../../assets/icons/NextArrow";
 import BasicRadio from "../../components/BasicRadio/BasicRadio";
 import BasicAxios from "../../helpers/axios";
+import TextIcon from "../../assets/icons/TextIcon";
+import styles from "./Questions.module.scss";
 
 function Questions() {
   const params = useParams();
@@ -13,7 +15,9 @@ function Questions() {
   const [current, setCurrent] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [rendered, setRendered] = useState(false);
+  const [showText, setShowText] = useState(false);
   const [res, setResponse] = useState([]);
+  // if (current.texts) console.log(JSON.parse(current.texts[1]["texts"]));
 
   function pageChange(ev) {
     let url = location.pathname;
@@ -71,6 +75,38 @@ function Questions() {
         >
           <BackArrow></BackArrow>
         </Link>
+      )}
+      {current.category == "text" && (
+        <div
+          onClick={() => setShowText(!showText)}
+          className="absolute top-[50%] left-0 translate-x-[60%] -translate-y-full cursor-pointer"
+        >
+          <TextIcon></TextIcon>
+        </div>
+      )}
+      {showText && (
+        <div
+          className={`${styles.text} pt-[50px] px-[10px] pb-[50px] text-[15px] w-[80%] m-auto min-h-[100vh] absolute left-1/2 -translate-x-1/2`}
+          style={{ backgroundColor: "var(--extra-light-normal-beige)" }}
+        >
+          {Object.keys(
+            JSON.parse(current.texts[params.questionId < 20 ? 0 : 1]["texts"])
+          ).map((key, i) => {
+            return (
+              <div key={key}>
+                <p>
+                  <span className="font-[600]">{key}:</span>{" "}
+                  {
+                    JSON.parse(
+                      current.texts[params.questionId < 20 ? 0 : 1]["texts"]
+                    )[key]
+                  }
+                </p>
+                <br />
+              </div>
+            );
+          })}
+        </div>
       )}
       <div className="pt-[50px] max-w-[80%] m-auto min-h-[100vh]">
         <div className="text-[16px]">
