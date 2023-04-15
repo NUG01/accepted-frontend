@@ -76,6 +76,7 @@ function Questions() {
         <div className="text-[16px]">
           {current.number} . {current.introduction}
         </div>
+        {current.image && <img src={current.image} className="mt-[10px]"></img>}
         <ul className="list-disc mt-[23px] pl-[10px]">
           {current.conditions?.map((item, i) => {
             return (
