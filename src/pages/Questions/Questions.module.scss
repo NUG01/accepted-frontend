@@ -16,3 +16,13 @@
     top: -5%;
   }
 }
+
+.navgrid {
+  display: grid;
+  position: absolute;
+  gap: 4.5px;
+  right: 1.6%;
+  top: 50%;
+  transform: translateY(-50%);
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}

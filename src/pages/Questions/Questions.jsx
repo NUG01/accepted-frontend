@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useParams,
+  NavLink,
+} from "react-router-dom";
 import BackArrow from "../../assets/icons/BackArrow";
 import NextArrow from "../../assets/icons/NextArrow";
 import BasicRadio from "../../components/BasicRadio/BasicRadio";
@@ -17,10 +23,12 @@ function Questions() {
   const [answers, setAnswers] = useState([]);
   const [rendered, setRendered] = useState(false);
   const [showText, setShowText] = useState(false);
+  const [showNavigation, setShowNavigation] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [requestInProcess, setRequestInProcess] = useState(false);
   const [res, setResponse] = useState([]);
   // if (current.texts) console.log(JSON.parse(current.texts[1]["texts"]));
+  console.log(questions);
 
   function pageChange(ev) {
     let url = location.pathname;
@@ -95,23 +103,45 @@ function Questions() {
 
   return (
     <section className="w-[100vw] min-h-[100vh] relative">
-      <div
-        onClick={testHandler}
-        className={`absolute right-0 top-0 -translate-x-[40%]`}
-      >
-        <BasicButton
-          disabled={buttonDisabled}
-          spinner={requestInProcess}
-          type="button"
-        >
-          <p>დასრულება</p>
-        </BasicButton>
-      </div>
+      {showNavigation && (
+        <div className={`${styles.navgrid} z-50`}>
+          {questions.data.map((item) => {
+            return (
+              <NavLink
+                key={item.id}
+                to={`/board/tests/${params.id}/page/${item.id}`}
+                style={{
+                  fontSize: "15px",
+                  border: "1px solid #000",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "1.6px",
+                }}
+              >
+                {item.id}
+              </NavLink>
+            );
+          })}
+        </div>
+      )}
       <Link
         to={pageChange("next")}
         className="absolute right-0 bottom-0 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
       >
-        <NextArrow></NextArrow>
+        {questions.data.length != params.questionId && <NextArrow></NextArrow>}
+        {questions.data.length == params.questionId && (
+          <div onClick={testHandler}>
+            <BasicButton
+              style="px-[12px] py-[8px]"
+              disabled={buttonDisabled}
+              spinner={requestInProcess}
+              type="button"
+            >
+              <p>დასრულება</p>
+            </BasicButton>
+          </div>
+        )}
       </Link>
       {params.questionId > 1 && (
         <Link

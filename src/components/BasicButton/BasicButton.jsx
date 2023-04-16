@@ -7,7 +7,7 @@ function BasicButton(props) {
     <div style={{ position: "relative" }}>
       <button
         disabled={props.disabled}
-        className={styles.button}
+        className={`${styles.button} ${props.style ? props.style : undefined}`}
         type={props.type}
       >
         {props.children}

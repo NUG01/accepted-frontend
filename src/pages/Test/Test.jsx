@@ -4,6 +4,7 @@ import React from "react";
 import checkAuth from "../../guards/checkAuth";
 import HomeIcon from "../../assets/icons/HomeIcon";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import BasicButton from "../../components/BasicButton/BasicButton";
 
 function Test() {
   const location = useLocation();
@@ -25,7 +26,9 @@ function Test() {
           to="page/1"
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20px] text-[#000] cursor-pointer"
         >
-          ტესტის დაწყება
+          <BasicButton style="px-[12px] py-[8px] mt-0">
+            ტესტის დაწყება
+          </BasicButton>
         </Link>
       )}
 
