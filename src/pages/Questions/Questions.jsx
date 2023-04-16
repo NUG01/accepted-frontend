@@ -13,6 +13,7 @@ import BasicAxios from "../../helpers/axios";
 import TextIcon from "../../assets/icons/TextIcon";
 import styles from "./Questions.module.scss";
 import BasicButton from "../../components/BasicButton/BasicButton";
+import PapersIcon from "../../assets/icons/PapersIcon";
 
 function Questions() {
   const params = useParams();
@@ -45,6 +46,7 @@ function Questions() {
 
   function setFetchedValues(res) {
     setQuestions(res.data);
+    // console.log(res.data);
     setCurrent(
       res.data.data.find((question) => question.id == params.questionId)
     );
@@ -91,23 +93,30 @@ function Questions() {
     BasicAxios.post("store-result", {
       test_type_id: params.id,
       score: correct,
+      max: questions.data.length,
       incorrect: incorrect,
     }).then((res) => {
-      console.log(res);
+      localStorage.clear();
+      navigate(`/board/tests/${params.id}/result/${res.data.id}`);
     });
-    console.log(correct);
-    console.log(incorrect);
   }
 
   if (!questions || !current || !rendered || !answers || !res) return;
 
   return (
     <section className="w-[100vw] min-h-[100vh] relative">
+      <div
+        onClick={() => setShowNavigation(!showNavigation)}
+        className="absolute top-0 right-0 -translate-x-1/2 translate-y-1/2 z-50 cursor-pointer"
+      >
+        <PapersIcon />
+      </div>
       {showNavigation && (
         <div className={`${styles.navgrid} z-50`}>
           {questions.data.map((item) => {
             return (
               <NavLink
+                className={({ isActive }) => (isActive ? "bg-gray-200" : "")}
                 key={item.id}
                 to={`/board/tests/${params.id}/page/${item.id}`}
                 style={{
@@ -126,7 +135,11 @@ function Questions() {
         </div>
       )}
       <Link
-        to={pageChange("next")}
+        to={
+          questions.data.length != params.questionId
+            ? pageChange("next")
+            : undefined
+        }
         className="absolute right-0 bottom-0 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
       >
         {questions.data.length != params.questionId && <NextArrow></NextArrow>}

@@ -7,21 +7,9 @@ import checkAuth from "../../guards/checkAuth";
 import BasicAxios from "../../helpers/axios";
 import { useEffect, useState } from "react";
 import Spinner from "../../components/Spinner/Spinner";
+import UncheckedCircle from "../../assets/icons/UncheckedCircle";
+import CheckedCircle from "../../assets/icons/CheckedCircle";
 import { Link, useLocation } from "react-router-dom";
-// const tests = [
-//   {
-//     applicant: {
-//       name: "Ricardo Cooper",
-//       email: "ricardo.cooper@example.com",
-//       imageUrl:
-//         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-//     },
-//     date: "2020-01-07",
-//     dateFull: "January 7, 2020",
-//     stage: "Completed phone screening",
-//     href: "#",
-//   },
-// ];
 
 function Tests() {
   const location = useLocation();
@@ -30,11 +18,9 @@ function Tests() {
   useEffect(() => {
     async function fetch() {
       const res = await BasicAxios.get("test-types");
-      const resp = await BasicAxios.get("tests/1");
+      // const resp = await BasicAxios.get("tests/1");
       setTests(res.data.data);
-      console.log(res.data.data);
       setDataIsFetched(true);
-      // console.log(resp);
     }
     fetch();
   }, []);
@@ -66,7 +52,7 @@ function Tests() {
                             {test.name == "general" && "ზოგადი უნარები"}
                           </p>
                           <p className="mt-2 flex items-center text-sm text-gray-500">
-                            <CheckCircleIcon
+                            <CheckedCircle
                               className="mr-1.5 h-5 w-5 flex-shrink-0 text-green-400"
                               aria-hidden="true"
                             />

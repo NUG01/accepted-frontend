@@ -16,6 +16,7 @@ import { authActions } from "./store/auth";
 import Loading from "./pages/Loading/Loading";
 import Test from "./pages/Test/Test";
 import Questions from "./pages/Questions/Questions";
+import Result from "./pages/Result/Result";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -102,6 +103,10 @@ function App() {
         <Route
           path="page/:questionId"
           element={<Questions data={authStatus} dataIsFetched={rendered} />}
+        ></Route>
+        <Route
+          path="result/:resultId"
+          element={<Result data={authStatus} dataIsFetched={rendered} />}
         ></Route>
       </Route>
 
