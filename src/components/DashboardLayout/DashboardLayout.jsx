@@ -42,18 +42,23 @@ function Dashboard() {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const pathMath = (path) => {
-    if (window.location.toString().includes(path)) return true;
+  const pathMath = (path, notPath) => {
+    if (
+      window.location.toString().includes(path) &&
+      !window.location.toString().includes(notPath)
+    ) {
+      return true;
+    }
     return false;
   };
 
   const navigation = [
+    { name: "დერეფანი", href: "/board", current: pathMath("board", "tests") },
     {
       name: "ტესტები",
       href: "tests",
       current: pathMath("board/tests"),
     },
-    { name: "Team", href: "#", current: false },
     { name: "Projects", href: "#", current: false },
     { name: "Calendar", href: "#", current: false },
     { name: "Reports", href: "#", current: false },

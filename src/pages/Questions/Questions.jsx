@@ -46,7 +46,6 @@ function Questions() {
 
   function setFetchedValues(res) {
     setQuestions(res.data);
-    // console.log(res.data);
     setCurrent(
       res.data.data.find((question) => question.id == params.questionId)
     );
