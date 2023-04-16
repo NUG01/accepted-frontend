@@ -6,6 +6,7 @@ import BasicRadio from "../../components/BasicRadio/BasicRadio";
 import BasicAxios from "../../helpers/axios";
 import TextIcon from "../../assets/icons/TextIcon";
 import styles from "./Questions.module.scss";
+import BasicButton from "../../components/BasicButton/BasicButton";
 
 function Questions() {
   const params = useParams();
@@ -16,6 +17,8 @@ function Questions() {
   const [answers, setAnswers] = useState([]);
   const [rendered, setRendered] = useState(false);
   const [showText, setShowText] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [requestInProcess, setRequestInProcess] = useState(false);
   const [res, setResponse] = useState([]);
   // if (current.texts) console.log(JSON.parse(current.texts[1]["texts"]));
 
@@ -58,10 +61,52 @@ function Questions() {
     }
   }, [location]);
 
+  function testHandler() {
+    let correct = 0;
+    let incorrect = [];
+    for (let index = 0; index < questions.data.length; index++) {
+      if (
+        questions.data[index].correct ==
+        localStorage.getItem(`test${params.id}-${questions.data[index].id}`)
+      ) {
+        correct++;
+      } else {
+        let obj = {};
+        const storageValue = localStorage.getItem(
+          `test${params.id}-${questions.data[index].id}`
+        );
+        if (storageValue) {
+          (obj[questions.data[index].id] = storageValue), incorrect.push(obj);
+        }
+      }
+    }
+    BasicAxios.post("store-result", {
+      test_type_id: params.id,
+      score: correct,
+      incorrect: incorrect,
+    }).then((res) => {
+      console.log(res);
+    });
+    console.log(correct);
+    console.log(incorrect);
+  }
+
   if (!questions || !current || !rendered || !answers || !res) return;
 
   return (
     <section className="w-[100vw] min-h-[100vh] relative">
+      <div
+        onClick={testHandler}
+        className={`absolute right-0 top-0 -translate-x-[40%]`}
+      >
+        <BasicButton
+          disabled={buttonDisabled}
+          spinner={requestInProcess}
+          type="button"
+        >
+          <p>დასრულება</p>
+        </BasicButton>
+      </div>
       <Link
         to={pageChange("next")}
         className="absolute right-0 bottom-0 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
