@@ -59,9 +59,9 @@ function Dashboard() {
       href: "tests",
       current: pathMath("board/tests"),
     },
-    { name: "Projects", href: "#", current: false },
-    { name: "Calendar", href: "#", current: false },
-    { name: "Reports", href: "#", current: false },
+    // { name: "Projects", href: "#", current: false },
+    // { name: "Calendar", href: "#", current: false },
+    // { name: "Reports", href: "#", current: false },
   ];
 
   const dispatch = useDispatch();

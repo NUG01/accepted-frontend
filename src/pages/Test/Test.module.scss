@@ -13,3 +13,9 @@
   grid-template-columns: 1fr 1fr 1fr;
   gap: 8px;
 }
+
+.incorrectHistoryGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 4px;
+}

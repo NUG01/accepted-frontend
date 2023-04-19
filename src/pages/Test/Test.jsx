@@ -21,15 +21,25 @@ function Test() {
 
   const [fetched, setFetched] = useState(false);
   const [results, setResults] = useState(false);
+  const [showIncorrectHistory, setShowIncorrectHistory] = useState(null);
 
   const params = useParams();
   const dateOptions = { month: "numeric", day: "numeric", year: "2-digit" };
+
+  function showIncorrect(id) {
+    console.log(showIncorrectHistory, id);
+    if (document.getElementById("show-" + id)) {
+      setShowIncorrectHistory(null);
+      return null;
+    }
+    setShowIncorrectHistory(id);
+    return id;
+  }
 
   useEffect(() => {
     async function fetch() {
       const res = await BasicAxios.get("user-tests/results/" + params.id);
       setResults(res.data);
-      console.log(res);
     }
     fetch();
     setFetched(true);
@@ -66,17 +76,49 @@ function Test() {
                 {results.map((item, i) => {
                   return (
                     <div key={i}>
-                      <div className={styles.resultContainer}>
-                        <div>{item.score}/50</div>
+                      <div
+                        className={`${styles.resultContainer} ${
+                          showIncorrectHistory == item.id
+                            ? "bg-gray-200"
+                            : undefined
+                        }`}
+                      >
+                        <div>
+                          {item.score}/{item.max}
+                        </div>
                         <div>
                           {new Date(item.created_at).toLocaleDateString(
                             undefined,
                             dateOptions
                           )}
                         </div>
-                        <div className="cursor-pointer">
+                        <div
+                          className="cursor-pointer"
+                          onClick={() => showIncorrect(item.id)}
+                        >
                           <DetailsIcon></DetailsIcon>
                         </div>
+                        {showIncorrectHistory == item.id && (
+                          <div
+                            id={`show-${item.id}`}
+                            className={`absolute right-[30px] top-[20px] z-50 ${styles.incorrectHistoryGrid}`}
+                          >
+                            {item.incorrect.map((object) => {
+                              return Object.keys(object).map((key, index) => {
+                                return (
+                                  <span
+                                    id={item.id}
+                                    style={{ border: "1px solid #000" }}
+                                    className="text-[14px] p-[3px]"
+                                    key={index}
+                                  >
+                                    {key}: {object[key]}
+                                  </span>
+                                );
+                              });
+                            })}
+                          </div>
+                        )}
                       </div>
                     </div>
                   );

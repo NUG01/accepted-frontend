@@ -30,7 +30,9 @@ function Result() {
           <span>/</span>
           {max}
         </p>
-        <p className="text-[20px] text-center mb-[7px]">არასწორი პასუხები</p>
+        {incorrect.length > 0 && (
+          <p className="text-[20px] text-center mb-[7px]">არასწორი პასუხები</p>
+        )}
       </div>
       {incorrect && (
         <div className={styles.grid}>
