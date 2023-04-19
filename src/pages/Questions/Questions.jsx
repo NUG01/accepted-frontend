@@ -23,6 +23,8 @@ function Questions() {
   const [requestInProcess, setRequestInProcess] = useState(false);
   const [res, setResponse] = useState([]);
 
+  console.log(current);
+
   function setFetchedValues(res) {
     setQuestions(res.data);
     setCurrent(
@@ -66,15 +68,14 @@ function Questions() {
         questionData={questions.data}
       />
       {params.questionId > 1 && <PreviousArrow />}
-      {current.category == "text" ||
-        (current.category == "analysis" && (
-          <div
-            onClick={() => setShowText(!showText)}
-            className="absolute top-[50%] left-0 translate-x-[60%] -translate-y-full cursor-pointer"
-          >
-            <TextIcon></TextIcon>
-          </div>
-        ))}
+      {(current.category == "text" || current.category == "analysis") && (
+        <div
+          onClick={() => setShowText(!showText)}
+          className="absolute top-[50%] left-0 translate-x-[60%] -translate-y-full cursor-pointer"
+        >
+          <TextIcon></TextIcon>
+        </div>
+      )}
       {showText && (
         <div
           className={`${styles.text} pt-[50px] px-[10px] pb-[50px] text-[15px] w-[80%] m-auto min-h-[100vh] absolute left-1/2 -translate-x-1/2`}
@@ -83,7 +84,7 @@ function Questions() {
           {Object.keys(
             JSON.parse(
               current.category == "text"
-                ? current.texts[params.questionId < 20 ? 0 : 1]
+                ? current.texts[params.questionId < 20 ? 0 : 1]["texts"]
                 : current.texts[params.questionId < 60 ? 2 : 3]["texts"]
             )
           ).map((key, i) => {
@@ -93,14 +94,16 @@ function Questions() {
                   <span className="font-[600]">
                     {key}
                     {current.category == "text" ? ":" : ""}
-                  </span>{" "}
+                  </span>
                   {
                     // JSON.parse(
-                    //   current.texts[params.questionId < 20 ? 0 : 1]["texts"]
+                    //   current.texts[params.questionId < 20 ? 0 : 1]["texts"][
+                    //     key
+                    //   ]
                     // )
                     JSON.parse(
                       current.category == "text"
-                        ? current.texts[params.questionId < 20 ? 0 : 1]
+                        ? current.texts[params.questionId < 20 ? 0 : 1]["texts"]
                         : current.texts[params.questionId < 60 ? 2 : 3]["texts"]
                     )[key]
                   }

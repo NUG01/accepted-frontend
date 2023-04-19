@@ -8,8 +8,6 @@ function TestNavigation({ questionData }) {
     <div className={`${styles.navgrid} z-50`}>
       {questionData.map((item) => {
         return (
-          // <div>
-
           <NavLink
             className={({ isActive }) => (isActive ? "bg-gray-200" : "")}
             key={item.id}
@@ -25,7 +23,6 @@ function TestNavigation({ questionData }) {
           >
             {item.id}
           </NavLink>
-          // </div>
         );
       })}
     </div>
