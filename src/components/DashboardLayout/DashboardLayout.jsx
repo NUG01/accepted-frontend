@@ -65,8 +65,7 @@ function Dashboard() {
   ];
 
   const dispatch = useDispatch();
-  function useNavigationHandler(ev) {
-    if (!ev.target.id === "Sign out") return;
+  function logoutHandler() {
     BasicAxios.post("logout").then((res) => {
       dispatch(authActions.setUser(null));
       dispatch(authActions.setIsLoggedIn(false));
@@ -149,23 +148,19 @@ function Dashboard() {
                           leaveTo="transform opacity-0 scale-95"
                         >
                           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            {userNavigation.map((item) => (
-                              <Menu.Item key={item.name}>
-                                {({ active }) => (
-                                  <button
-                                    // href={item.href}
-                                    onClick={useNavigationHandler}
-                                    id={item.name}
-                                    className={classNames(
-                                      active ? "bg-gray-100" : "",
-                                      "block px-4 py-2 text-sm text-gray-700 w-[100%] text-start"
-                                    )}
-                                  >
-                                    {item.name}
-                                  </button>
-                                )}
-                              </Menu.Item>
-                            ))}
+                            <Link
+                              to="/board/profile"
+                              className="block px-4 py-2 text-sm text-gray-700 w-[100%] text-start hover:bg-gray-100"
+                            >
+                              Profile
+                            </Link>
+                            <button
+                              onClick={logoutHandler}
+                              id="logout"
+                              className="block px-4 py-2 text-sm text-gray-700 w-[100%] text-start hover:bg-gray-100"
+                            >
+                              Sign out
+                            </button>
                           </Menu.Items>
                         </Transition>
                       </Menu>
@@ -236,17 +231,19 @@ function Dashboard() {
                     </button>
                   </div>
                   <div className="mt-3 space-y-1 px-2">
-                    {userNavigation.map((item) => (
-                      <Disclosure.Button
-                        key={item.name}
-                        as="a"
-                        id={item.name}
-                        href={item.href}
-                        className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                      >
-                        {item.name}
-                      </Disclosure.Button>
-                    ))}
+                    <Link
+                      to="/board/profile"
+                      className="block px-4 py-2 text-sm text-gray-700 w-[100%] text-start hover:bg-gray-100"
+                    >
+                      Profile
+                    </Link>
+                    <button
+                      onClick={logoutHandler}
+                      id="logout"
+                      className="block px-4 py-2 text-sm text-gray-700 w-[100%] text-start hover:bg-gray-100"
+                    >
+                      Sign out
+                    </button>
                   </div>
                 </div>
               </Disclosure.Panel>

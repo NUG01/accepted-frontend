@@ -75,7 +75,7 @@ function Register() {
       emailValue.match(emailRegex) &&
       passwordValue.match(passwordRegex) &&
       passwordConfirmValue == passwordValue &&
-      (checkboxValue == " 1" || checkboxValue == "2" || checkboxValue == "3")
+      (checkboxValue == "1" || checkboxValue == "2" || checkboxValue == "3")
     ) {
       return true;
     }
