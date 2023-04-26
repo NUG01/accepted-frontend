@@ -6,9 +6,14 @@
 }
 
 .form {
+  border-radius: 7px;
   background-color: var(--light-soft-gray);
   width: 80%;
   display: flex;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 

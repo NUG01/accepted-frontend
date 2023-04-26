@@ -1,17 +1,57 @@
 import { useState, useEffect } from "react";
 import styles from "./Profile.module.scss";
 import { useSelector } from "react-redux";
+import { useFormik } from "formik";
+
+const validate = (values) => {
+  const errors = {};
+  const regexGeorgian = /^[ა-ჰ]{2,16}$/;
+
+  if (!values.name) {
+    errors.name = "სახელი აუცილებელია";
+  } else if (!values.name.match(regexGeorgian)) {
+    errors.name = "უნდა შედგებოდეს მხოლოდ ქართული სიმბოლოებისაგან";
+  }
+
+  if (!values.surname) {
+    errors.surname = "სახელი აუცილებელია";
+  } else if (!values.surname.match(regexGeorgian)) {
+    errors.surname = "უნდა შედგებოდეს მხოლოდ ქართული სიმბოლოებისაგან";
+  }
+
+  // if (!values.email) {
+  //   errors.email = "Required";
+  // } else if (
+  //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+  // ) {
+  //   errors.email = "Invalid email address";
+  // }
+
+  return errors;
+};
 
 function Profile() {
   const user = useSelector((state) => state.auth.user);
   const [image, setImage] = useState((state) => user.image);
-  const [preview, setPreview] = useState("");
-  function profileUpdateHandler(ev) {
-    ev.preventDefault();
-  }
+  const [imageValue, setImageValue] = useState(null);
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      surname: "",
+    },
+    validate,
+
+    onSubmit: ({ name, surname }) => {
+      const form = new FormData();
+      form.append("image", imageValue);
+      alert(JSON.stringify({ name, surname }, null, 2));
+    },
+  });
 
   function imageHandler(ev) {
     const file = ev.target.files[0];
+    setImageValue(file);
     setImage(file);
 
     let reader = new FileReader();
@@ -24,7 +64,7 @@ function Profile() {
 
   return (
     <section className={styles.section}>
-      <form onSubmit={profileUpdateHandler} className={styles.form}>
+      <form onSubmit={formik.handleSubmit} className={styles.form}>
         <div className={styles.imageContainer}>
           <div>
             <img
@@ -42,10 +82,37 @@ function Profile() {
             id="image"
           />
         </div>
-        <button className="cursor-pointer"></button>
+        <div>
+          <label htmlFor="name">სახელი</label>
+
+          <input
+            id="name"
+            name="name"
+            type="text"
+            {...formik.getFieldProps("name")}
+          />
+        </div>
+        {formik.touched.name && formik.errors.name ? (
+          <div>{formik.errors.name}</div>
+        ) : null}
+        <div>
+          <label htmlFor="surname">გვარი</label>
+
+          <input
+            id="surname"
+            name="surname"
+            type="text"
+            {...formik.getFieldProps("surname")}
+          />
+          {formik.touched.surname && formik.errors.surname ? (
+            <div>{formik.errors.surname}</div>
+          ) : null}
+        </div>
+        <button type="submit" className="cursor-pointer w-[4rem]">
+          wow
+        </button>
       </form>
     </section>
   );
 }
-
 export default Profile;
