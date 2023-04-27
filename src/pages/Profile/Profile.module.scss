@@ -16,6 +16,7 @@
   align-items: center;
   justify-content: center;
   gap: 20px;
+  padding-bottom: 5%;
 }
 
 .imageContainer {
@@ -86,6 +87,10 @@
   padding: 7px 5px;
   color: var(--dark-gray);
   font-size: 15px;
+  outline: 0.7px solid var(--light-ocean-blue);
+}
+.input.errorPresent {
+  outline: 1px solid rgb(239 68 68);
 }
 .input:focus {
   outline: none;

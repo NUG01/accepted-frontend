@@ -5,6 +5,8 @@ import checkAuth from "../../guards/checkAuth";
 import BasicAxios from "../../helpers/axios/index";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../store/auth";
+import { useSelector } from "react-redux";
+import styles from "./DashboardLayout.module.scss";
 import {
   Bars3Icon,
   BellIcon,
@@ -22,12 +24,7 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
 import { Disclosure } from "@headlessui/react";
-const user = {
-  name: "Tom Cook",
-  email: "tom@example.com",
-  imageUrl:
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-};
+
 const userNavigation = [
   { name: "Your Profile", href: "#" },
   { name: "Settings", href: "#" },
@@ -41,6 +38,7 @@ function classNames(...classes) {
 function Dashboard() {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const user = useSelector((state) => state.auth.user);
 
   const pathMath = (path, notPath) => {
     if (
@@ -72,6 +70,7 @@ function Dashboard() {
       window.location.reload();
     });
   }
+
   return (
     <>
       {/*
@@ -132,8 +131,8 @@ function Dashboard() {
                           <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                             <span className="sr-only">Open user menu</span>
                             <img
-                              className="h-8 w-8 rounded-full"
-                              src={user.imageUrl}
+                              className={`${styles.imageSrc} w-8 h-8 rounded-full`}
+                              src={import.meta.env.VITE_IMAGE_URL + user.image}
                               alt=""
                             />
                           </Menu.Button>
@@ -209,9 +208,9 @@ function Dashboard() {
                   <div className="flex items-center px-5">
                     <div className="flex-shrink-0">
                       <img
-                        className="h-10 w-10 rounded-full"
-                        src={user.imageUrl}
-                        alt=""
+                        className={`${styles.imageSrc} w-8 h-8 rounded-full`}
+                        src={import.meta.env.VITE_IMAGE_URL + user.image}
+                        alt="Profile picture"
                       />
                     </div>
                     <div className="ml-3">

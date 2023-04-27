@@ -13,11 +13,11 @@
   margin-top: 10px;
   width: 100%;
   &:hover {
-    outline: 1.5px solid var(--etxra-dark-ocean-blue);
+    outline: 1.5px solid var(--etxra-dark-ocean-blue) !important;
   }
   &:focus,
   &:focus-visible {
-    outline: 1.5px solid var(--etxra-dark-ocean-blue);
+    outline: 1.5px solid var(--etxra-dark-ocean-blue) !important;
   }
   &:disabled {
     pointer-events: none;

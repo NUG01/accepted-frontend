@@ -7,6 +7,13 @@ function BasicButton(props) {
     <div style={{ position: "relative" }}>
       <button
         disabled={props.disabled}
+        style={
+          props.style == "dark-outline"
+            ? {
+                outline: "1.5px solid var(--ocean-blue)",
+              }
+            : undefined
+        }
         className={`${styles.button} ${props.style ? props.style : undefined}`}
         type={props.type}
       >
