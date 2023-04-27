@@ -82,30 +82,34 @@ function Profile() {
             id="image"
           />
         </div>
-        <div>
+        <div className={styles.inputContainer}>
           <label htmlFor="name">სახელი</label>
 
           <input
+            className={styles.input}
             id="name"
             name="name"
             type="text"
+            placeholder={user.name}
             {...formik.getFieldProps("name")}
           />
+          {formik.touched.name && formik.errors.name ? (
+            <div className={styles.error}>{formik.errors.name}</div>
+          ) : null}
         </div>
-        {formik.touched.name && formik.errors.name ? (
-          <div>{formik.errors.name}</div>
-        ) : null}
-        <div>
+        <div className={styles.inputContainer}>
           <label htmlFor="surname">გვარი</label>
 
           <input
+            className={styles.input}
             id="surname"
             name="surname"
             type="text"
+            placeholder={user.surname}
             {...formik.getFieldProps("surname")}
           />
           {formik.touched.surname && formik.errors.surname ? (
-            <div>{formik.errors.surname}</div>
+            <div className={styles.error}>{formik.errors.surname}</div>
           ) : null}
         </div>
         <button type="submit" className="cursor-pointer w-[4rem]">
