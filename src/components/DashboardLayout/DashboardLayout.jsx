@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { Outlet, Link, useLocation, matchPath } from "react-router-dom";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import checkAuth from "../../guards/checkAuth";
@@ -73,14 +73,6 @@ function Dashboard() {
 
   return (
     <>
-      {/*
-          This example requires updating your template:
-  
-          ```
-          <html class="h-full bg-gray-100">
-          <body class="h-full">
-          ```
-        */}
       <div className="min-h-full">
         <Disclosure as="nav" className="bg-gray-800">
           {({ open }) => (

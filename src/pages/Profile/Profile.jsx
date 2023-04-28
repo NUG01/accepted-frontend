@@ -7,8 +7,14 @@ import { validation } from "./FormComponents/Rules";
 import BasicButton from "../../components/BasicButton/BasicButton";
 import BasicAxios from "../../helpers/axios/index";
 import MediaAxios from "../../helpers/axios/MediaAxios";
+import SuccessIcon from "../../assets/icons/SuccessIcon";
+import SuccessMessage from "../../components/SuccessMessage/SuccessMessage";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/auth";
 
 function Profile() {
+  const dispatch = useDispatch();
+
   const user = useSelector((state) => state.auth.user);
   const [image, setImage] = useState((state) => user.image);
   const [imageValue, setImageValue] = useState(null);
@@ -16,6 +22,9 @@ function Profile() {
   const [surnameError, setSurnameError] = useState(false);
   const [requestInProcess, setRequestInProccess] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [requestFailure, setRequestFailure] = useState(false);
+  const [requestSuccess, setRequestSuccess] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const validate = (values) =>
     validation(values, setNameError, setSurnameError);
@@ -30,16 +39,27 @@ function Profile() {
     onSubmit: ({ name, surname }) => {
       setRequestInProccess(true);
       setButtonDisabled(true);
+      setRequestSuccess(false);
+      setRequestFailure(false);
+      setErrors([]);
       const form = new FormData();
       if (imageValue) form.append("image", imageValue);
       form.append("name", name);
       form.append("surname", surname);
       MediaAxios.post("user/profile-update/" + user.id, form)
         .then((res) => {
-          console.log(res);
+          setRequestSuccess(true);
+          setTimeout(() => {
+            setRequestSuccess(false);
+          }, 3600);
         })
         .catch((err) => {
-          console.log(err);
+          setRequestFailure(true);
+          setErrors(err.response.data.errors);
+        })
+        .finally(() => {
+          setRequestInProccess(false);
+          setButtonDisabled(false);
         });
       setButtonDisabled(false);
       setRequestInProccess(false);
@@ -98,6 +118,18 @@ function Profile() {
           errors={formik.errors.surname}
           touched={formik.touched.surname}
         />
+        {requestFailure && errors.length != 0 && (
+          <div>
+            {Object.keys(errors).map((error) => (
+              <p className={`text-center ${styles.error}`} key={error}>
+                {errors[error]}
+              </p>
+            ))}
+          </div>
+        )}
+        {requestSuccess && (
+          <SuccessMessage>პროფილი განახლებულია</SuccessMessage>
+        )}
         <BasicButton
           disabled={buttonDisabled}
           spinner={requestInProcess}
