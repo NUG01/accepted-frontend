@@ -34,6 +34,10 @@ function Profile() {
   const [errors, setErrors] = useState([]);
   const [passwordErrors, setPasswordErrors] = useState([]);
 
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+
   const validate = (values) =>
     validation(values, setNameError, setSurnameError);
 
@@ -210,28 +214,34 @@ function Profile() {
           name="current_password"
           label="პაროლი"
           value={passwordFormik.initialValues.current_password}
-          type="password"
+          type={showCurrentPassword ? "text" : "password"}
           formik={passwordFormik}
           errors={passwordFormik.errors.current_password}
           touched={passwordFormik.touched.current_password}
+          showPassword={showCurrentPassword}
+          toggleState={() => setShowCurrentPassword(!showCurrentPassword)}
         />
         <PasswordFormikInput
           name="password_confirmation"
           label="პაროლის გამეორება"
           value={passwordFormik.initialValues.password_confirmation}
-          type="password"
+          type={showConfirmPassword ? "text" : "password"}
           formik={passwordFormik}
           errors={passwordFormik.errors.password_confirmation}
           touched={passwordFormik.touched.password_confirmation}
+          showPassword={showConfirmPassword}
+          toggleState={() => setShowConfirmPassword(!showConfirmPassword)}
         />
         <PasswordFormikInput
           name="new_password"
           label="ახალი პაროლი"
           value={passwordFormik.initialValues.new_password}
-          type="password"
+          type={showNewPassword ? "text" : "password"}
           formik={passwordFormik}
           errors={passwordFormik.errors.new_password}
           touched={passwordFormik.touched.new_password}
+          showPassword={showNewPassword}
+          toggleState={() => setShowNewPassword(!showNewPassword)}
         />
         {passwordRequestFailure && passwordErrors.length != 0 && (
           <div>
