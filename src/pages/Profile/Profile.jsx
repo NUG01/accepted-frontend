@@ -11,6 +11,8 @@ import SuccessIcon from "../../assets/icons/SuccessIcon";
 import SuccessMessage from "../../components/SuccessMessage/SuccessMessage";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../store/auth";
+import PasswordFormikInput from "./FormComponents/PasswordFormikInput";
+import * as Yup from "yup";
 
 function Profile() {
   const dispatch = useDispatch();
@@ -21,10 +23,16 @@ function Profile() {
   const [nameError, setNameError] = useState(false);
   const [surnameError, setSurnameError] = useState(false);
   const [requestInProcess, setRequestInProccess] = useState(false);
+  const [passwordRequestInProcess, setPasswordRequestInProcess] =
+    useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [passwordButtonDisabled, setPasswordButtonDisabled] = useState(false);
   const [requestFailure, setRequestFailure] = useState(false);
+  const [passwordRequestFailure, setPasswordRequestFailure] = useState(false);
   const [requestSuccess, setRequestSuccess] = useState(false);
+  const [passwordRequestSuccess, setPasswordRequestSuccess] = useState(false);
   const [errors, setErrors] = useState([]);
+  const [passwordErrors, setPasswordErrors] = useState([]);
 
   const validate = (values) =>
     validation(values, setNameError, setSurnameError);
@@ -63,6 +71,55 @@ function Profile() {
         });
       setButtonDisabled(false);
       setRequestInProccess(false);
+    },
+  });
+
+  const passwordFormik = useFormik({
+    initialValues: {
+      current_password: "",
+      password_confirmation: "",
+      new_password: "",
+    },
+    validationSchema: Yup.object({
+      current_password: Yup.string()
+
+        .min(8, "უნდა შეცავდეს მინიმუმ 8 სიმბოლოს")
+
+        .required("პაროლი აუცილებელია"),
+
+      password_confirmation: Yup.string()
+
+        .oneOf([Yup.ref("current_password")], "პაროლები არ ემთხვევა")
+
+        .required("პაროლის გამეორება აუცილებელია"),
+
+      new_password: Yup.string()
+        .min(8, "უნდა შეცავდეს მინიმუმ 8 სიმბოლოს")
+
+        .required("ახალი პაროლი აუცილებელია"),
+    }),
+
+    onSubmit: ({ current_password, password_confirmation, new_password }) => {
+      setPasswordRequestInProcess(true);
+      MediaAxios.post("user/password-update", {
+        current_password,
+        password_confirmation,
+        new_password,
+      })
+        .then((res) => {
+          setPasswordRequestSuccess(true);
+          setTimeout(() => {
+            setPasswordRequestSuccess(false);
+          }, 3600);
+        })
+        .catch((err) => {
+          setPasswordRequestFailure(true);
+          setPasswordErrors(err.response.data.errors);
+        })
+        .finally(() => {
+          setPasswordButtonDisabled(false);
+          setPasswordRequestInProcess(false);
+        });
     },
   });
 
@@ -141,6 +198,64 @@ function Profile() {
             className={requestInProcess ? styles.opacityDecrease : ""}
           >
             დადასტურება
+          </p>
+        </BasicButton>
+      </form>
+
+      <form
+        onSubmit={passwordFormik.handleSubmit}
+        className={`${styles.form} ${styles.passwordForm}`}
+      >
+        <PasswordFormikInput
+          name="current_password"
+          label="პაროლი"
+          value={passwordFormik.initialValues.current_password}
+          type="password"
+          formik={passwordFormik}
+          errors={passwordFormik.errors.current_password}
+          touched={passwordFormik.touched.current_password}
+        />
+        <PasswordFormikInput
+          name="password_confirmation"
+          label="პაროლის გამეორება"
+          value={passwordFormik.initialValues.password_confirmation}
+          type="password"
+          formik={passwordFormik}
+          errors={passwordFormik.errors.password_confirmation}
+          touched={passwordFormik.touched.password_confirmation}
+        />
+        <PasswordFormikInput
+          name="new_password"
+          label="ახალი პაროლი"
+          value={passwordFormik.initialValues.new_password}
+          type="password"
+          formik={passwordFormik}
+          errors={passwordFormik.errors.new_password}
+          touched={passwordFormik.touched.new_password}
+        />
+        {passwordRequestFailure && passwordErrors.length != 0 && (
+          <div>
+            {Object.keys(passwordErrors).map((error) => (
+              <p className={`text-center ${styles.error}`} key={error}>
+                {passwordErrors[error]}
+              </p>
+            ))}
+          </div>
+        )}
+        {passwordRequestSuccess && (
+          <SuccessMessage>პაროლი განახლებულია</SuccessMessage>
+        )}
+        <BasicButton
+          disabled={passwordButtonDisabled}
+          spinner={passwordRequestInProcess}
+          type="submit"
+          style="dark-outline"
+        >
+          <p
+            style={{ padding: "2px 12px" }}
+            className={passwordRequestInProcess ? styles.opacityDecrease : ""}
+          >
+            განახლება
           </p>
         </BasicButton>
       </form>

@@ -1,24 +1,26 @@
 import React from "react";
 import styles from "../Profile.module.scss";
 
-function FormikInput({
+function PasswordFormikInput({
   name,
   label,
-  errorClassShow,
   value,
   formik,
   touched,
   errors,
+  type,
 }) {
   return (
     <div className={styles.inputContainer}>
       <label htmlFor={name}>{label}</label>
 
       <input
-        className={`${styles.input} ${errorClassShow && styles.errorPresent}`}
+        className={`${styles.input}  ${
+          touched && errors && styles.errorPresent
+        }`}
         id={name}
         name={name}
-        type="text"
+        type={type}
         value={value}
         placeholder={value}
         {...formik.getFieldProps(name)}
@@ -33,4 +35,4 @@ function FormikInput({
   );
 }
 
-export default FormikInput;
+export default PasswordFormikInput;
