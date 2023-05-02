@@ -1,0 +1,78 @@
+.mainGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.8fr 1fr;
+  width: 100%;
+  height: calc(100% - 58px);
+  position: absolute;
+  top: 58px;
+  left: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.askQuestionContainer {
+  background-color: var(--dark-soft-gray);
+  width: 75%;
+  border-radius: 8px;
+  margin: 0 auto;
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+}
+
+.imageSrc {
+  display: block;
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 100%;
+}
+
+.addPostInput {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  background-color: var(--soft-gray);
+  padding: 8px;
+  color: var(--dark-gray);
+  transform: scale(1);
+  transition: all 0.2s;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+.addQuestionModal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 30;
+}
+.backdrop {
+  background-color: #9e9fa49a;
+  width: 100%;
+  height: 100%;
+}
+
+.formModal {
+  width: 40%;
+  min-height: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: #52545b;
+  transform: translate(-50%, -50%);
+  border-radius: 12px;
+}
+
+.modalHeader {
+  width: 100%;
+  font-size: 20px;
+  padding: 15px auto;
+  text-align: center;
+  border-bottom: #a8a9ad;
+  position: relative;
+}

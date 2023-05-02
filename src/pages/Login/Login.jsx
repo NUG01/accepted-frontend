@@ -111,7 +111,7 @@ function Login() {
 
           dispatch(authActions.setUser(res.data.user));
           dispatch(authActions.setIsLoggedIn(true));
-          navigate("/board");
+          navigate("/board/corridor");
         } catch (error) {
           const errorData = error.response.data;
           setButtonDisabled(false);

@@ -1,5 +1,5 @@
 import { Fragment, useState, useEffect } from "react";
-import { Outlet, Link, useLocation, matchPath } from "react-router-dom";
+import { Outlet, Link, useLocation, NavLink } from "react-router-dom";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import checkAuth from "../../guards/checkAuth";
 import BasicAxios from "../../helpers/axios/index";
@@ -40,22 +40,11 @@ function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const user = useSelector((state) => state.auth.user);
 
-  const pathMath = (path, notPath) => {
-    if (
-      window.location.toString().includes(path) &&
-      !window.location.toString().includes(notPath)
-    ) {
-      return true;
-    }
-    return false;
-  };
-
   const navigation = [
-    { name: "დერეფანი", href: "/board", current: pathMath("board", "tests") },
+    { name: "დერეფანი", href: "/board/corridor" },
     {
       name: "ტესტები",
       href: "tests",
-      current: pathMath("board/tests"),
     },
     // { name: "Projects", href: "#", current: false },
     // { name: "Calendar", href: "#", current: false },
@@ -90,19 +79,18 @@ function Dashboard() {
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) => (
-                          <Link
+                          <NavLink
                             key={item.name}
                             to={item.href}
-                            className={classNames(
-                              item.current
-                                ? "bg-gray-900 text-white"
-                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                              "rounded-md px-3 py-2 text-sm font-medium"
-                            )}
-                            aria-current={item.current ? "page" : undefined}
+                            className={({ isActive }) =>
+                              isActive
+                                ? "bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                            }
+                            end
                           >
                             {item.name}
-                          </Link>
+                          </NavLink>
                         ))}
                       </div>
                     </div>
@@ -249,7 +237,9 @@ function Dashboard() {
             </h1>
           </div>
         </header> */}
-        <main>
+        <main
+          className={`${styles.mainCalc} bg-[var(--light-soft-gray)] w-[100vw]`}
+        >
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
             <Outlet></Outlet>
           </div>
