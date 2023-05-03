@@ -3,17 +3,48 @@ import styles from "../Corridor.module.scss";
 import CloseCircle from "../../../assets/icons/CloseCircle";
 import BasicButton from "../../../components/BasicButton/BasicButton";
 import BinIcon from "../../../assets/icons/BinIcon";
-
+import MediaAxios from "../../../helpers/axios/MediaAxios";
 function AddQuestionForm({ closeModal }) {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [requestInProcess, setRequestInProccess] = useState(false);
   const [imagesQuantityError, setImagesQuantityError] = useState(false);
-
+  const [question, setQuestion] = useState("");
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
+  const [errors, setErrors] = useState([]);
 
   function submitHandler(ev) {
     ev.preventDefault();
+    setErrors([]);
+    if (question.length > 300) {
+      setErrors({
+        questionError: "მაქსიმუმ 300 სიმბოლო!",
+      });
+      return;
+    }
+    if (question.length < 10) {
+      setErrors({
+        questionError: "მინიმუმ 10 სიმბოლო!",
+      });
+      return;
+    }
+    const data = {
+      question,
+      images,
+    };
+    setRequestInProccess(true);
+    setButtonDisabled(true);
+    MediaAxios.post("add-post", data)
+      .then((res) => {
+        closeModal();
+      })
+      .catch((err) => {
+        setErrors(err.response.data.errors);
+      })
+      .finally(() => {
+        setButtonDisabled(false);
+        setRequestInProccess(false);
+      });
   }
 
   function imageHandler(ev) {
@@ -66,10 +97,12 @@ function AddQuestionForm({ closeModal }) {
         <form onSubmit={submitHandler} className={styles.form}>
           <div className="w-[80%]">
             <textarea
+              onChange={(ev) => setQuestion(ev.target.value)}
               name="question"
               id="question"
               className={styles.textarea}
               placeholder="მას მას, რა სარგებლობა მოაქვს მამალს?"
+              value={question}
             />
           </div>
           <div className="w-[80%] relative mt-[10px]">
@@ -124,17 +157,28 @@ function AddQuestionForm({ closeModal }) {
               </div>
             )}
           </div>
-          <div className="w-[30%] mb-[15px] mt-[10px]">
-            <BasicButton
-              disabled={buttonDisabled}
-              spinner={requestInProcess}
-              type="submit"
-              style="dark-outline"
-            >
-              <p className={requestInProcess ? styles.opacityDecrease : ""}>
-                დაპოსტვა
-              </p>
-            </BasicButton>
+          <div className="w-[70%] mb-[15px] mt-[10px] flex items-center justify-center flex-col">
+            {errors && (
+              <div>
+                {Object.keys(errors).map((error) => (
+                  <p className={`text-center ${styles.error}`} key={error}>
+                    {errors[error]}
+                  </p>
+                ))}
+              </div>
+            )}
+            <div className="w-[40%] ">
+              <BasicButton
+                disabled={buttonDisabled}
+                spinner={requestInProcess}
+                type="submit"
+                style="dark-outline"
+              >
+                <p className={requestInProcess ? styles.opacityDecrease : ""}>
+                  დაპოსტვა
+                </p>
+              </BasicButton>
+            </div>
           </div>
         </form>
       </div>
