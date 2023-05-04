@@ -4,7 +4,7 @@ import CloseCircle from "../../../assets/icons/CloseCircle";
 import BasicButton from "../../../components/BasicButton/BasicButton";
 import BinIcon from "../../../assets/icons/BinIcon";
 import MediaAxios from "../../../helpers/axios/MediaAxios";
-function AddQuestionForm({ closeModal }) {
+function AddQuestionForm({ closeModal, updatePosts }) {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [requestInProcess, setRequestInProccess] = useState(false);
   const [imagesQuantityError, setImagesQuantityError] = useState(false);
@@ -36,6 +36,7 @@ function AddQuestionForm({ closeModal }) {
     setButtonDisabled(true);
     MediaAxios.post("add-post", data)
       .then((res) => {
+        updatePosts(res.data);
         closeModal();
       })
       .catch((err) => {
