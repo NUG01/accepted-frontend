@@ -3,7 +3,7 @@ import styles from "../Corridor.module.scss";
 
 function PostQuestion({ user, openModal }) {
   return (
-    <div className={styles.askQuestionContainer}>
+    <div className={`${styles.askQuestionContainer} p-[12px] mb-[45px]`}>
       <img
         className={styles.imageSrc}
         src={import.meta.env.VITE_IMAGE_URL + user.image}

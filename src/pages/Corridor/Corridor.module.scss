@@ -17,7 +17,7 @@
   margin: 0 auto;
   display: flex;
   gap: 10px;
-  padding: 12px;
+  margin-bottom: 30px;
 }
 
 .imageSrc {
@@ -26,6 +26,11 @@
   height: 45px;
   object-fit: cover;
   border-radius: 100%;
+}
+.mainImage {
+  display: block;
+  object-fit: cover;
+  width: 100%;
 }
 
 .addPostInput {
@@ -152,4 +157,14 @@
   color: rgb(239 68 68);
   font-size: 12px;
   margin-top: 3px;
+}
+
+.postHeaderContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--dark-gray);
+  font-weight: 600;
+  padding: 12px;
 }
