@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import styles from "./Corridor.module.scss";
 import checkAuth from "../../guards/checkAuth";
 import { useSelector } from "react-redux";
@@ -6,67 +6,41 @@ import PostQuestion from "./components/PostQuestion";
 import AddQuestionForm from "./components/AddQuestionForm";
 import BasicPost from "./components/BasicPost";
 import BasicAxios from "../../helpers/axios/MediaAxios";
+import { number } from "yup";
 
 function Corridor() {
   const user = useSelector((state) => state.auth.user);
   const [posts, setPosts] = useState([]);
   const [isFetched, setIsFetched] = useState(false);
   const [page, setPage] = useState(1);
-
   const [addQuestionModal, setAddquestionModal] = useState(false);
+  const observer = useRef();
+
+  const lastEl = useCallback((node) => {
+    if (!isFetched) return;
+
+    if (observer.current) {
+      observer.current.disconnect();
+    }
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setPage((prevValue) => number(prevValue + 1));
+      }
+    });
+    if (node) {
+      observer.current.observe(node);
+    }
+  }, []);
 
   useEffect(() => {
+    setIsFetched(false);
     BasicAxios.get("posts?page=" + page).then((res) => {
       setPosts(res.data.data);
+      // if (page == 1) setPosts(res.data.data);
+      // if (page > 1) setPosts([...posts, ...res.data.data]);
       setIsFetched(true);
     });
-    const observerTarget = document.getElementById("main")[0];
-    console.log(observerTarget);
-
-    let options = {
-      root: observerTarget,
-      rootMargin: "0px",
-      threshold: 1,
-    };
-
-    let observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        setPage(page + 1);
-        console.log(entries);
-        BasicAxios.get("posts?page=" + page + 1).then((res) => {
-          // setPosts(res.data.data);
-          // setIsFetched(true);
-        });
-      }
-    }, options);
-
-    // const observer = new IntersectionObserver(
-    //   (entries) => {
-    //     if (entries[0].isIntersecting) {
-    //       setPage(page + 1);
-    //       console.log(entries);
-    //       BasicAxios.get("posts?page=" + page + 1).then((res) => {
-    //         // setPosts(res.data.data);
-    //         // setIsFetched(true);
-    //       });
-    //     }
-    //   },
-    //   { threshold: 0.9 }
-    // );
-
-    if (observerTarget?.current) {
-      console.log(observerTarget);
-
-      observer.observe(observerTarget.current);
-    }
-
-    console.log(observer);
-    return () => {
-      if (observerTarget.current) {
-        observer.unobserve(observerTarget.current);
-      }
-    };
-  }, []);
+  }, [page]);
 
   if (!isFetched) return;
 
@@ -79,12 +53,30 @@ function Corridor() {
         />
       )}
       <div className="w-[100%] min-h-[100%]"></div>
-      <main id="main" className="w-[100%] min-h-[100%] pt-[20px] main">
+      <main id="main" className="w-[100%] min-h-[100%] pt-[20px]">
         <PostQuestion openModal={() => setAddquestionModal(true)} user={user} />
-
-        {posts.map((post) => (
-          <BasicPost key={post.id} data={post} />
-        ))}
+        <div>
+          {posts.map((post, index) => {
+            return (
+              <div key={post.id}>
+                <BasicPost data={post} />
+              </div>
+            );
+            // if (posts.length === index + 1) {
+            //   return (
+            //     <div id={page} key={post.id} ref={lastEl}>
+            //       <BasicPost data={post} />
+            //     </div>
+            //   );
+            // } else {
+            //   return (
+            //     <div key={post.id}>
+            //       <BasicPost data={post} />
+            //     </div>
+            //   );
+            // }
+          })}
+        </div>
       </main>
       <div className="w-[100%] min-h-[100%]"></div>
     </section>

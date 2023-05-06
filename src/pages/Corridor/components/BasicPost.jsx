@@ -7,9 +7,17 @@ import NextImageArrow from "./NextImageArrow";
 import PreviousImageArrow from "./PreviousImageArrow";
 import RockAndRoll from "../../../assets/icons/RockAndRoll";
 import CommentIcon from "../../../assets/icons/CommentIcon";
+import BasicAxios from "../../../helpers/axios/MediaAxios";
 
-function BasicPost({ data }) {
+function BasicPost({ data, setData }) {
   const [carousel, setCarousel] = useState(0);
+  const [liked, setLiked] = useState(data.liked == "true" ? true : false);
+
+  async function likeOrUnlikePost() {
+    const res = await BasicAxios.post("like-post/" + data.id);
+    if (res.data == "Liked!") setLiked(true);
+    if (res.data == "Unliked!") setLiked(false);
+  }
   return (
     <div
       className={`${styles.askQuestionContainer} flex flex-col items-center justify-center pb-[12px]`}
@@ -53,9 +61,12 @@ function BasicPost({ data }) {
         </div>
       )}
       <div className="text-[var(--dark-gray)] self-start flex items-center justify-start px-[12px] gap-[18px] w-[100%]">
-        <div className="flex items-center justify-center cursor-pointer rounded-[5px] transition-all hover:bg-[var(--extra-light-ocean-blue)] px-[8px] py-[5px]">
-          <RockAndRoll />
-          <p className="font-[600]">დაროკება</p>
+        <div
+          onClick={likeOrUnlikePost}
+          className={` flex items-center justify-center cursor-pointer rounded-[5px] transition-all hover:bg-[var(--extra-light-ocean-blue)] px-[8px] py-[5px]`}
+        >
+          <RockAndRoll liked={liked} />
+          <p className="font-[600]">{liked ? "ანროკება" : "დაროკება"}</p>
         </div>
         <div className="flex items-center justify-center cursor-pointer rounded-[5px] transition-all hover:bg-[var(--extra-light-ocean-blue)] px-[8px] py-[5px]">
           <CommentIcon />

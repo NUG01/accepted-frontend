@@ -1,9 +1,9 @@
 import React from "react";
 
-function RockAndRoll() {
+function RockAndRoll({ liked }) {
   return (
     <svg
-      fill="#000000"
+      fill={liked ? "var(--dark-ocean-blue)" : "#000"}
       height="24px"
       width="24px"
       version="1.1"
