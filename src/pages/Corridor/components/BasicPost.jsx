@@ -8,27 +8,63 @@ import PreviousImageArrow from "./PreviousImageArrow";
 import RockAndRoll from "../../../assets/icons/RockAndRoll";
 import CommentIcon from "../../../assets/icons/CommentIcon";
 import BasicAxios from "../../../helpers/axios/MediaAxios";
+import PostFooter from "./PostFooter";
+import moment from "moment";
+import ka from "moment/dist/locale/ka";
 
-function BasicPost({ data, setData }) {
+function BasicPost({ postData, user }) {
   const [carousel, setCarousel] = useState(0);
-  const [liked, setLiked] = useState(data.liked == "true" ? true : false);
+  const [liked, setLiked] = useState(postData.liked == "true" ? true : false);
+  const [data, setData] = useState(postData);
+  const [seeWhoLikedModal, setSeeWhoLikedModal] = useState(false);
+
+  moment.locale("ka");
+
+  const date = moment(data.created_at).startOf("minute").fromNow();
 
   async function likeOrUnlikePost() {
     const res = await BasicAxios.post("like-post/" + data.id);
-    if (res.data == "Liked!") setLiked(true);
-    if (res.data == "Unliked!") setLiked(false);
+    if (res.data == "Liked!") {
+      setData({
+        ...data,
+        users_who_liked: [
+          ...data.users_who_liked,
+          {
+            id: user.id,
+            name: user.name,
+            surname: user.surname,
+            image: user.image,
+          },
+        ],
+      });
+      setLiked(true);
+    }
+    if (res.data == "Unliked!") {
+      setData({
+        ...data,
+        users_who_liked: data.users_who_liked.filter((x) => x.id != user.id),
+      });
+
+      setLiked(false);
+    }
   }
+
   return (
     <div
       className={`${styles.askQuestionContainer} flex flex-col items-center justify-center pb-[12px]`}
     >
-      <div className={`${styles.postHeaderContainer} self-start`}>
-        <img
-          className={styles.imageSrc}
-          src={import.meta.env.VITE_IMAGE_URL + data.user.image}
-          alt="Question image"
-        />
-        <p>{data.user.name}</p>
+      <div
+        className={`self-start flex items-center justify-between w-[100%] pr-[12px] `}
+      >
+        <div className={`${styles.postHeaderContainer} `}>
+          <img
+            className={styles.imageSrc}
+            src={import.meta.env.VITE_IMAGE_URL + data.user.image}
+            alt="Question image"
+          />
+          <p>{data.user.name}</p>
+        </div>
+        <p className="self-start mt-[5px] text-[var(--dark-gray)]">{date}</p>
       </div>
       <div className="px-[12px] mb-[5px] self-start">
         <p className="text-[var(--dark-gray)]">{data.body}</p>
@@ -60,19 +96,12 @@ function BasicPost({ data, setData }) {
           )}
         </div>
       )}
-      <div className="text-[var(--dark-gray)] self-start flex items-center justify-start px-[12px] gap-[18px] w-[100%]">
-        <div
-          onClick={likeOrUnlikePost}
-          className={` flex items-center justify-center cursor-pointer rounded-[5px] transition-all hover:bg-[var(--extra-light-ocean-blue)] px-[8px] py-[5px]`}
-        >
-          <RockAndRoll liked={liked} />
-          <p className="font-[600]">{liked ? "ანროკება" : "დაროკება"}</p>
-        </div>
-        <div className="flex items-center justify-center cursor-pointer rounded-[5px] transition-all hover:bg-[var(--extra-light-ocean-blue)] px-[8px] py-[5px]">
-          <CommentIcon />
-          <p className="font-[600]">კომენტირება</p>
-        </div>
-      </div>
+      <PostFooter
+        likeLength={data.users_who_liked.length}
+        data={data}
+        liked={liked}
+        likeHandler={likeOrUnlikePost}
+      ></PostFooter>
     </div>
   );
 }

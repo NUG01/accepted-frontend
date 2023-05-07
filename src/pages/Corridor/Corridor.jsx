@@ -59,7 +59,7 @@ function Corridor() {
           {posts.map((post, index) => {
             return (
               <div key={post.id}>
-                <BasicPost data={post} />
+                <BasicPost postData={post} user={user} />
               </div>
             );
             // if (posts.length === index + 1) {

@@ -60,12 +60,24 @@
   background-color: #9e9fa49a;
   width: 100%;
   height: 100%;
+  position: fixed;
 }
 
 .formModal {
   width: 40%;
   min-height: 50%;
-  position: absolute;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background-color: #52545b;
+  transform: translate(-50%, -50%);
+  border-radius: 12px;
+}
+.likesModal {
+  width: 24%;
+  height: 30%;
+  overflow: scroll;
+  position: fixed;
   top: 50%;
   left: 50%;
   background-color: #52545b;
