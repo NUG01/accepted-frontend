@@ -164,7 +164,13 @@ function PostFooter({ data, liked, likeHandler, likeLength }) {
         </div>
       )}
       {commentShow && (
-        <div className="w-[100%] border-t-[1px] border-t-[var(--main-gray)] mt-[8px]">
+        <div
+          className={`${
+            commentsData.length == 0
+              ? undefined
+              : "border-t-[1px] border-t-[var(--main-gray)]"
+          } mt-[8px] w-[100%]`}
+        >
           <div ref={commentRef} className="relative">
             <textarea
               onKeyDown={(ev) => commentFormHandler(ev)}

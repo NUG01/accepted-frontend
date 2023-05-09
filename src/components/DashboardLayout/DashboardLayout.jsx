@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { authActions } from "../../store/auth";
 import { useSelector } from "react-redux";
 import styles from "./DashboardLayout.module.scss";
+import Notifications from "../Notifications/Notifications";
 import {
   Bars3Icon,
   BellIcon,
@@ -39,6 +40,7 @@ function Dashboard() {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const user = useSelector((state) => state.auth.user);
+  const [notificationsShow, setNotificationsShow] = useState(false);
 
   const navigation = [
     { name: "დერეფანი", href: "/board/corridor" },
@@ -97,13 +99,19 @@ function Dashboard() {
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-4 flex items-center md:ml-6">
-                      {/* <button
-                        type="button"
-                        className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                      >
-                        <span className="sr-only">View notifications</span>
-                        <BellIcon className="h-6 w-6" aria-hidden="true" />
-                      </button> */}
+                      <div className="relative z-[100]">
+                        <button
+                          onClick={() =>
+                            setNotificationsShow(!notificationsShow)
+                          }
+                          type="button"
+                          className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                        >
+                          <span className="sr-only">View notifications</span>
+                          <BellIcon className="h-6 w-6" aria-hidden="true" />
+                        </button>
+                        {notificationsShow && <Notifications />}
+                      </div>
 
                       {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
@@ -201,13 +209,17 @@ function Dashboard() {
                         {user.email}
                       </div>
                     </div>
-                    {/* <button
-                      type="button"
-                      className="ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                    >
-                      <span className="sr-only">View notifications</span>
-                      <BellIcon className="h-6 w-6" aria-hidden="true" />
-                    </button> */}
+                    <div className="relative z-[100]">
+                      <button
+                        onClick={() => setNotificationsShow(!notificationsShow)}
+                        type="button"
+                        className="ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                      >
+                        <span className="sr-only">View notifications</span>
+                        <BellIcon className="h-6 w-6" aria-hidden="true" />
+                      </button>
+                      {notificationsShow && <Notifications />}
+                    </div>
                   </div>
                   <div className="mt-3 space-y-1 px-2">
                     <Link

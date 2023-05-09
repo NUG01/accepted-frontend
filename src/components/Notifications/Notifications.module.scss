@@ -1,0 +1,41 @@
+.notificationsContainer {
+  background-color: #868996;
+  height: 400px;
+  width: 450px;
+  z-index: 100;
+  border-radius: 12px;
+  top: 45px;
+  right: -10px;
+  position: absolute;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.triangle {
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 0 15.5px 40px 15.5px;
+  border-color: transparent transparent #868996 transparent;
+  transform: rotate(0deg);
+  position: absolute;
+  right: -3%;
+  top: 84%;
+  z-index: 30;
+}
+
+.image {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 100%;
+}
+
+.scrollHide::-webkit-scrollbar {
+  display: none;
+}

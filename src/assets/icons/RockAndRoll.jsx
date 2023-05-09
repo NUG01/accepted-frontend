@@ -1,11 +1,11 @@
 import React from "react";
 
-function RockAndRoll({ liked }) {
+function RockAndRoll({ liked, width, height }) {
   return (
     <svg
       fill={liked ? "var(--dark-ocean-blue)" : "#000"}
-      height="24px"
-      width="24px"
+      height={height ? height : "24px"}
+      width={width ? width : "24px"}
       version="1.1"
       id="Layer_1"
       xmlns="http://www.w3.org/2000/svg"
