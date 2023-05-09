@@ -1,10 +1,10 @@
 import React from "react";
 
-function BinIcon() {
+function BinIcon({ width, height }) {
   return (
     <svg
-      width="24px"
-      height="24px"
+      width={width ? width : "24px"}
+      height={height ? height : "24px"}
       viewBox="0 0 1024 1024"
       class="icon"
       version="1.1"
