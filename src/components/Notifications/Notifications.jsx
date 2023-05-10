@@ -1,29 +1,42 @@
 import { useEffect, useState } from "react";
 import styles from "./Notifications.module.scss";
 import CommentIcon from "../../assets/icons/CommentIcon";
-import { useSelector } from "react-redux";
 import RockAndRoll from "../../assets/icons/RockAndRoll";
 import BasicAxios from "../../helpers/axios/index";
 import moment from "moment";
 import ka from "moment/dist/locale/ka";
 import Loader from "./Loader";
 import EmptyNotifications from "../../assets/icons/EmptyNotifications";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { notificationActions } from "../../store/Notifications";
 
 function Notifications() {
   const user = useSelector((state) => state.auth.user);
+  const notificationSelector = useState(
+    useSelector((state) => state.notifications.notificationData)
+  );
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const dispatch = useDispatch();
 
   moment.locale("ka");
 
   function date(craetedAt) {
     return moment(craetedAt).startOf("minute").fromNow();
   }
+
   useEffect(() => {
+    if (notificationSelector[0].length != 0) {
+      setNotifications(notificationSelector[0]);
+      setLoading(false);
+      return;
+    }
     BasicAxios.get("notifications")
       .then((res) => {
         setNotifications(res.data.data);
-        console.log(res.data.data);
+        dispatch(notificationActions.setNotificationData(res.data.data));
       })
       .catch((err) => {
         console.log(err);
@@ -53,7 +66,10 @@ function Notifications() {
           <Loader />
         ) : (
           notifications.map((notification) => (
-            <div className="flex items-center justify-between border border-solid border-[#c2c2c2] px-[8px] py-[4px] rounded-[3px]">
+            <div
+              key={notification.id}
+              className="flex items-center justify-between border border-solid border-[#c2c2c2] px-[8px] py-[4px] rounded-[3px]"
+            >
               <div className="flex items-center justify-center gap-[5px]">
                 <img
                   className={`${styles.image}`}
