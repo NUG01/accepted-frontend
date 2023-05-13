@@ -15,7 +15,6 @@ import Pusher from "pusher-js";
 let rendered = false;
 function Notifications() {
   const user = useSelector((state) => state.auth.user);
-  console.log(useSelector((state) => state.notifications.notificationData));
   const notificationSelector = useState(
     useSelector((state) => state.notifications.notificationData)
   );
@@ -79,7 +78,6 @@ function Notifications() {
           ])
         );
         setNotifications((oldArray) => [pusherNotification, ...oldArray]);
-        console.log([pusherNotification, ...notifications]);
         setBroadcasted(true);
       });
 
@@ -106,13 +104,22 @@ function Notifications() {
     rendered = true;
   }, []);
 
+  async function readAllHandler() {
+    const res = await BasicAxios.get("read-notifications");
+    if (res.status == 204) return;
+    setNotifications(res.data);
+    dispatch(notificationActions.setNotificationData(res.data));
+  }
+
   return (
     <>
-     
       <div className={`${styles.notificationsContainer} ${styles.scrollHide}`}>
         <div className="flex items-center justify-between text-[13px] mb-[5px]">
           <p className="font-[500] text-[16px]">ცნობები</p>
-          <p className="cursor-pointer underline decoration-[0.5px] underline-offset-2">
+          <p
+            onClick={readAllHandler}
+            className="cursor-pointer underline decoration-[0.5px] underline-offset-2"
+          >
             ყველას წაკითხულად მონიშვნა
           </p>
         </div>
@@ -157,9 +164,11 @@ function Notifications() {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col items-end justify-start">
+              <div className="flex flex-col items-end justify-start self-start">
                 <p>{date(notification.created_at)}</p>
-                <p className="text-[var(--dark-ocean-blue)]">ახალი</p>
+                {!notification.seen && (
+                  <p className="text-[var(--dark-ocean-blue)]">ახალი</p>
+                )}
               </div>
             </div>
           ))
