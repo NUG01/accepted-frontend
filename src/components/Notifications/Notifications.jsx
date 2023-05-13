@@ -108,6 +108,7 @@ function Notifications() {
 
   return (
     <>
+     
       <div className={`${styles.notificationsContainer} ${styles.scrollHide}`}>
         <div className="flex items-center justify-between text-[13px] mb-[5px]">
           <p className="font-[500] text-[16px]">ცნობები</p>

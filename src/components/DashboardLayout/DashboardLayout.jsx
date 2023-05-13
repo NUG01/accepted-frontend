@@ -8,6 +8,7 @@ import { authActions } from "../../store/auth";
 import { useSelector } from "react-redux";
 import styles from "./DashboardLayout.module.scss";
 import Notifications from "../Notifications/Notifications";
+
 import {
   Bars3Icon,
   BellIcon,
@@ -41,6 +42,9 @@ function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const [notificationsShow, setNotificationsShow] = useState(false);
+  const notifications = useSelector(
+    (state) => state.notifications.notificationData
+  );
 
   const navigation = [
     { name: "დერეფანი", href: "/board/corridor" },
@@ -111,6 +115,18 @@ function Dashboard() {
                           <BellIcon className="h-6 w-6" aria-hidden="true" />
                         </button>
                         {notificationsShow && <Notifications />}
+                        {!notificationsShow &&
+                          notifications.filter((x) => x.seen == null).length !=
+                            0 && (
+                            <div className="w-[18px] h-[18px] absolute top-[-4px] left-[-1px] bg-red-500 z-[150] pointer-events-none opacity-[0.9] rounded-[100%] flex items-center justify-center">
+                              <span className="text-center">
+                                {
+                                  notifications.filter((x) => x.seen == null)
+                                    .length
+                                }
+                              </span>
+                            </div>
+                          )}
                       </div>
 
                       {/* Profile dropdown */}
@@ -219,6 +235,18 @@ function Dashboard() {
                         <BellIcon className="h-6 w-6" aria-hidden="true" />
                       </button>
                       {notificationsShow && <Notifications />}
+                      {!notificationsShow &&
+                        notifications.filter((x) => x.seen == null).length !=
+                          0 && (
+                          <div className="w-[18px] h-[18px] absolute top-[-4px] left-[-1px] bg-red-500 z-[150] pointer-events-none opacity-[0.9] rounded-[100%] flex items-center justify-center">
+                            <spam>
+                              {
+                                notifications.filter((x) => x.seen == null)
+                                  .length
+                              }
+                            </spam>
+                          </div>
+                        )}
                     </div>
                   </div>
                   <div className="mt-3 space-y-1 px-2">
