@@ -12,7 +12,6 @@ import { useDispatch } from "react-redux";
 import { notificationActions } from "../../store/Notifications";
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
-// let rendered = false;
 function Notifications({
   notificationData,
   broadcastState,
@@ -24,9 +23,7 @@ function Notifications({
     useSelector((state) => state.notifications.notificationData)
   );
   const [notifications, setNotifications] = useState(notificationData);
-  // const [notifications, setNotifications] = useState(
-  //   useSelector((state) => state.notifications.notificationData) && []
-  // );
+
   const [loading, setLoading] = useState(loaded);
   const [broadcasted, setBroadcasted] = useState(broadcastState);
 
@@ -37,74 +34,6 @@ function Notifications({
   function date(craetedAt) {
     return moment(craetedAt).startOf("minute").fromNow();
   }
-
-  useEffect(() => {
-    // window.Pusher = Pusher;
-    // const echo = new Echo({
-    //   broadcaster: "pusher",
-    //   key: import.meta.env.VITE_PUSHER_APP_KEY,
-    //   cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    //   forceTLS: true,
-    //   encrypted: true,
-    //   authorizer: (channel) => {
-    //     return {
-    //       authorize: (socketId, callback) => {
-    //         BasicAxios.post("/broadcasting/auth", {
-    //           socket_id: socketId,
-    //           channel_name: "notifications." + user.id,
-    //         })
-    //           .then((response) => {
-    //             callback(null, response.data);
-    //           })
-    //           .catch((error) => {
-    //             callback(error);
-    //           });
-    //       },
-    //     };
-    //   },
-    // });
-    // echo
-    //   .private("notifications." + user.id)
-    //   .listen("NotificationReceived", (e) => {
-    //     if (e.notification.author.id == user.id) return;
-    //     const pusherNotification = {
-    //       author: e.notification.author,
-    //       comment_id: e.notification.data.comment_id,
-    //       like_id: e.notification.data.like_id,
-    //       post_id: e.notification.data.post_id,
-    //       created_at: e.notification.data.created_at,
-    //     };
-    //     dispatch(
-    //       notificationActions.setNotificationData([
-    //         pusherNotification,
-    //         ...notifications,
-    //       ])
-    //     );
-    //     setNotifications((oldArray) => [pusherNotification, ...oldArray]);
-    //     setBroadcasted(true);
-    //   });
-    // if (
-    //   notificationSelector[0].length != 0 &&
-    //   !broadcasted &&
-    //   rendered == false
-    // ) {
-    //   setNotifications(notificationSelector[0]);
-    //   setLoading(false);
-    //   return;
-    // }
-    // BasicAxios.get("notifications")
-    //   .then((res) => {
-    //     setNotifications(res.data.data);
-    //     dispatch(notificationActions.setNotificationData(res.data.data));
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
-    // rendered = true;
-  }, []);
 
   async function readAllHandler() {
     const res = await BasicAxios.get("read-notifications");

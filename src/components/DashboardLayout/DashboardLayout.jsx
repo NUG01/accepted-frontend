@@ -105,12 +105,9 @@ function Dashboard() {
       },
     });
 
-    console.log("pusherNotification");
     echo
       .private("notifications." + user.id)
       .listen("NotificationReceived", (e) => {
-        console.log("pusherNotification");
-        if (e.notification.author.id == user.id) return;
         const pusherNotification = {
           author: e.notification.author,
           comment_id: e.notification.data.comment_id,
@@ -118,16 +115,17 @@ function Dashboard() {
           post_id: e.notification.data.post_id,
           created_at: e.notification.data.created_at,
         };
-        console.log(pusherNotification);
 
-        dispatch(
-          notificationActions.setNotificationData([
-            pusherNotification,
-            ...notificationData,
-          ])
-        );
-        setNotificationData((oldArray) => [pusherNotification, ...oldArray]);
-        setBroadcasted(true);
+        if (e?.notification?.data?.user_id != user.id) {
+          dispatch(
+            notificationActions.setNotificationData([
+              pusherNotification,
+              ...notificationData,
+            ])
+          );
+          setNotificationData((oldArray) => [pusherNotification, ...oldArray]);
+          setBroadcasted(true);
+        }
       });
 
     if (notifications.length != 0 && !broadcasted && rendered == false) {
