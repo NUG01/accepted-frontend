@@ -109,6 +109,7 @@ function Dashboard() {
       .private("notifications." + user.id)
       .listen("NotificationReceived", (e) => {
         const pusherNotification = {
+          id: e.notification.data.id,
           author: e.notification.author,
           comment_id: e.notification.data.comment_id,
           like_id: e.notification.data.like_id,
@@ -202,6 +203,9 @@ function Dashboard() {
                             notificationData={notificationData}
                             broadcastState={broadcasted}
                             loaded={notLoaded}
+                            setGlobalNotifications={(data) =>
+                              setNotificationData(data)
+                            }
                             readNotifications={(data) =>
                               setNotificationData(data)
                             }
@@ -331,6 +335,9 @@ function Dashboard() {
                           notificationData={notificationData}
                           broadcastState={broadcasted}
                           loaded={notLoaded}
+                          setGlobalNotifications={(data) =>
+                            setNotificationData(data)
+                          }
                           readNotifications={(data) =>
                             setNotificationData(data)
                           }

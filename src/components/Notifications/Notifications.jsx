@@ -10,14 +10,16 @@ import EmptyNotifications from "../../assets/icons/EmptyNotifications";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { notificationActions } from "../../store/Notifications";
-import Echo from "laravel-echo";
-import Pusher from "pusher-js";
+import { useNavigate } from "react-router-dom";
+
 function Notifications({
   notificationData,
   broadcastState,
   loaded,
   readNotifications,
+  setGlobalNotifications,
 }) {
+  const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
   const notificationSelector = useState(
     useSelector((state) => state.notifications.notificationData)
@@ -41,6 +43,35 @@ function Notifications({
     setNotifications(res.data);
     readNotifications(res.data);
     dispatch(notificationActions.setNotificationData(res.data));
+  }
+
+  async function notificationReadHandler({ post_id, id, seen }) {
+    if (!seen) {
+      const updateObject = (updatedObj) => {
+        const updatedArray = notifications.map((obj) => {
+          if (obj.id === updatedObj.id) {
+            return { ...obj, ...updatedObj };
+          }
+          return obj;
+        });
+        setNotifications(updatedArray);
+        setGlobalNotifications(updatedArray);
+      };
+      const res = await BasicAxios.get("read-notification/" + id);
+      updateObject(res.data);
+      // const index = notifications.findIndex((x) => x.id == id);
+      // const index = notifications.findIndex((x) => x.id == id);
+      // const newArray = notifications.filter((x) => x.id != index);
+      // setNotifications([...newArray, res.data]);
+      // console.log(notifications.findIndex((x) => x.id == id));
+      // Object.assign(
+      //   notifications.find((x) => x.id == id),
+      //   res.data
+      // );
+      // notifications[index].seen = 1;
+      // console.log(notifications);
+    }
+    navigate("/board/post/" + post_id);
   }
 
   return (
@@ -67,8 +98,9 @@ function Notifications({
         ) : (
           notifications.map((notification) => (
             <div
+              onClick={() => notificationReadHandler(notification)}
               key={notification.id}
-              className="flex items-center justify-between border border-solid border-[#c2c2c2] px-[8px] py-[4px] rounded-[3px]"
+              className="flex items-center cursor-pointer justify-between border border-solid border-[#c2c2c2] px-[8px] py-[4px] rounded-[3px]"
             >
               <div className="flex items-center justify-center gap-[5px]">
                 <img

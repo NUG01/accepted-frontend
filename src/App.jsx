@@ -19,6 +19,7 @@ import Questions from "./pages/Questions/Questions";
 import Result from "./pages/Result/Result";
 import Profile from "./pages/Profile/Profile";
 import Corridor from "./pages/Corridor/Corridor";
+import PostReviewPage from "./pages/Post/PostReviewPage";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -96,6 +97,12 @@ function App() {
         <Route
           path="corridor"
           element={<Corridor data={authStatus} dataIsFetched={rendered} />}
+        ></Route>
+        <Route
+          path="post/:postId"
+          element={
+            <PostReviewPage data={authStatus} dataIsFetched={rendered} />
+          }
         ></Route>
         <Route
           path="tests"
