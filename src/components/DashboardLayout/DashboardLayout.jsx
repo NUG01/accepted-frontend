@@ -8,6 +8,9 @@ import { authActions } from "../../store/auth";
 import { useSelector } from "react-redux";
 import styles from "./DashboardLayout.module.scss";
 import Notifications from "../Notifications/Notifications";
+import Echo from "laravel-echo";
+import Pusher from "pusher-js";
+import { notificationActions } from "../../store/Notifications";
 
 import {
   Bars3Icon,
@@ -36,15 +39,23 @@ const userNavigation = [
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+let rendered = false;
 
 function Dashboard() {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const [notificationsShow, setNotificationsShow] = useState(false);
+
   const notifications = useSelector(
     (state) => state.notifications.notificationData
   );
+
+  const [notificationData, setNotificationData] = useState(
+    notifications ? notifications : []
+  );
+  const [broadcasted, setBroadcasted] = useState(false);
+  const [notLoaded, setNotLoaded] = useState(true);
 
   const navigation = [
     { name: "დერეფანი", href: "/board/corridor" },
@@ -61,10 +72,84 @@ function Dashboard() {
   function logoutHandler() {
     BasicAxios.post("logout").then((res) => {
       dispatch(authActions.setUser(null));
+      dispatch(notificationActions.setNotificationData([]));
       dispatch(authActions.setIsLoggedIn(false));
       window.location.reload();
     });
   }
+
+  useEffect(() => {
+    window.Pusher = Pusher;
+
+    const echo = new Echo({
+      broadcaster: "pusher",
+      key: import.meta.env.VITE_PUSHER_APP_KEY,
+      cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+      forceTLS: true,
+      encrypted: true,
+      authorizer: (channel) => {
+        return {
+          authorize: (socketId, callback) => {
+            BasicAxios.post("/broadcasting/auth", {
+              socket_id: socketId,
+              channel_name: "private-notifications." + user.id,
+            })
+              .then((response) => {
+                callback(null, response.data);
+              })
+              .catch((error) => {
+                callback(error);
+              });
+          },
+        };
+      },
+    });
+
+    console.log("pusherNotification");
+    echo
+      .private("notifications." + user.id)
+      .listen("NotificationReceived", (e) => {
+        console.log("pusherNotification");
+        if (e.notification.author.id == user.id) return;
+        const pusherNotification = {
+          author: e.notification.author,
+          comment_id: e.notification.data.comment_id,
+          like_id: e.notification.data.like_id,
+          post_id: e.notification.data.post_id,
+          created_at: e.notification.data.created_at,
+        };
+        console.log(pusherNotification);
+
+        dispatch(
+          notificationActions.setNotificationData([
+            pusherNotification,
+            ...notificationData,
+          ])
+        );
+        setNotificationData((oldArray) => [pusherNotification, ...oldArray]);
+        setBroadcasted(true);
+      });
+
+    if (notifications.length != 0 && !broadcasted && rendered == false) {
+      setNotificationData(notifications);
+      setNotLoaded(false);
+      return;
+    }
+    BasicAxios.get("notifications")
+      .then((res) => {
+        setNotificationData(res.data.data);
+        dispatch(notificationActions.setNotificationData(res.data.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setNotLoaded(false);
+      });
+    rendered = true;
+  }, []);
+
+  if (notLoaded) return;
 
   return (
     <>
@@ -114,14 +199,23 @@ function Dashboard() {
                           <span className="sr-only">View notifications</span>
                           <BellIcon className="h-6 w-6" aria-hidden="true" />
                         </button>
-                        {notificationsShow && <Notifications />}
+                        {notificationsShow && (
+                          <Notifications
+                            notificationData={notificationData}
+                            broadcastState={broadcasted}
+                            loaded={notLoaded}
+                            readNotifications={(data) =>
+                              setNotificationData(data)
+                            }
+                          />
+                        )}
                         {!notificationsShow &&
-                          notifications.filter((x) => x.seen == null).length !=
-                            0 && (
+                          notificationData.filter((x) => x.seen == null)
+                            .length != 0 && (
                             <div className="w-[18px] h-[18px] absolute top-[-4px] left-[-1px] bg-red-500 z-[150] pointer-events-none opacity-[0.9] rounded-[100%] flex items-center justify-center">
                               <span className="text-center">
                                 {
-                                  notifications.filter((x) => x.seen == null)
+                                  notificationData.filter((x) => x.seen == null)
                                     .length
                                 }
                               </span>
@@ -234,14 +328,23 @@ function Dashboard() {
                         <span className="sr-only">View notifications</span>
                         <BellIcon className="h-6 w-6" aria-hidden="true" />
                       </button>
-                      {notificationsShow && <Notifications />}
+                      {notificationsShow && (
+                        <Notifications
+                          notificationData={notificationData}
+                          broadcastState={broadcasted}
+                          loaded={notLoaded}
+                          readNotifications={(data) =>
+                            setNotificationData(data)
+                          }
+                        />
+                      )}
                       {!notificationsShow &&
-                        notifications.filter((x) => x.seen == null).length !=
+                        notificationData.filter((x) => x.seen == null).length !=
                           0 && (
                           <div className="w-[18px] h-[18px] absolute top-[-4px] left-[-1px] bg-red-500 z-[150] pointer-events-none opacity-[0.9] rounded-[100%] flex items-center justify-center">
                             <spam>
                               {
-                                notifications.filter((x) => x.seen == null)
+                                notificationData.filter((x) => x.seen == null)
                                   .length
                               }
                             </spam>

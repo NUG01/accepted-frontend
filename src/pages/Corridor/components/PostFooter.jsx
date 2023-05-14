@@ -132,7 +132,6 @@ function PostFooter({ data, liked, likeHandler, likeLength }) {
       {commentShow && (
         <div className="w-[100%] border-t-[1px] border-t-[var(--main-gray)] mt-[8px] flex flex-col gap-[5px]">
           {commentsData.map((com) => {
-            console.log(com);
             return (
               <div
                 key={com.id}
