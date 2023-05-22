@@ -4,12 +4,27 @@
   width: 100%;
   height: calc(100% - 58px);
   position: absolute;
-  top: 58px;
+  top: 75px;
   left: 0;
   overflow-x: hidden;
   overflow-y: scroll;
 }
 
+@media (max-width: 1536px) {
+  .mainGrid {
+    grid-template-columns: 1fr 2.4fr 1fr;
+  }
+}
+@media (max-width: 1024px) {
+  .mainGrid {
+    grid-template-columns: 1fr 3.6fr 1fr;
+  }
+}
+@media (max-width: 768px) {
+  .mainGrid {
+    display: flex;
+  }
+}
 .askQuestionContainer {
   background-color: var(--dark-soft-gray);
   width: 75%;
@@ -18,6 +33,11 @@
   display: flex;
   gap: 10px;
   margin-bottom: 30px;
+}
+@media (max-width: 768px) {
+  .askQuestionContainer {
+    width: 87%;
+  }
 }
 
 .imageSrc {
@@ -80,6 +100,22 @@
   transform: translate(-50%, -50%);
   border-radius: 12px;
 }
+
+@media (max-width: 1024px) {
+  .formModal {
+    width: 70%;
+  }
+}
+@media (max-width: 768px) {
+  .formModal {
+    width: 90%;
+    min-height: 50%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+  }
+}
+
 .likesModal {
   width: 24%;
   height: 30%;

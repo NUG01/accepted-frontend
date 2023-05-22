@@ -156,8 +156,8 @@ function Dashboard() {
         <Disclosure as="nav" className="bg-gray-800">
           {({ open }) => (
             <>
-              <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="flex h-16 items-center justify-between">
+              <div className="mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex h-[75px] 2xl:px-[60px] lg:px-[150px] md:px-[30px]  items-center justify-between z-[100px]">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
                       <img
@@ -174,8 +174,8 @@ function Dashboard() {
                             to={item.href}
                             className={({ isActive }) =>
                               isActive
-                                ? "bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                                ? "bg-gray-900 text-white rounded-md px-3 py-2 text-lg font-medium"
+                                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-lg font-medium"
                             }
                             end
                           >
@@ -196,7 +196,7 @@ function Dashboard() {
                           className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                         >
                           <span className="sr-only">View notifications</span>
-                          <BellIcon className="h-6 w-6" aria-hidden="true" />
+                          <BellIcon className="h-9 w-9" aria-hidden="true" />
                         </button>
                         {notificationsShow && (
                           <Notifications
@@ -228,12 +228,11 @@ function Dashboard() {
                       {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
                         <div>
-                          <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                          <Menu.Button className="flex max-w-md items-center rounded-full bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                             <span className="sr-only">Open user menu</span>
                             <img
-                              className={`${styles.imageSrc} w-8 h-8 rounded-full`}
+                              className={`${styles.imageSrc} w-[42px] h-[42px] rounded-full`}
                               src={import.meta.env.VITE_IMAGE_URL + user.image}
-                              alt=""
                             />
                           </Menu.Button>
                         </div>
@@ -249,14 +248,14 @@ function Dashboard() {
                           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <Link
                               to="/board/profile"
-                              className="block px-4 py-2 text-sm text-gray-700 w-[100%] text-start hover:bg-gray-100"
+                              className="block px-4 py-2 text-md text-gray-700 w-[100%] text-start hover:bg-gray-100"
                             >
                               Profile
                             </Link>
                             <button
                               onClick={logoutHandler}
                               id="logout"
-                              className="block px-4 py-2 text-sm text-gray-700 w-[100%] text-start hover:bg-gray-100"
+                              className="block px-4 py-2 text-md text-gray-700 w-[100%] text-start hover:bg-gray-100"
                             >
                               Sign out
                             </button>
@@ -328,7 +327,7 @@ function Dashboard() {
                         className="ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                       >
                         <span className="sr-only">View notifications</span>
-                        <BellIcon className="h-6 w-6" aria-hidden="true" />
+                        <BellIcon className="h-12 w-12" aria-hidden="true" />
                       </button>
                       {notificationsShow && (
                         <Notifications
@@ -346,7 +345,7 @@ function Dashboard() {
                       {!notificationsShow &&
                         notificationData.filter((x) => x.seen == null).length !=
                           0 && (
-                          <div className="w-[18px] h-[18px] absolute top-[-4px] left-[-1px] bg-red-500 z-[150] pointer-events-none opacity-[0.9] rounded-[100%] flex items-center justify-center">
+                          <div className="w-[42px] h-[42px] absolute top-[-4px] left-[-1px] bg-red-500 z-[150] pointer-events-none opacity-[0.9] rounded-[100%] flex items-center justify-center">
                             <spam>
                               {
                                 notificationData.filter((x) => x.seen == null)

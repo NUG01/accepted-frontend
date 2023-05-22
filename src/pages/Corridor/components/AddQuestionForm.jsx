@@ -168,7 +168,7 @@ function AddQuestionForm({ closeModal, updatePosts }) {
                 ))}
               </div>
             )}
-            <div className="w-[40%] ">
+            <div className="w-[40%] justify-self-end">
               <BasicButton
                 disabled={buttonDisabled}
                 spinner={requestInProcess}

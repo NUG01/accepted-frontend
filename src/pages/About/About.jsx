@@ -4,6 +4,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import styles from "./About.module.scss";
 import checkGuest from "../../guards/checkGuest";
 import { NavLink } from "react-router-dom";
+import HamburgerMenu from "../../assets/icons/HamburgerMenu";
 
 const navigation = [
   { name: "Product", href: "#" },
@@ -162,13 +163,13 @@ function About() {
       {/* Header */}
       <header className={styles.container}>
         <div>mylogo</div>
-        <div className={styles["menu-container"]}>
+        <div className={`${styles["menu-container"]}`}>
           <p>Home</p>
           <p>How it works</p>
           <p>About</p>
           <p>Pricing</p>
         </div>
-        <div className={styles.linksContainer}>
+        <div className={`${styles.linksContainer}`}>
           <NavLink className={styles.a} style={linkStyle} to="login">
             ავტორიზაცია
           </NavLink>
@@ -179,6 +180,9 @@ function About() {
           >
             რეგისტრაცია
           </NavLink>
+        </div>
+        <div className={`${styles.hamburger} cursor-pointer`}>
+          <HamburgerMenu />
         </div>
       </header>
 
@@ -226,7 +230,7 @@ function About() {
               }}
             />
           </div>
-          <div className="overflow-hidden scale-[0.84]">
+          <div className="overflow-hidden xl:scale-[1] scale-[0.84]">
             <div className="mx-auto max-w-7xl px-6 pb-[80px] pt-[45px] sm:pt-[45px] lg:px-8 lg:pt-[45px]">
               <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
                 <div className="w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
@@ -244,7 +248,7 @@ function About() {
                 </div>
                 <div className="mt-14 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">
                   <div className="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
-                    <div className="relative">
+                    <div className="relative xl:opacity-[1] opacity-[0]">
                       <img
                         src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&h=528&q=80"
                         alt=""
@@ -296,7 +300,7 @@ function About() {
         </div>
 
         {/* Content section */}
-        <div className="mx-auto -mt-12 max-w-7xl px-6 sm:mt-0 lg:px-8 xl:-mt-8 scale-[0.84]">
+        <div className="mx-auto -mt-12 max-w-7xl px-6 sm:mt-0 lg:px-8 xl:-mt-8 xl:scale-[1] scale-[0.84]">
           <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               Our mission
@@ -349,7 +353,7 @@ function About() {
         </div>
 
         {/* Image section */}
-        <div className="mt-[45px] sm:mt-[45px] xl:mx-auto xl:max-w-7xl xl:px-8 scale-[0.8]">
+        <div className="mt-[45px] sm:mt-[45px] xl:mx-auto xl:max-w-7xl xl:px-8 xl:scale-[1] scale-[0.8]">
           <img
             src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
             alt=""
@@ -457,7 +461,7 @@ function About() {
         </div>
 
         {/* Team section */}
-        <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-48 lg:px-8 scale-[0.84]">
+        <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-48 lg:px-8 xl:scale-[1] scale-[0.84]">
           <div className="mx-auto max-w-2xl lg:mx-0">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               Our team
@@ -548,7 +552,7 @@ function About() {
       {/* Footer */}
       <footer className="mx-auto mt-[70px] max-w-7xl overflow-hidden px-6 pb-20 sm:mt-[70px] sm:pb-24 lg:px-8">
         <nav
-          className="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12"
+          className="-mb-6 columns-2 flex justify-center space-x-8 sm:space-x-12"
           aria-label="Footer"
         >
           {footerNavigation.main.map((item) => (

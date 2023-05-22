@@ -52,7 +52,7 @@ function Corridor() {
           closeModal={() => setAddquestionModal(false)}
         />
       )}
-      <div className="w-[100%] min-h-[100%]"></div>
+      <div className="w-[100%] min-h-[100%] md:block hidden"></div>
       <main id="main" className="w-[100%] min-h-[100%] pt-[20px]">
         <PostQuestion openModal={() => setAddquestionModal(true)} user={user} />
         <div>
@@ -78,7 +78,7 @@ function Corridor() {
           })}
         </div>
       </main>
-      <div className="w-[100%] min-h-[100%]"></div>
+      <div className="w-[100%] min-h-[100%] hidden md:block"></div>
     </section>
   );
 }

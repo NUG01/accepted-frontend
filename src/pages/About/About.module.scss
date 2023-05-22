@@ -53,3 +53,18 @@ header {
   justify-content: center;
   gap: 24px;
 }
+.hamburger {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .linksContainer {
+    display: none;
+  }
+  .menu-container {
+    display: none;
+  }
+  .hamburger {
+    display: block;
+  }
+}
