@@ -4,19 +4,24 @@ import checkAuth from "../../guards/checkAuth";
 import { useEffect } from "react";
 import BasicAxios from "../../helpers/axios";
 import { useSelector } from "react-redux";
+import BasicPost from "../../pages/Corridor/components/BasicPost";
+import { useLocation } from "react-router-dom";
 
 function PostReviewPage() {
   const { postId } = useParams();
   const [post, setPost] = useState([]);
   const [fetched, setFetched] = useState(false);
   const user = useSelector((state) => state.auth.user);
+  const location = useLocation();
 
   useEffect(() => {
     BasicAxios.get("review-post/" + postId).then((res) => {
-      console.log(res);
+      setPost(res.data);
+      setFetched(true);
     });
-  }, []);
-  return <h1 className="text-[#000]">{postId}</h1>;
+  }, [location]);
+  if (!fetched) return;
+  return <BasicPost key={postId} postData={post} user={user} />;
 }
 
 export default checkAuth(PostReviewPage);
