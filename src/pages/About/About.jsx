@@ -5,6 +5,8 @@ import styles from "./About.module.scss";
 import checkGuest from "../../guards/checkGuest";
 import { NavLink } from "react-router-dom";
 import HamburgerMenu from "../../assets/icons/HamburgerMenu";
+import MobileNavigation from "./MobileNavigation";
+import CloseHamburger from "../../assets/icons/CloseHamburger";
 
 const navigation = [
   { name: "Product", href: "#" },
@@ -152,10 +154,18 @@ const footerNavigation = {
 
 function About() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [openMobileNav, setOpenMobileNav] = useState(false);
+
+  if (openMobileNav) {
+    document.getElementById("root").classList.add("stop-scrolling");
+  } else {
+    document.getElementById("root").classList.remove("stop-scrolling");
+  }
 
   const linkStyle = {
     textDecoration: "none",
     display: "inline-block",
+    fontSize: "20px",
   };
 
   return (
@@ -181,14 +191,27 @@ function About() {
             რეგისტრაცია
           </NavLink>
         </div>
-        <div className={`${styles.hamburger} cursor-pointer`}>
-          <HamburgerMenu />
-        </div>
+        {!openMobileNav && (
+          <div
+            onClick={() => setOpenMobileNav(true)}
+            className={`${styles.hamburger} cursor-pointer`}
+          >
+            <HamburgerMenu />
+          </div>
+        )}
       </header>
 
       <main className="isolate">
         {/* Hero section */}
         <div className="relative isolate -z-10">
+          {openMobileNav && (
+            <div className={`${styles.hamburger} ${styles.mobileNavigation}`}>
+              <MobileNavigation
+                closeHamburger={() => setOpenMobileNav(false)}
+              />
+            </div>
+          )}
+
           <svg
             className="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full stroke-gray-200 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"
             aria-hidden="true"

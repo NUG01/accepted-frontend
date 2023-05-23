@@ -214,7 +214,7 @@ function Dashboard() {
                         {!notificationsShow &&
                           notificationData.filter((x) => x.seen == null)
                             .length != 0 && (
-                            <div className="w-[18px] h-[18px] absolute top-[-4px] left-[-1px] bg-red-500 z-[150] pointer-events-none opacity-[0.9] rounded-[100%] flex items-center justify-center">
+                            <div className="w-[18px] h-[18px] absolute top-[-1px] left-[3px] bg-red-500 z-[150] pointer-events-none opacity-[0.9] rounded-[100%] flex items-center justify-center">
                               <span className="text-center">
                                 {
                                   notificationData.filter((x) => x.seen == null)

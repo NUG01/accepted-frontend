@@ -8,6 +8,8 @@ import BasicInput from "../../components/BasicInput/BasicInput";
 import ErrorContainer from "../../components/ErrorContainer/ErrorContainer";
 import checkGuest from "../../guards/checkGuest";
 import styles from "./Register.module.scss";
+import ExclamationMark from "../../assets/icons/ExclamationMark";
+import FormIcon from "../../assets/icons/FormIcon";
 
 import BasicAxios from "../../helpers/axios/index.js";
 
@@ -37,6 +39,8 @@ function Register() {
   const [registered, setRegistered] = useState(false);
   const [error, setError] = useState(false);
   const [errorValue, setErrorValue] = useState([]);
+
+  const [showMobileErrors, setShowMobileErrors] = useState(false);
 
   function navigateToHomePage() {
     navigate("..");
@@ -171,11 +175,54 @@ function Register() {
       setErrorValue(error.response.data.errors);
     }
   }
+
+  function errorsArePresent() {
+    if (
+      nameError ||
+      surnameError ||
+      emailError ||
+      passwordError ||
+      passwordConfirmError ||
+      checkboxError
+    ) {
+      return true;
+    }
+
+    return false;
+  }
   return (
     <section className={styles.container}>
+      {errorsArePresent() && !showMobileErrors && (
+        <div
+          onClick={() => setShowMobileErrors(true)}
+          className={styles.mobileErrorsShowButton}
+        >
+          <ExclamationMark />
+        </div>
+      )}
+      {showMobileErrors && (
+        <div
+          onClick={() => setShowMobileErrors(false)}
+          className={`absolute right-0 top-0 -translate-x-1/2 translate-y-1/2 ${styles.formIcon}`}
+        >
+          <FormIcon />
+        </div>
+      )}
       <div className={styles.writing}>
         <RustaveliSvg></RustaveliSvg>
       </div>
+      {showMobileErrors && (
+        <div className={styles.mobileErrorContainer}>
+          <ErrorContainer
+            nameError={nameError}
+            surnameError={surnameError}
+            emailError={emailError}
+            passwordError={passwordError}
+            passwordConfirmError={passwordConfirmError}
+            checkboxError={checkboxError}
+          ></ErrorContainer>
+        </div>
+      )}
       <div className={styles.errorContainer}>
         <ErrorContainer
           nameError={nameError}
@@ -189,7 +236,11 @@ function Register() {
       <div onClick={navigateToHomePage} className={styles.icon}>
         <HomeIcon></HomeIcon>
       </div>
-      <main className={styles.formContainer}>
+      <main
+        className={`${styles.formContainer} ${
+          showMobileErrors ? "opacity-[0]" : ""
+        }`}
+      >
         {registered && (
           <div className={styles.emailSent}>
             <MailIcon />

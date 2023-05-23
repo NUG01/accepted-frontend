@@ -82,3 +82,8 @@ body::-webkit-scrollbar {
 *::-webkit-scrollbar {
   display: none;
 }
+
+.stop-scrolling {
+  height: 100vh !important;
+  overflow: hidden !important;
+}

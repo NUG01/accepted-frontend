@@ -28,6 +28,22 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
+  font-size: 500px;
+}
+
+.mobileLinksContainer {
+  display: none;
+  position: relative;
+}
+
+@media (max-width: 1000px) {
+  .mobileLinksContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
 }
 
 header {
@@ -66,5 +82,27 @@ header {
   }
   .hamburger {
     display: block;
+  }
+}
+
+.mobileNavigation {
+  min-height: 100vh;
+  width: 100vw;
+  right: -100%;
+  top: 0;
+  animation-name: navigationTransition;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  position: fixed;
+  z-index: 1000;
+}
+
+@keyframes navigationTransition {
+  0% {
+    right: -100%;
+  }
+  100% {
+    right: 0;
   }
 }

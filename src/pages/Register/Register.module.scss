@@ -9,10 +9,23 @@
   top: 50%;
   left: 70%;
   transform: translate(-50%, -50%);
-  width: 390px;
+  width: 40%;
   padding: 30px 40px;
   border-radius: 4px;
   box-shadow: 0 0 4px 2px var(--normal-beige);
+}
+@media (max-width: 1000px) {
+  .formContainer {
+    width: 75%;
+    padding: 70px 40px;
+    top: 40%;
+    left: 50%;
+  }
+}
+@media (max-width: 700px) {
+  .formContainer {
+    width: 85%;
+  }
 }
 
 .icon {
@@ -82,16 +95,54 @@
 
 .errorContainer {
   position: absolute;
+  width: 30%;
   left: 25%;
-  top: 0;
+  top: 20%;
   transform: translate(-50%, 3%);
 }
 
 .writing {
   position: absolute;
-  top: 40%;
+  top: 50%;
   left: 25%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+.mobileErrorsShowButton {
+  display: none;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  transform: translate(-30%, 30%);
+  animation-name: scaling;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  cursor: pointer;
+}
+@keyframes scaling {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 1000px) {
+  .writing {
+    left: 50%;
+    top: 85%;
+  }
+  .errorContainer {
+    display: none;
+  }
+
+  .mobileErrorsShowButton {
+    display: block;
+  }
 }
 
 .emailSent {
@@ -155,7 +206,28 @@
   color: rgb(240, 94, 94);
   font-size: 12px;
   text-align: center;
-  // background-color: rgb(152, 97, 97);
   padding: 4px 6px;
   font-weight: 600;
+}
+
+.mobileErrorContainer {
+  position: absolute;
+  top: 10%;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.formIcon {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .formIcon {
+    display: block;
+  }
 }
