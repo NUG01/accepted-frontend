@@ -20,6 +20,7 @@ import Result from "./pages/Result/Result";
 import Profile from "./pages/Profile/Profile";
 import Corridor from "./pages/Corridor/Corridor";
 import PostReviewPage from "./pages/Post/PostReviewPage";
+import Spinner from "./components/Spinner/Spinner";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -58,72 +59,70 @@ function App() {
     }
   }, [location]);
 
-  if (!rendered) return <Loading />;
-
   return (
     <Routes>
       <Route
         path="/"
-        element={<Home data={authStatus} dataIsFetched={rendered} />}
+        element={rendered ? <Home data={authStatus} /> : <Spinner />}
       >
         <Route
           path="login"
-          element={<Login data={authStatus} dataIsFetched={rendered} />}
+          element={rendered ? <Login data={authStatus} /> : <Spinner />}
         ></Route>
         <Route
           path="forgot-password"
           element={
-            <ForgotPassword data={authStatus} dataIsFetched={rendered} />
+            rendered ? <ForgotPassword data={authStatus} /> : <Spinner />
           }
         ></Route>
       </Route>
       <Route
         path="/register"
-        element={<Register data={authStatus} dataIsFetched={rendered} />}
+        element={rendered ? <Register data={authStatus} /> : <Spinner />}
       ></Route>
       <Route
         path="/account-verification/:code"
-        element={<Loader data={authStatus} dataIsFetched={rendered} />}
+        element={rendered ? <Loader data={authStatus} /> : <Spinner />}
       ></Route>
       <Route
         path="/recover-password/:token"
-        element={<RecoverPassword data={authStatus} dataIsFetched={rendered} />}
+        element={rendered ? <RecoverPassword data={authStatus} /> : <Spinner />}
       ></Route>
 
       <Route
         path="/board"
-        element={<DashboardLayout data={authStatus} dataIsFetched={rendered} />}
+        element={rendered ? <DashboardLayout data={authStatus} /> : <Spinner />}
       >
         <Route
           path="corridor"
-          element={<Corridor data={authStatus} dataIsFetched={rendered} />}
+          element={rendered ? <Corridor data={authStatus} /> : <Spinner />}
         ></Route>
         <Route
           path="post/:postId"
           element={
-            <PostReviewPage data={authStatus} dataIsFetched={rendered} />
+            rendered ? <PostReviewPage data={authStatus} /> : <Spinner />
           }
         ></Route>
         <Route
           path="tests"
-          element={<Tests data={authStatus} dataIsFetched={rendered} />}
+          element={rendered ? <Tests data={authStatus} /> : <Spinner />}
         ></Route>
         <Route
           path="profile"
-          element={<Profile data={authStatus} dataIsFetched={rendered} />}
+          element={rendered ? <Profile data={authStatus} /> : <Spinner />}
         ></Route>
       </Route>
       <Route
         path="/board/tests/:id"
-        element={<Test data={authStatus} dataIsFetched={rendered} />}
+        element={rendered ? <Test data={authStatus} /> : <Spinner />}
       >
         <Route
           path="page/:questionId"
-          element={<Questions data={authStatus} dataIsFetched={rendered} />}
+          element={rendered ? <Questions data={authStatus} /> : <Spinner />}
         ></Route>
         <Route
           path="result/:resultId"
-          element={<Result data={authStatus} dataIsFetched={rendered} />}
+          element={rendered ? <Result data={authStatus} /> : <Spinner />}
         ></Route>
       </Route>
 
