@@ -57,7 +57,7 @@ function Test() {
       >
         <HomeIcon></HomeIcon>
       </div>
-      {path == "/board/tests/1" && (
+      {path == "/board/tests/" + params.id && (
         <div className="flex flex-col items-center justify-center gap-[10px]">
           <Link
             to="page/1"

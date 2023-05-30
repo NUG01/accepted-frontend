@@ -23,15 +23,24 @@ function Questions() {
   const [requestInProcess, setRequestInProcess] = useState(false);
   const [res, setResponse] = useState([]);
 
-  console.log(current);
-
   function setFetchedValues(res) {
     setQuestions(res.data);
+    const testIdentificationMedium = (testId) => 80 * testId;
+
     setCurrent(
-      res.data.data.find((question) => question.id == params.questionId)
+      res.data.data.find(
+        (question) =>
+          question.id ==
+          testIdentificationMedium(Number(res.data.data[0].test_type_id) - 1) +
+            Number(params.questionId)
+      )
     );
+
     const answersParse = res.data.data.find(
-      (item) => item.id == params.questionId
+      (item) =>
+        item.id ==
+        testIdentificationMedium(Number(res.data.data[0].test_type_id) - 1) +
+          Number(params.questionId)
     ).answers;
 
     setAnswers(answersParse);

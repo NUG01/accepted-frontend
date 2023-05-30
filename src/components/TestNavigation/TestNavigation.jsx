@@ -4,14 +4,15 @@ import { NavLink, useParams } from "react-router-dom";
 
 function TestNavigation({ questionData }) {
   const params = useParams();
+
   return (
     <div className={`${styles.navgrid} z-50`}>
-      {questionData.map((item) => {
+      {questionData.map((item, i) => {
         return (
           <NavLink
             className={({ isActive }) => (isActive ? "bg-gray-200" : "")}
-            key={item.id}
-            to={`/board/tests/${params.id}/page/${item.id}`}
+            key={i}
+            to={`/board/tests/${params.id}/page/${i + 1}`}
             style={{
               fontSize: "15px",
               border: "1px solid #000",
@@ -21,7 +22,7 @@ function TestNavigation({ questionData }) {
               padding: "1.6px",
             }}
           >
-            {item.id}
+            {i + 1}
           </NavLink>
         );
       })}

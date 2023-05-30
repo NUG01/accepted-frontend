@@ -21,7 +21,6 @@ function Tests() {
   useEffect(() => {
     async function fetch() {
       const res = await BasicAxios.get("test-types");
-      console.log(user);
       const response = await BasicAxios.get("user-tests/" + user.id);
       setUserTests(response.data);
       setTests(res.data.data);
