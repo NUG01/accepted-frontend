@@ -14,7 +14,9 @@ function Corridor() {
   const [isFetched, setIsFetched] = useState(false);
   const [page, setPage] = useState(1);
   const [addQuestionModal, setAddquestionModal] = useState(false);
+  const [sending, setSending] = useState(false);
   const observer = useRef();
+  const paginationTrigger = useRef();
 
   const lastEl = useCallback((node) => {
     if (!isFetched) return;
@@ -33,29 +35,45 @@ function Corridor() {
   }, []);
 
   useEffect(() => {
-    setIsFetched(false);
+    if (page == 1) setIsFetched(false);
     BasicAxios.get("posts?page=" + page).then((res) => {
-      setPosts(res.data.data);
-      // if (page == 1) setPosts(res.data.data);
-      // if (page > 1) setPosts([...posts, ...res.data.data]);
+      if (page == 1) setPosts(res.data.data);
+      if (page > 1) setPosts([...posts, ...res.data.data]);
       setIsFetched(true);
+      setSending(false);
+      setTimeout(() => {
+        console.log(document.querySelector(".postParent"));
+        document.querySelector(".postParent").onscroll = () => {
+          if (
+            scrollY >
+            document.querySelector(".postParent").offsetTop +
+              document.querySelector(".postParent").clientHeight -
+              screen.height
+          ) {
+            setSending(true);
+            if (!sending) {
+              setPage(page + 1);
+            }
+          }
+        };
+      }, 1);
     });
   }, [page]);
 
   if (!isFetched) return;
 
   return (
-    <section className={styles.mainGrid}>
+    <section className={styles.mainGrid + " postParent"}>
       {addQuestionModal && (
         <AddQuestionForm
           updatePosts={(post) => setPosts((oldArray) => [post, ...oldArray])}
           closeModal={() => setAddquestionModal(false)}
         />
       )}
-      <div className="w-[100%] min-h-[100%] md:block hidden"></div>
-      <main id="main" className="w-[100%] min-h-[100%] pt-[20px]">
+      <div className="w-[100%] h-[100%] md:block hidden"></div>
+      <main id="main" className="w-[100%] h-[100%] pt-[20px]">
         <PostQuestion openModal={() => setAddquestionModal(true)} user={user} />
-        <div>
+        <div ref={paginationTrigger}>
           {posts.map((post, index) => {
             return (
               <div key={post.id}>
@@ -78,7 +96,7 @@ function Corridor() {
           })}
         </div>
       </main>
-      <div className="w-[100%] min-h-[100%] hidden md:block"></div>
+      <div className="w-[100%] h-[100%] hidden md:block"></div>
     </section>
   );
 }

@@ -68,20 +68,26 @@ input[type="password"]::-ms-clear {
 html {
   font-size: 90%;
   overflow-x: hidden;
+  min-height: 100vh;
 }
 
 body {
   -ms-overflow-style: none;
   overflow: -moz-scrollbars-none;
   -ms-overflow-style: -ms-autohiding-scrollbar;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: var(--light-soft-gray);
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
-body::-webkit-scrollbar {
+/* body::-webkit-scrollbar {
   display: none;
-}
-*::-webkit-scrollbar {
+} */
+/* *::-webkit-scrollbar {
   display: none;
-}
+} */
 
 .stop-scrolling {
   height: 100vh !important;

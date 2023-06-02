@@ -32,7 +32,7 @@ function Tests() {
   if (!dataIsFetched) return;
 
   return (
-    <div>
+    <div className="min-h-[100vh] bg-[var(--light-soft-gray)]">
       {!dataIsFetched && <Spinner />}
       {dataIsFetched && (
         <div className="overflow-hidden bg-white shadow sm:rounded-md">

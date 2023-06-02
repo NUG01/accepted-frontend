@@ -187,7 +187,7 @@ function Dashboard() {
                 </div>
                 <div className="block">
                   <div className="ml-4 flex items-center md:ml-6">
-                    <div className="relative z-[100]">
+                    <div className="relative z-[30]">
                       <button
                         onClick={() => setNotificationsShow(!notificationsShow)}
                         type="button"
@@ -356,7 +356,7 @@ function Dashboard() {
           </>
         </div>
         <main
-          className={`${styles.mainCalc} bg-[var(--light-soft-gray)] w-[100vw]`}
+          className={`${styles.mainCalc}`}
         >
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
             <Outlet></Outlet>
