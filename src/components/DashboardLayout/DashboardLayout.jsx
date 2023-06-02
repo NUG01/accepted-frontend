@@ -47,6 +47,7 @@ function Dashboard() {
   const user = useSelector((state) => state.auth.user);
   const [notificationsShow, setNotificationsShow] = useState(false);
   const [dropDownOpen, setDropDownOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const notifications = useSelector(
     (state) => state.notifications.notificationData
@@ -78,6 +79,19 @@ function Dashboard() {
       window.location.reload();
     });
   }
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrolledDown = window.scrollY > 90; // Check if scrolled down by 100 pixels
+      setScrolled(scrolledDown);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     window.Pusher = Pusher;
@@ -157,7 +171,11 @@ function Dashboard() {
         <div className="bg-gray-800">
           <>
             <div className="mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex h-[75px] 2xl:px-[60px] lg:px-[150px] md:px-[30px]  items-center justify-between z-[100px]">
+              <div
+                className={`flex h-[75px] 2xl:px-[60px] w-[100vw] fixed top-0 left-0 lg:px-[150px] md:px-[30px]  items-center justify-between z-[100] bg-gray-800 ${
+                  !scrolled ? "opacity-[1]" : "opacity-[0.95]"
+                }`}
+              >
                 <div className="flex items-center">
                   <div className="flex-shrink-0 hidden md:block">
                     <img
@@ -355,9 +373,7 @@ function Dashboard() {
             </div> */}
           </>
         </div>
-        <main
-          className={`${styles.mainCalc}`}
-        >
+        <main className={`${styles.mainCalc}`}>
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
             <Outlet></Outlet>
           </div>

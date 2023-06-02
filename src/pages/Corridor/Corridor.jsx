@@ -7,6 +7,7 @@ import AddQuestionForm from "./components/AddQuestionForm";
 import BasicPost from "./components/BasicPost";
 import BasicAxios from "../../helpers/axios/MediaAxios";
 import { number } from "yup";
+import DotsSpinner from "../../components/Spinner/DotsSpinner";
 
 function Corridor() {
   const user = useSelector((state) => state.auth.user);
@@ -18,21 +19,21 @@ function Corridor() {
   const observer = useRef();
   const paginationTrigger = useRef();
 
-  const lastEl = useCallback((node) => {
-    if (!isFetched) return;
+  // const lastEl = useCallback((node) => {
+  //   if (!isFetched) return;
 
-    if (observer.current) {
-      observer.current.disconnect();
-    }
-    observer.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        setPage((prevValue) => number(prevValue + 1));
-      }
-    });
-    if (node) {
-      observer.current.observe(node);
-    }
-  }, []);
+  //   if (observer.current) {
+  //     observer.current.disconnect();
+  //   }
+  //   observer.current = new IntersectionObserver((entries) => {
+  //     if (entries[0].isIntersecting) {
+  //       setPage((prevValue) => number(prevValue + 1));
+  //     }
+  //   });
+  //   if (node) {
+  //     observer.current.observe(node);
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (page == 1) setIsFetched(false);
@@ -42,8 +43,8 @@ function Corridor() {
       setIsFetched(true);
       setSending(false);
       setTimeout(() => {
-        console.log(document.querySelector(".postParent"));
         document.querySelector(".postParent").onscroll = () => {
+          console.log("ok");
           if (
             scrollY >
             document.querySelector(".postParent").offsetTop +
@@ -64,6 +65,11 @@ function Corridor() {
 
   return (
     <section className={styles.mainGrid + " postParent"}>
+      {sending && (
+        <div className={styles.spinnerContainer}>
+          <DotsSpinner />
+        </div>
+      )}
       {addQuestionModal && (
         <AddQuestionForm
           updatePosts={(post) => setPosts((oldArray) => [post, ...oldArray])}
