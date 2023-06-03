@@ -1,7 +1,7 @@
 import axios from "axios";
 const BasicAxios = axios.create({
-  baseURL: "http://localhost:8000/api/",
-  // baseURL: import.meta.env.API_BASE_URL,
+  // baseURL: "http://localhost:8000/api/",
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   // timeout: 1000,
   headers: {
     "Content-Type": "multipart/form-data",

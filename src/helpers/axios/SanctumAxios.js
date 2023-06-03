@@ -1,6 +1,8 @@
 import axios from "axios";
 const BasicAxios = axios.create({
-  baseURL: "http://localhost:8000/",
+  // baseURL: "http://localhost:8000/",
+  baseURL: import.meta.env.VITE_API_SANCTUM_URL,
+
   headers: {
     // Accept: "application/json",
     // "Content-Type": "application/json",
