@@ -171,6 +171,7 @@ function Dashboard() {
         <div className="bg-gray-800">
           <>
             <div className="mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="h-[75px] w-[100vw]"></div>
               <div
                 className={`flex h-[75px] 2xl:px-[60px] w-[100vw] fixed top-0 left-0 lg:px-[150px] md:px-[30px]  items-center justify-between z-[100] bg-gray-800 ${
                   !scrolled ? "opacity-[1]" : "opacity-[0.95]"

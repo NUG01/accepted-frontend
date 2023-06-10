@@ -19,42 +19,26 @@ function Corridor() {
   const observer = useRef();
   const paginationTrigger = useRef();
 
-  // const lastEl = useCallback((node) => {
-  //   if (!isFetched) return;
-
-  //   if (observer.current) {
-  //     observer.current.disconnect();
-  //   }
-  //   observer.current = new IntersectionObserver((entries) => {
-  //     if (entries[0].isIntersecting) {
-  //       setPage((prevValue) => number(prevValue + 1));
-  //     }
-  //   });
-  //   if (node) {
-  //     observer.current.observe(node);
-  //   }
-  // }, []);
-
   useEffect(() => {
     if (page == 1) setIsFetched(false);
     BasicAxios.get("posts?page=" + page).then((res) => {
+      setSending(true);
       if (page == 1) setPosts(res.data.data);
       if (page > 1) setPosts([...posts, ...res.data.data]);
       setIsFetched(true);
-      setSending(false);
+      if (res.data.meta.current_page == res.data.meta.last_page) {
+        setSending(false);
+        return;
+      }
       setTimeout(() => {
-        document.querySelector(".postParent").onscroll = () => {
-          console.log("ok");
+        document.querySelector("body").onscroll = () => {
           if (
             scrollY >
-            document.querySelector(".postParent").offsetTop +
-              document.querySelector(".postParent").clientHeight -
+            document.querySelector("body").offsetTop +
+              document.querySelector("body").clientHeight -
               screen.height
           ) {
-            setSending(true);
-            if (!sending) {
-              setPage(page + 1);
-            }
+            setPage(page + 1);
           }
         };
       }, 1);
@@ -86,19 +70,6 @@ function Corridor() {
                 <BasicPost postData={post} user={user} />
               </div>
             );
-            // if (posts.length === index + 1) {
-            //   return (
-            //     <div id={page} key={post.id} ref={lastEl}>
-            //       <BasicPost data={post} />
-            //     </div>
-            //   );
-            // } else {
-            //   return (
-            //     <div key={post.id}>
-            //       <BasicPost data={post} />
-            //     </div>
-            //   );
-            // }
           })}
         </div>
       </main>
