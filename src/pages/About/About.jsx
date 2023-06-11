@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import styles from "./About.module.scss";
@@ -7,6 +7,7 @@ import { NavLink } from "react-router-dom";
 import HamburgerMenu from "../../assets/icons/HamburgerMenu";
 import MobileNavigation from "./MobileNavigation";
 import CloseHamburger from "../../assets/icons/CloseHamburger";
+import BasicAxios from "../../helpers/axios";
 
 const navigation = [
   { name: "Product", href: "#" },
@@ -14,49 +15,29 @@ const navigation = [
   { name: "Resources", href: "#" },
   { name: "Company", href: "#" },
 ];
-const stats = [
-  { label: "Transactions every 24 hours", value: "44 million" },
-  { label: "Assets under holding", value: "$119 trillion" },
-  { label: "New users annually", value: "46,000" },
-];
+
 const values = [
   {
-    name: "Be world-class",
+    name: "ხალისიანი გარემო",
     description:
-      "Aut illo quae. Ut et harum ea animi natus. Culpa maiores et sed sint et magnam exercitationem quia. Ullam voluptas nihil vitae dicta molestiae et. Aliquid velit porro vero.",
+      "ხალისიანი გარემო, ეს პირველია რისთვისავ Accepted-ის აპლიკაცია შეიძლება იქნეს გამოყენებული, თუ ვინმე ფიქრობს, რომ ხალისის გარეშე სწავლა შესაძლებელია, საღოლ",
   },
   {
-    name: "Share everything you know",
+    name: "საჭიროებების გაანალიზება",
     description:
-      "Mollitia delectus a omnis. Quae velit aliquid. Qui nulla maxime adipisci illo id molestiae. Cumque cum ut minus rerum architecto magnam consequatur. Quia quaerat minima.",
+      "აუცილებელია, რომ მომხმარებლის გადმოსახედიდან შევხედოთ აპლიკაციას და გავაანალიზოთ, თუ რა სჭირდებათ მათ, შემდეგ კი მოვახდინოთ იმპლემენტაცია",
   },
   {
-    name: "Always learning",
+    name: "გამჭირვალობა",
     description:
-      "Aut repellendus et officiis dolor possimus. Deserunt velit quasi sunt fuga error labore quia ipsum. Commodi autem voluptatem nam. Quos voluptatem totam.",
-  },
-  {
-    name: "Be supportive",
-    description:
-      "Magnam provident veritatis odit. Vitae eligendi repellat non. Eum fugit impedit veritatis ducimus. Non qui aspernatur laudantium modi. Praesentium rerum error deserunt harum.",
-  },
-  {
-    name: "Take responsibility",
-    description:
-      "Sit minus expedita quam in ullam molestiae dignissimos in harum. Tenetur dolorem iure. Non nesciunt dolorem veniam necessitatibus laboriosam voluptas perspiciatis error.",
-  },
-  {
-    name: "Enjoy downtime",
-    description:
-      "Ipsa in earum deserunt aut. Quos minus aut animi et soluta. Ipsum dicta ut quia eius. Possimus reprehenderit iste aspernatur ut est velit consequatur distinctio.",
+      "ღიად განვიხილავთ ნებისმიერ საკითხს მომხმარებელთან, მაგალითად, რატომ არ გვაქვს კონკრეტრული ტესტი? - იმიტომ რომ ვერ გავიგეთ მონაცემთა ბაზაში როგორ უნდა ჩაგვეწერა სწორად.",
   },
 ];
 const team = [
   {
-    name: "Michael Foster",
-    role: "Co-Founder / CTO",
-    imageUrl:
-      "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+    name: "ნუგზარ სხირელი",
+    role: "სოფთვეირის ინჟინერი/მულტიტასკერი",
+    imageUrl: "./src/assets/me.jpg",
   },
   // More people...
 ];
@@ -155,6 +136,9 @@ const footerNavigation = {
 function About() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openMobileNav, setOpenMobileNav] = useState(false);
+  const [isFetched, setIsFetched] = useState(false);
+  const [quantities, setQuantities] = useState(null);
+  const [stats, setStats] = useState([]);
 
   if (openMobileNav) {
     document.getElementById("root").classList.add("stop-scrolling");
@@ -162,23 +146,37 @@ function About() {
     document.getElementById("root").classList.remove("stop-scrolling");
   }
 
+  useEffect(() => {
+    BasicAxios.get("quantities").then((res) => {
+      const statsValue = [
+        { label: "ტესტების რაოდენობა", value: res.data.tests_count },
+        { label: "პოსტების რაოდენობა", value: res.data.posts_count },
+        { label: "მომხმარებლების რაოდენობა", value: res.data.users_count },
+      ];
+      setStats(statsValue);
+      setIsFetched(true);
+    });
+  }, []);
+
   const linkStyle = {
     textDecoration: "none",
     display: "inline-block",
     fontSize: "20px",
   };
 
+  if (!isFetched) return;
+
   return (
     <div className="bg-white">
       {/* Header */}
       <header className={styles.container}>
         <div>mylogo</div>
-        <div className={`${styles["menu-container"]}`}>
+        {/* <div className={`${styles["menu-container"]}`}>
           <p>Home</p>
           <p>How it works</p>
           <p>About</p>
           <p>Pricing</p>
-        </div>
+        </div> */}
         <div className={`${styles.linksContainer}`}>
           <NavLink className={styles.a} style={linkStyle} to="login">
             ავტორიზაცია
@@ -257,24 +255,30 @@ function About() {
             <div className="mx-auto max-w-7xl px-6 pb-[80px] pt-[45px] sm:pt-[45px] lg:px-8 lg:pt-[45px]">
               <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
                 <div className="w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
-                  <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                    We’re changing the way people connect.
+                  <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                    <span className="block mb-[10px]">
+                      <span className="mb-[10px]">კალმისა და</span> ფურცლის{" "}
+                    </span>
+                    <span className="block">
+                      <span className="mb-[10px] block">კომპიუტერით</span>{" "}
+                      ჩანაცვლების დროა
+                    </span>
+                    {/* <span>კომპიუტერმა ჩაანაცვლოს.</span> */}
                   </h1>
                   <p className="relative mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">
-                    Cupidatat minim id magna ipsum sint dolor qui. Sunt sit in
-                    quis cupidatat mollit aute velit. Et labore commodo nulla
-                    aliqua proident mollit ullamco exercitation tempor. Sint
-                    aliqua anim nulla sunt mollit id pariatur in voluptate
-                    cillum. Eu voluptate tempor esse minim amet fugiat veniam
-                    occaecat aliqua.
+                    ტექნოლოგიები ვითარდება, მაგრამ ისეთი მარტივი მოქმედება,
+                    როგორიც ტესტების წერაა, ჯერ კიდევ ფურცელზე სწორი პასუხის
+                    შემოხაზვით ხორციელდება, შემდეგ, რათა გაიგო შენი საბოლოო
+                    შედეგი, პასუხები უნდა გადაამოწმო და დაითვალო, Accepted კი ამ
+                    უსიამოვნო პროცესს აგარიდებს თავიდან.
                   </p>
                 </div>
                 <div className="mt-14 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">
                   <div className="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
                     <div className="relative xl:opacity-[1] opacity-[0]">
                       <img
-                        src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&h=528&q=80"
-                        alt=""
+                        src="./src/assets/about-page-1.jpg"
+                        alt="Girl learning in the computer"
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
                       <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
@@ -283,16 +287,16 @@ function About() {
                   <div className="mr-auto w-44 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-36">
                     <div className="relative">
                       <img
-                        src="https://images.unsplash.com/photo-1485217988980-11786ced9454?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&h=528&q=80"
-                        alt=""
+                        src="./src/assets/about-page-2.jpg"
+                        alt="Classmates learning in the computer"
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
                       <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
                     </div>
                     <div className="relative">
                       <img
-                        src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&crop=focalpoint&fp-x=.4&w=396&h=528&q=80"
-                        alt=""
+                        src="./src/assets/about-page-3.jpg"
+                        alt="Crazy girl learning and eating pencil"
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
                       <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
@@ -301,16 +305,16 @@ function About() {
                   <div className="w-44 flex-none space-y-8 pt-32 sm:pt-0">
                     <div className="relative">
                       <img
-                        src="https://images.unsplash.com/photo-1670272504528-790c24957dda?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&crop=left&w=400&h=528&q=80"
-                        alt=""
+                        src="./src/assets/about-page-4.jpg"
+                        alt="Girl learning in her macbook"
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
                       <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
                     </div>
                     <div className="relative">
                       <img
-                        src="https://images.unsplash.com/photo-1670272505284-8faba1c31f7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&h=528&q=80"
-                        alt=""
+                        src="./src/assets/about-page-5.jpg"
+                        alt="Girl is looking to the macbook"
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
                       <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
@@ -326,31 +330,26 @@ function About() {
         <div className="mx-auto -mt-12 max-w-7xl px-6 sm:mt-0 lg:px-8 xl:-mt-8 xl:scale-[1] scale-[0.84]">
           <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Our mission
+              Accepted-ის მისია
             </h2>
             <div className="mt-6 flex flex-col gap-x-8 gap-y-20 lg:flex-row">
               <div className="lg:w-full lg:max-w-2xl lg:flex-auto">
                 <p className="text-xl leading-8 text-gray-600">
-                  Aliquet nec orci mattis amet quisque ullamcorper neque, nibh
-                  sem. At arcu, sit dui mi, nibh dui, diam eget aliquam. Quisque
-                  id at vitae feugiat egestas ac. Diam nulla orci at in viverra
-                  scelerisque eget. Eleifend egestas fringilla sapien.
+                  მთავარი მისია ისაა, რომ მოხდეს ისეთი მოქმედებების გაციფრულება,
+                  როგორიც ტესტების წერაა, რადგან არაა აუცილებელი ამისთვის
+                  დახარჯული იქნას ზედმეტი რესურსები და ძალისხმევა, თუ ამის
+                  გაკეთება ტექნოლოგიის დახმარებითაც შეიძლება.
                 </p>
                 <div className="mt-10 max-w-xl text-base leading-7 text-gray-700">
                   <p>
-                    Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget
-                    risus enim. Mattis mauris semper sed amet vitae sed turpis
-                    id. Id dolor praesent donec est. Odio penatibus risus
-                    viverra tellus varius sit neque erat velit. Faucibus commodo
-                    massa rhoncus, volutpat. Dignissim sed eget risus enim.
-                    Mattis mauris semper sed amet vitae sed turpis id.
+                    აპლიაციას ასევე გააჩნია შეკითხვის დასმის ფუნქციონალი, სადაც
+                    შეიძლება პასუხის დაწერა კომენტარის სახით და ასევე პოსტის
+                    დალაიქება, რაც მეორეულ მისიას წარმოადგენს და მიზნად ისახავს,
+                    მოსწავლეების ერთმანეთთან დაკავშირებას სასწავლო მიზნისათვის.
                   </p>
                   <p className="mt-10">
-                    Et vitae blandit facilisi magna lacus commodo. Vitae sapien
-                    duis odio id et. Id blandit molestie auctor fermentum
-                    dignissim. Lacus diam tincidunt ac cursus in vel. Mauris
-                    varius vulputate et ultrices hac adipiscing egestas. Iaculis
-                    convallis ac tempor et ut. Ac lorem vel integer orci.
+                    კიდევ არის ბევრი ფუნქციონალი, რომლის დამატებაც სამომავლოდ
+                    იგეგმება და აპლიკაციის მისიის არეალიც შესაბამისად გაიზრდება.
                   </p>
                 </div>
               </div>
@@ -378,8 +377,8 @@ function About() {
         {/* Image section */}
         <div className="mt-[45px] sm:mt-[45px] xl:mx-auto xl:max-w-7xl xl:px-8 xl:scale-[1] scale-[0.8]">
           <img
-            src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
-            alt=""
+            src="./src/assets/about-page-team.jpg"
+            alt="Team image"
             className="aspect-[5/2] w-full object-cover xl:rounded-3xl"
           />
         </div>
@@ -388,11 +387,12 @@ function About() {
         <div className="mx-auto mt-[60px] sm:mt-[60px] max-w-7xl px-6 lg:px-8 scale-[0.9]">
           <div className="mx-auto max-w-2xl lg:mx-0">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Our values
+              Accepted-ის ღირებულებები
             </h2>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Lorem ipsum dolor sit amet consect adipisicing elit. Possimus
-              magnam voluptatum cupiditate veritatis in accusamus quisquam.
+              მთავარი ღირებულება ისაა, რომ ვიყოთ მომხმარებლებთან ახლოს, და რაც
+              შეიძლება მალე მოვახდინოთ სასურველი ცვლილებების შეტანა, რათა
+              აპლიკაცია იყოს მაქსიმალურად გამოსადეგი.
             </p>
           </div>
           <dl className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 text-base leading-7 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3">
@@ -439,7 +439,7 @@ function About() {
               />
             </svg>
           </div>
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          {/* <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <h2 className="text-center text-lg font-semibold leading-8 text-gray-900">
               Trusted by the world’s most innovative teams
             </h2>
@@ -480,19 +480,18 @@ function About() {
                 height={48}
               />
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Team section */}
         <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-48 lg:px-8 xl:scale-[1] scale-[0.84]">
           <div className="mx-auto max-w-2xl lg:mx-0">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Our team
+              ჩვენი გუნდი
             </h2>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Sit facilis neque ab nulla vel. Cum eos in laudantium. Temporibus
-              eos totam in dolorum. Nemo vel facere repellendus ut eos dolores
-              similique.
+              სიმართლე რომ ვთქვათ გუნდში მხოლოდ ერთი ადამიანია, რომელიც არის
+              ყველაფერჩიკი.
             </p>
           </div>
           <ul
@@ -504,7 +503,7 @@ function About() {
                 <img
                   className="mx-auto h-24 w-24 rounded-full"
                   src={person.imageUrl}
-                  alt=""
+                  alt="Team member"
                 />
                 <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">
                   {person.name}
@@ -574,7 +573,7 @@ function About() {
 
       {/* Footer */}
       <footer className="mx-auto mt-[70px] max-w-7xl overflow-hidden px-6 pb-20 sm:mt-[70px] sm:pb-24 lg:px-8">
-        <nav
+        {/* <nav
           className="-mb-6 columns-2 flex justify-center space-x-8 sm:space-x-12"
           aria-label="Footer"
         >
@@ -588,8 +587,8 @@ function About() {
               </a>
             </div>
           ))}
-        </nav>
-        <div className="mt-10 flex justify-center space-x-10">
+        </nav> */}
+        {/* <div className="mt-10 flex justify-center space-x-10">
           {footerNavigation.social.map((item) => (
             <a
               key={item.name}
@@ -600,9 +599,9 @@ function About() {
               <item.icon className="h-6 w-6" aria-hidden="true" />
             </a>
           ))}
-        </div>
+        </div> */}
         <p className="mt-10 text-center text-xs leading-5 text-gray-500">
-          &copy; 2020 Your Company, Inc. All rights reserved.
+          &copy; 2023 Accepted, Inc. All rights not reserved.
         </p>
       </footer>
     </div>
