@@ -203,7 +203,7 @@ function Register() {
       {showMobileErrors && (
         <div
           onClick={() => setShowMobileErrors(false)}
-          className={`absolute right-0 top-0 -translate-x-1/2 translate-y-1/2 ${styles.formIcon}`}
+          className={`absolute right-0 top-0 -translate-x-1/2 translate-y-1/2 cursor-pointer ${styles.formIcon}`}
         >
           <FormIcon />
         </div>

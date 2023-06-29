@@ -18,13 +18,13 @@
   .formContainer {
     width: 75%;
     padding: 70px 40px;
-    top: 40%;
+    top: 54%;
     left: 50%;
   }
 }
 @media (max-width: 700px) {
   .formContainer {
-    width: 85%;
+    width: 95%;
   }
 }
 
@@ -55,11 +55,19 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   &:focus {
     outline: 1.6px solid var(--dark-ocean-blue);
   }
   &.invalid {
     background-color: #ffcccc !important;
+  }
+}
+@media (max-width: 700px) {
+  .select {
+    height: auto;
+    gap: 6px;
+    justify-content: center;
   }
 }
 
