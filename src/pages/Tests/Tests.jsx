@@ -101,4 +101,4 @@ function Tests() {
   );
 }
 
-export default checkAuth(Tests);
+export default Tests;

@@ -78,4 +78,4 @@ function Corridor() {
   );
 }
 
-export default checkAuth(Corridor);
+export default Corridor;

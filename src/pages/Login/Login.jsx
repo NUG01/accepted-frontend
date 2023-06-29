@@ -30,7 +30,7 @@ function passwordValidation(value) {
   return false;
 }
 
-function Login() {
+function Login({ loginEmit }) {
   const navigate = useNavigate();
   const authState = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -108,16 +108,12 @@ function Login() {
             email: emailValue,
             password: passwordValue,
           });
-
-          dispatch(authActions.setUser(res.data.user));
-          dispatch(authActions.setIsLoggedIn(true));
-          navigate("/board/corridor");
+          loginEmit(res.data.user);
         } catch (error) {
           const errorData = error.response.data;
           setButtonDisabled(false);
           setRequestInProcess(false);
           setError(true);
-          console.log(errorData.error, error);
           setOneError(errorData.error);
           setErrorValue(errorData.errors);
         }

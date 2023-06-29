@@ -41,7 +41,7 @@ function classNames(...classes) {
 }
 let rendered = false;
 
-function Dashboard() {
+function Dashboard({ logoutEmit }) {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const user = useSelector((state) => state.auth.user);
@@ -73,10 +73,7 @@ function Dashboard() {
   const dispatch = useDispatch();
   function logoutHandler() {
     BasicAxios.post("logout").then((res) => {
-      dispatch(authActions.setUser(null));
-      dispatch(notificationActions.setNotificationData([]));
-      dispatch(authActions.setIsLoggedIn(false));
-      window.location.reload();
+      logoutEmit();
     });
   }
 

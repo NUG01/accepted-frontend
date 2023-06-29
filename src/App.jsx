@@ -47,87 +47,88 @@ function App() {
 
           setUser(res.data.user);
           setAuthStatus(true);
-          setRendered(true);
         })
         .catch((err) => {
           dispatch(authActions.setUser(null));
           dispatch(authActions.setIsLoggedIn(false));
           setUser(null);
           setAuthStatus(false);
+        })
+        .finally(() => {
           setRendered(true);
         });
     }
   }, [location]);
 
+  function logoutHandler() {
+    dispatch(authActions.setUser(null));
+    dispatch(authActions.setIsLoggedIn(false));
+    setUser(null);
+    setAuthStatus(false);
+  }
+  function loginHandler(value) {
+    dispatch(authActions.setUser(value));
+    dispatch(authActions.setIsLoggedIn(true));
+    setUser(value);
+    setAuthStatus(true);
+  }
+
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={rendered ? <Home data={authStatus} /> : <Spinner />}
-      >
-        <Route
-          path="login"
-          element={rendered ? <Login data={authStatus} /> : <Spinner />}
-        ></Route>
-        <Route
-          path="forgot-password"
-          element={
-            rendered ? <ForgotPassword data={authStatus} /> : <Spinner />
-          }
-        ></Route>
-      </Route>
-      <Route
-        path="/register"
-        element={rendered ? <Register data={authStatus} /> : <Spinner />}
-      ></Route>
-      <Route
-        path="/account-verification/:code"
-        element={rendered ? <Loader data={authStatus} /> : <Spinner />}
-      ></Route>
-      <Route
-        path="/recover-password/:token"
-        element={rendered ? <RecoverPassword data={authStatus} /> : <Spinner />}
-      ></Route>
+    <>
+      {!rendered && <Spinner />}
+      {rendered && (
+        <Routes>
+          <Route path="/" element={<Home data={authStatus} />}>
+            <Route
+              path="login"
+              element={
+                <Login
+                  loginEmit={(value) => loginHandler(value)}
+                  data={authStatus}
+                />
+              }
+            ></Route>
+            <Route
+              path="forgot-password"
+              element={<ForgotPassword data={authStatus} />}
+            ></Route>
+          </Route>
+          <Route
+            path="/register"
+            element={<Register data={authStatus} />}
+          ></Route>
+          <Route
+            path="/account-verification/:code"
+            element={<Loader data={authStatus} />}
+          ></Route>
+          <Route
+            path="/recover-password/:token"
+            element={<RecoverPassword data={authStatus} />}
+          ></Route>
 
-      <Route
-        path="/board"
-        element={rendered ? <DashboardLayout data={authStatus} /> : <Spinner />}
-      >
-        <Route
-          path="corridor"
-          element={rendered ? <Corridor data={authStatus} /> : <Spinner />}
-        ></Route>
-        <Route
-          path="post/:postId"
-          element={
-            rendered ? <PostReviewPage data={authStatus} /> : <Spinner />
-          }
-        ></Route>
-        <Route
-          path="tests"
-          element={rendered ? <Tests data={authStatus} /> : <Spinner />}
-        ></Route>
-        <Route
-          path="profile"
-          element={rendered ? <Profile data={authStatus} /> : <Spinner />}
-        ></Route>
-      </Route>
-      <Route
-        path="/board/tests/:id"
-        element={rendered ? <Test data={authStatus} /> : <Spinner />}
-      >
-        <Route
-          path="page/:questionId"
-          element={rendered ? <Questions data={authStatus} /> : <Spinner />}
-        ></Route>
-        <Route
-          path="result/:resultId"
-          element={rendered ? <Result data={authStatus} /> : <Spinner />}
-        ></Route>
-      </Route>
+          <Route
+            path="/board"
+            element={
+              <DashboardLayout
+                logoutEmit={() => logoutHandler()}
+                data={authStatus}
+              />
+            }
+          >
+            <Route path="corridor" element={<Corridor />}></Route>
+            <Route path="post/:postId" element={<PostReviewPage />}></Route>
+            <Route path="tests" element={<Tests />}></Route>
+            <Route path="profile" element={<Profile />}></Route>
+          </Route>
+          <Route path="/board/tests/:id" element={<Test data={authStatus} />}>
+            <Route path="page/:questionId" element={<Questions />}></Route>
+            <Route path="result/:resultId" element={<Result />}></Route>
+          </Route>
 
-      <Route path="*" element={<Error />}></Route>
-    </Routes>
+          <Route path="*" element={<Error />}></Route>
+        </Routes>
+      )}
+    </>
   );
 }
 export default App;

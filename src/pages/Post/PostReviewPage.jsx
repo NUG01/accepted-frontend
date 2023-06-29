@@ -24,4 +24,4 @@ function PostReviewPage() {
   return <BasicPost key={postId} postData={post} user={user} />;
 }
 
-export default checkAuth(PostReviewPage);
+export default PostReviewPage;

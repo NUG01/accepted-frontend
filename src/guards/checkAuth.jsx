@@ -7,6 +7,7 @@ const checkAuth = (Component) => {
     if (!props.data) {
       return <Navigate to="/login" />;
     }
+    console.log(props.data);
 
     if (props.data) {
       return <Component {...props} />;
