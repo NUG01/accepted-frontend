@@ -154,9 +154,7 @@ function Dashboard() {
         setNotificationData(res.data.data);
         dispatch(notificationActions.setNotificationData(res.data.data));
       })
-      .catch((err) => {
-        console.log(err);
-      })
+      .catch((err) => {})
       .finally(() => {
         setNotLoaded(false);
       });

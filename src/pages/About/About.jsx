@@ -140,6 +140,11 @@ function About() {
   const [quantities, setQuantities] = useState(null);
   const [stats, setStats] = useState([]);
 
+  function imageShow(img) {
+    const base = import.meta.env.VITE_IMAGE_URL;
+    return base + img;
+  }
+
   if (openMobileNav) {
     document.getElementById("root").classList.add("stop-scrolling");
   } else {
@@ -277,7 +282,8 @@ function About() {
                   <div className="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
                     <div className="relative xl:opacity-[1] opacity-[0]">
                       <img
-                        src="./src/assets/about-page-1.jpg"
+                        src={imageShow("assets/about-page-1.jpg")}
+                        // src="./src/assets/about-page-1.jpg"
                         alt="Girl learning in the computer"
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
@@ -287,7 +293,8 @@ function About() {
                   <div className="mr-auto w-44 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-36">
                     <div className="relative">
                       <img
-                        src="./src/assets/about-page-2.jpg"
+                        src={imageShow("assets/about-page-2.jpg")}
+                        // src="./src/assets/about-page-2.jpg"
                         alt="Classmates learning in the computer"
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
@@ -295,7 +302,8 @@ function About() {
                     </div>
                     <div className="relative">
                       <img
-                        src="./src/assets/about-page-3.jpg"
+                        src={imageShow("assets/about-page-3.jpg")}
+                        // src="./src/assets/about-page-3.jpg"
                         alt="Crazy girl learning and eating pencil"
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
@@ -305,7 +313,8 @@ function About() {
                   <div className="w-44 flex-none space-y-8 pt-32 sm:pt-0">
                     <div className="relative">
                       <img
-                        src="./src/assets/about-page-4.jpg"
+                        src={imageShow("assets/about-page-4.jpg")}
+                        // src="./src/assets/about-page-4.jpg"
                         alt="Girl learning in her macbook"
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
@@ -313,7 +322,8 @@ function About() {
                     </div>
                     <div className="relative">
                       <img
-                        src="./src/assets/about-page-5.jpg"
+                        src={imageShow("assets/about-page-5.jpg")}
+                        // src="./src/assets/about-page-5.jpg"
                         alt="Girl is looking to the macbook"
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
@@ -377,7 +387,8 @@ function About() {
         {/* Image section */}
         <div className="mt-[45px] sm:mt-[45px] xl:mx-auto xl:max-w-7xl xl:px-8 xl:scale-[1] scale-[0.8]">
           <img
-            src="./src/assets/about-page-team.jpg"
+            src={imageShow("assets/about-page-team.jpg")}
+            // src="./src/assets/about-page-team.jpg"
             alt="Team image"
             className="aspect-[5/2] w-full object-cover xl:rounded-3xl"
           />
@@ -502,7 +513,8 @@ function About() {
               <li key={person.name}>
                 <img
                   className="mx-auto h-24 w-24 rounded-full"
-                  src={person.imageUrl}
+                  src={imageShow("assets/me.jpg")}
+                  // src={person.imageUrl}
                   alt="Team member"
                 />
                 <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">
