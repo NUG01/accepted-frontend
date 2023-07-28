@@ -8,6 +8,7 @@ import HamburgerMenu from "../../assets/icons/HamburgerMenu";
 import MobileNavigation from "./MobileNavigation";
 import CloseHamburger from "../../assets/icons/CloseHamburger";
 import BasicAxios from "../../helpers/axios";
+import Logo from "../../../public/logo";
 
 const navigation = [
   { name: "Product", href: "#" },
@@ -175,7 +176,9 @@ function About() {
     <div className="bg-white">
       {/* Header */}
       <header className={styles.container}>
-        <div>mylogo</div>
+        <div className="w-[64px] h-[64px]">
+          <Logo />
+        </div>
         {/* <div className={`${styles["menu-container"]}`}>
           <p>Home</p>
           <p>How it works</p>

@@ -93,3 +93,21 @@ body {
   height: 100vh !important;
   overflow: hidden !important;
 }
+
+.st0 {
+  fill: none;
+  stroke: #ff9500;
+  stroke-miterlimit: 10;
+}
+.st1 {
+  fill: #09dff8;
+}
+.st2 {
+  fill: #03115b;
+}
+.st3 {
+  fill: #113299;
+}
+.st4 {
+  fill: #142770;
+}

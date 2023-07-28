@@ -11,6 +11,7 @@ import Notifications from "../Notifications/Notifications";
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 import { notificationActions } from "../../store/Notifications";
+import Logo from "../../../public/logo";
 
 import {
   Bars3Icon,
@@ -174,11 +175,9 @@ function Dashboard({ logoutEmit }) {
               >
                 <div className="flex items-center">
                   <div className="flex-shrink-0 hidden md:block">
-                    <img
-                      className="h-8 w-8"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                      alt="Your Company"
-                    />
+                    <div className="w-[64px] h-[64px]">
+                      <Logo />
+                    </div>
                   </div>
                   <div className="block">
                     <div className="md:ml-10 flex items-baseline space-x-4">
