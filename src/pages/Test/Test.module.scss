@@ -6,6 +6,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 50px;
+  background-color: var(--extra-light-ocean-blue);
+}
+.importantColor {
+  background-color: var(--light-ocean-blue) !important;
 }
 
 .grid {
@@ -28,5 +32,5 @@
 .incorrectHistoryGrid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  gap: 4px;
+  gap: 6px;
 }

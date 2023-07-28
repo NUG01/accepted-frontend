@@ -8,7 +8,6 @@ function NextArrow({ questionData, inProccess, disabled }) {
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(questionData);
 
   function pageChange(ev) {
     let url = location.pathname;
@@ -59,7 +58,9 @@ function NextArrow({ questionData, inProccess, disabled }) {
           ? pageChange("next")
           : undefined
       }
-      className="absolute right-0 bottom-0 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+      className={
+        questionData.length == params.questionId ? buttonStyles() : nextStyles()
+      }
     >
       {questionData.length != params.questionId && (
         <NextArrowIcon></NextArrowIcon>
@@ -81,3 +82,10 @@ function NextArrow({ questionData, inProccess, disabled }) {
 }
 
 export default NextArrow;
+
+function nextStyles() {
+  return "fixed right-0 bottom-0 cursor-pointer bg-[var(--soft-gray)] pr-[15px] pb-[15px] pl-[3px] pt-[3px] rounded-tl-[6px]";
+}
+function buttonStyles() {
+  return "fixed right-0 bottom-0 -translate-x-1/2 -translate-y-1/2 cursor-pointer";
+}

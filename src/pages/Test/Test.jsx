@@ -27,7 +27,6 @@ function Test() {
   const dateOptions = { month: "numeric", day: "numeric", year: "2-digit" };
 
   function showIncorrect(id) {
-    console.log(showIncorrectHistory, id);
     if (document.getElementById("show-" + id)) {
       setShowIncorrectHistory(null);
       return null;
@@ -73,56 +72,64 @@ function Test() {
                 შედეგების არქივი
               </p>
               <div className={styles.grid}>
-                {results.map((item, i) => {
-                  return (
-                    <div key={i}>
-                      <div
-                        className={`${styles.resultContainer} ${
-                          showIncorrectHistory == item.id
-                            ? "bg-gray-200"
-                            : undefined
-                        }`}
-                      >
-                        <div>
-                          {item.score}/{item.max}
-                        </div>
-                        <div>
-                          {new Date(item.created_at).toLocaleDateString(
-                            undefined,
-                            dateOptions
+                {results.length > 0 ? (
+                  results.map((item, i) => {
+                    return (
+                      <div key={i}>
+                        <div
+                          className={`${styles.resultContainer} ${
+                            showIncorrectHistory == item.id
+                              ? styles.importantColor
+                              : undefined
+                          }`}
+                        >
+                          <div>
+                            {item.score}/{item.max}
+                          </div>
+                          <div>
+                            {new Date(item.created_at).toLocaleDateString(
+                              undefined,
+                              dateOptions
+                            )}
+                          </div>
+                          <div
+                            className="cursor-pointer"
+                            onClick={() => showIncorrect(item.id)}
+                          >
+                            <DetailsIcon></DetailsIcon>
+                          </div>
+                          {showIncorrectHistory == item.id && (
+                            <div
+                              id={`show-${item.id}`}
+                              className={`absolute right-[30px] top-[20px] z-50  bg-[var(--light-ocean-blue)] p-[18px] rounded-[5px] ${styles.incorrectHistoryGrid}`}
+                            >
+                              {item.incorrect.map((object) => {
+                                return Object.keys(object).map((key, index) => {
+                                  return (
+                                    <span
+                                      id={item.id}
+                                      style={{ border: "1px solid #000" }}
+                                      className="text-[14px] p-[3px] rounded-[3px] bg-[var(--extra-light-ocean-blue)]"
+                                      key={index}
+                                    >
+                                      {key}: {object[key]}
+                                    </span>
+                                  );
+                                });
+                              })}
+                            </div>
                           )}
                         </div>
-                        <div
-                          className="cursor-pointer"
-                          onClick={() => showIncorrect(item.id)}
-                        >
-                          <DetailsIcon></DetailsIcon>
-                        </div>
-                        {showIncorrectHistory == item.id && (
-                          <div
-                            id={`show-${item.id}`}
-                            className={`absolute right-[30px] top-[20px] z-50 ${styles.incorrectHistoryGrid}`}
-                          >
-                            {item.incorrect.map((object) => {
-                              return Object.keys(object).map((key, index) => {
-                                return (
-                                  <span
-                                    id={item.id}
-                                    style={{ border: "1px solid #000" }}
-                                    className="text-[14px] p-[3px]"
-                                    key={index}
-                                  >
-                                    {key}: {object[key]}
-                                  </span>
-                                );
-                              });
-                            })}
-                          </div>
-                        )}
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                ) : (
+                  <div className="flex items-center justify-center w-[100vw]">
+                    <h1 className="text-[24px]">
+                      შედეგები ვერ მოიძებნა, დაიწყე ტესტი და იქნება
+                    </h1>
+                  </div>
+                )}
               </div>
             </div>
           )}

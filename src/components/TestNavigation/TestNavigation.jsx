@@ -10,7 +10,11 @@ function TestNavigation({ questionData }) {
       {questionData.map((item, i) => {
         return (
           <NavLink
-            className={({ isActive }) => (isActive ? "bg-gray-200" : "")}
+            className={({ isActive }) =>
+              isActive
+                ? "bg-[#464956] text-[#fff] rounded-[3px]"
+                : "bg-[var(--soft-gray)] rounded-[3px]"
+            }
             key={i}
             to={`/board/tests/${params.id}/page/${i + 1}`}
             style={{

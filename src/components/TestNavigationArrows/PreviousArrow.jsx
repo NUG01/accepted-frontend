@@ -18,7 +18,7 @@ function PreviousArrow() {
   return (
     <Link
       to={pageChange("previous")}
-      className="absolute left-0 bottom-0 translate-x-1/2 -translate-y-1/2 cursor-pointer"
+      className="fixed left-0 bottom-0 cursor-pointer bg-[var(--soft-gray)] pl-[15px] pb-[15px] pr-[3px] pt-[3px] rounded-tr-[6px]"
     >
       <BackArrow></BackArrow>
     </Link>
