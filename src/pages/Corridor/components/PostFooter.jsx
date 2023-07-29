@@ -139,7 +139,7 @@ function PostFooter({ data, liked, likeHandler, likeLength }) {
               >
                 <img
                   className={styles.commentImage}
-                  src={import.meta.env.VITE_IMAGE_URL + com.author.image}
+                  src={com.author.image}
                   alt="Profile image"
                 />
                 <div className={styles.comments}>

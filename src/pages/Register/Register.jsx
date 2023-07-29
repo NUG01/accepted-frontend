@@ -245,7 +245,8 @@ function Register() {
           <div className={styles.emailSent}>
             <MailIcon />
             <p className={styles.mailText}>
-              ელ.ფოსტაზე გამოგზავნილია ანგარიშის გასააქტიურებელი ბმული
+              ელ.ფოსტაზე გამოგზავნილია ანგარიშის გასააქტიურებელი ბმული (შეამოწმე
+              სპამები)
             </p>
             <a className={styles.a} href="https://gmail.com/" target="_blank">
               ელ.ფოსტის შემოწმება
