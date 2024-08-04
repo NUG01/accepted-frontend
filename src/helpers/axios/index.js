@@ -12,18 +12,18 @@ const BasicAxios = axios.create({
 
 BasicAxios.defaults.withCredentials = true;
 
-const setCsrfToken = async () => {
-  try {
-    const response = await BasicAxios.get('/csrf-token');
-    const csrfToken = response.data.csrfToken;
-    BasicAxios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
-  } catch (error) {
-    console.error('Error fetching CSRF token:', error);
-  }
-};
+// const setCsrfToken = async () => {
+//   try {
+//     const response = await BasicAxios.get('/csrf-token');
+//     const csrfToken = response.data.csrfToken;
+//     BasicAxios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
+//   } catch (error) {
+//     console.error('Error fetching CSRF token:', error);
+//   }
+// };
 
-// Fetch and set CSRF token when the application initializes
-setCsrfToken();
+// // Fetch and set CSRF token when the application initializes
+// setCsrfToken();
 
 // axiosInstance.interceptors.response.use(
 //   function (response) {
